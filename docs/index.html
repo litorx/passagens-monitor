@@ -5,242 +5,280 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <meta name="description" content="Passagens de ida e volta mais baratas saindo de São Paulo e Campinas, em dinheiro ou milhas, do menor preço para o maior.">
+<meta name="theme-color" content="#1c4a38">
 <title>Passagens baratas de São Paulo e Campinas</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B0E14'/%3E%3Cpath d='M6 19l20-8-7 14-3-6-6 2z' fill='%23F5B424'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231c4a38'/%3E%3Cpath d='M7 19.5l18-7.5-6.5 13-2.8-5.4-5.2 1.9z' fill='%23fff'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@400;500;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap">
 <style>
-/* Hallmark · shape: app screen · genre: modern-minimal · theme: Wayfind (deal 2/3, seed working-tool-lists-cheap-5fff·c95b6fb0·2026-11-06·r0) · redesign: full
- * nav: top bar in ink with the wordmark and two origin cells · signature: the departures board, one row per destination with the lowest price as a figure on ink · states: full, filtered, empty · wayfind: platform
- * axes: light/mono/cool · posture: committed · contrast: pass · v2.0.0 */
-/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: S, the board could list any route set; the row groups every fare for a destination and prices the cheapest as the figure */
-/* Hallmark · waive 64 · mono is the departure board's face · every glyph on the page is set in it */
-/* Hallmark · dropped hero, hero-main, hero-side, f-toggle, f-n, f-clear, fresh, notes, sheet, chips-tipo-old · the redesign replaces the hero card, the glass filter sheet and the freshness badge with the departures board, a details panel and a line of text */
-/* Hallmark · dropped ''+u+'' · a string-concatenation fragment inside the old script, never a real link */
-/* Hallmark · dropped porto alegre, rio de janeiro, brasília, salvador, foz do iguaçu, belém, macapá, madri, lisboa, porto, orlando · each destination card heading is now the name cell of one table row, shown in bold inside the same text */
-/* Hallmark · reworded "passagens baratas saindo de são paulo e campinas" to "Passagens baratas de São Paulo e Campinas" · the old title was longer than the screen's heading measure */
 :root {
   color-scheme: light;
-  --space-3xs: 2px; --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px; --space-lg: 24px; --space-xl: 40px; --space-2xl: 64px; --space-3xl: 96px; --space-4xl: 144px;
-  --text-xs: 0.75rem; --text-sm: 0.875rem; --text-md: 1rem; --text-lg: 1.2rem; --text-xl: 1.44rem; --text-2xl: 1.728rem; --text-3xl: 2.074rem;
-  --text-display-s: 1.44rem; --text-display: 1.728rem; --text-section: 1.2rem; --text-title: 1rem; --text-lead: 1rem;
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); --ease-in: cubic-bezier(0.7, 0, 0.84, 0); --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-  --dur-micro: 120ms; --dur-short: 220ms; --dur-long: 420ms;
-  --color-error: oklch(52% 0.19 27); --color-success: oklch(50% 0.12 150);
-  --container: 1440px; --gutter: 64px; --gap-columns: 32px; --section-gap-s: 120px; --section-gap: 144px; --section-gap-l: 176px;
-  --z-base: 1; --z-raised: 10; --z-dropdown: 100; --z-sticky: 200; --z-sticky-nav: 300; --z-modal: 400; --z-toast: 500; --z-tooltip: 600;
-  --color-paper: oklch(95.5% 0.006 250); --color-paper-2: oklch(91% 0.009 250); --color-paper-3: oklch(99.5% 0.005 250);
-  --color-ink: oklch(16% 0.014 262); --color-ink-2: oklch(29% 0.014 262); --color-muted: oklch(47% 0.016 260);
-  --color-rule: oklch(80% 0.011 250); --color-ink-rule: oklch(34% 0.014 262);
-  --color-accent: oklch(51% 0.22 264); --color-accent-2: oklch(81% 0.16 82); --color-accent-ink: oklch(99.5% 0.003 250); --color-focus: oklch(51% 0.22 264);
-  --font-display: "Chivo Mono", ui-monospace, monospace; --font-body: var(--font-display); --font-outlier: var(--font-body);
-  --radius-card: 0; --radius-pill: 999px; --rule-hair: 1px; --rule-bar: 2px;
-  --shadow-card: 0 24px 40px -24px oklch(8% 0.01 260 / 0.6);
-  --tracking-display: -0.03em; --display-weight: 800;
-  --control-h: 40px; --bar-h: 56px;
+  --ink: oklch(24% 0.035 165); --ink-2: oklch(40% 0.03 165); --ink-3: oklch(48% 0.027 165);
+  --ground: oklch(98.4% 0.005 165); --surface: oklch(99.7% 0.003 165); --panel: oklch(95.6% 0.014 165);
+  --line: oklch(89.5% 0.013 165); --line-strong: oklch(76% 0.022 165);
+  --shell: oklch(33% 0.085 165); --shell-2: oklch(40% 0.09 165); --on-shell: oklch(98.5% 0.01 160); --on-shell-2: oklch(88% 0.045 160);
+  --deal: oklch(46% 0.14 152); --deal-bg: oklch(94.5% 0.06 150); --deal-fill: oklch(62% 0.16 150);
+  --warn: oklch(42% 0.09 70); --warn-bg: oklch(95.5% 0.05 85);
+  --focus: oklch(52% 0.16 152);
+  --font: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --t-xs: 0.8125rem; --t-sm: 0.875rem; --t-md: 0.9375rem; --t-lg: 1.125rem; --t-xl: 1.35rem; --t-2xl: 1.62rem; --t-3xl: 1.944rem;
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px; --s-6: 32px; --s-7: 48px; --s-8: 64px;
+  --r-sm: 8px; --r-md: 12px; --r-lg: 16px;
+  --h-br: 150; --h-as: 95; --h-an: 48; --h-ac: 205; --h-eu: 285; --h-af: 28; --h-om: 350; --h-ao: 245; --h-xx: 250;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1); --dur: 160ms;
+  --container: 1180px; --gutter: 24px; --control: 40px;
+  --shadow-pop: 0 12px 28px -10px oklch(24% 0.035 165 / 0.28), 0 2px 6px oklch(24% 0.035 165 / 0.08);
 }
 *, *::before, *::after { box-sizing: border-box; }
-html, body { overflow-x: clip; }
-html { scrollbar-color: var(--color-muted) var(--color-paper); scroll-padding-top: var(--space-3xl); }
-body { margin: 0; background: var(--color-paper); color: var(--color-ink); font-family: var(--font-body); font-size: var(--text-md); line-height: 1.55; -webkit-font-smoothing: antialiased; caret-color: var(--color-accent); font-variant-numeric: tabular-nums; font-synthesis: none; }
-::selection { background: var(--color-accent-2); color: var(--color-ink); }
-:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
-a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.16em; }
-h1, h2, h3 { margin: 0; font-family: var(--font-display); font-weight: var(--display-weight, 700); font-synthesis: none; letter-spacing: var(--tracking-display); line-height: 1.05; overflow-wrap: break-word; min-width: 0; text-wrap: balance; }
-h1 { max-width: 20ch; font-size: var(--text-display); } h2 { max-width: 30ch; font-size: var(--text-section); } h3 { max-width: 40ch; font-size: var(--text-title); line-height: 1.2; }
-p { margin: 0; text-wrap: pretty; }
-p:not([class]) { max-width: 65ch; }
-svg { display: block; }
+html { scroll-padding-top: var(--s-8); scrollbar-color: var(--line-strong) var(--ground); }
+body { margin: 0; background: var(--ground); color: var(--ink); font: 400 var(--t-md)/1.5 var(--font); font-variant-numeric: tabular-nums lining-nums; -webkit-font-smoothing: antialiased; caret-color: var(--deal); overflow-x: clip; }
+::selection { background: var(--deal-bg); color: var(--ink); }
+a { color: inherit; text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+h1, h2, h3, p { margin: 0; }
 [hidden] { display: none !important; }
-button, input, select, textarea { font: inherit; }
-.container { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: var(--gutter); box-sizing: border-box; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.in { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: var(--gutter); }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-@media (max-width: 60rem) { :root { --gutter: 24px; --section-gap-s: 80px; --section-gap: 96px; --section-gap-l: 120px; } }
-@media (max-width: 40rem) { :root { --gutter: 16px; --section-gap-s: 56px; --section-gap: 72px; --section-gap-l: 96px; --gap-columns: 16px; } }
-@media (prefers-reduced-motion: reduce) { *:not(.keep-motion), *:not(.keep-motion)::before, *:not(.keep-motion)::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
+svg.i { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
 
-/* barra superior */
-.bar { position: sticky; top: 0; z-index: var(--z-sticky-nav); background: var(--color-ink); color: var(--color-paper); border-bottom: var(--rule-bar) solid var(--color-ink); }
-.bar .container { display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); min-height: var(--bar-h); }
-.mark { font-weight: 800; font-size: var(--text-lg); letter-spacing: var(--tracking-display); text-decoration: none; }
+/* casca */
+.shell { background: var(--shell); color: var(--on-shell); position: sticky; top: 0; z-index: 40; }
+.shell .in { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "brand search tabs"; gap: var(--s-4) var(--s-5); align-items: center; min-height: 64px; padding-block: var(--s-2); }
+.brand { grid-area: brand; display: flex; align-items: center; gap: var(--s-2); font-weight: 800; font-size: var(--t-lg); letter-spacing: -0.01em; text-decoration: none; }
+.brand svg { width: 28px; height: 28px; }
+.search { grid-area: search; position: relative; max-width: 34rem; width: 100%; justify-self: center; }
+.search .i { position: absolute; left: var(--s-3); top: 50%; translate: 0 -50%; color: var(--ink-3); pointer-events: none; }
+.search input { width: 100%; height: 44px; padding: 0 var(--s-4) 0 calc(var(--s-3) + 18px + var(--s-2)); border: 2px solid transparent; border-radius: var(--r-md); background: var(--surface); color: var(--ink); font-size: 1rem; transition: border-color var(--dur) var(--ease); }
+.search input::placeholder { color: var(--ink-3); }
+.search input:focus-visible { outline: none; border-color: var(--deal-fill); box-shadow: 0 0 0 3px oklch(62% 0.16 150 / 0.35); }
+.origin { grid-area: tabs; display: flex; padding: var(--s-1); gap: var(--s-1); border-radius: var(--r-md); background: var(--shell-2); }
+.origin button { display: flex; align-items: baseline; gap: var(--s-2); height: 36px; padding: 0 var(--s-4); border: 0; border-radius: var(--r-sm); background: transparent; color: var(--on-shell-2); font-weight: 600; font-size: var(--t-sm); transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease); }
+.origin button small { font-weight: 500; font-size: var(--t-xs); opacity: 0.85; }
+.origin button:hover { color: var(--on-shell); }
+.origin button[aria-selected="true"] { background: var(--surface); color: var(--ink); }
+.origin button:focus-visible { outline-color: var(--on-shell); }
 
-/* células: grupos de escolha com bordas compartilhadas */
-.cells { display: inline-flex; min-width: 0; }
-.cell { display: inline-flex; align-items: center; gap: var(--space-xs); min-height: var(--control-h); padding: 0 var(--space-md); border: var(--rule-bar) solid currentColor; margin-left: calc(var(--rule-bar) * -1); background: transparent; color: inherit; font: 500 var(--text-sm)/1 var(--font-body); white-space: nowrap; cursor: pointer; transition: background-color var(--dur-micro) steps(1), color var(--dur-micro) steps(1); }
-.cell:first-child { margin-left: 0; }
-.cell:hover { background: var(--color-paper-2); }
-.cell[aria-pressed="true"], .cell[aria-selected="true"] { background: var(--color-ink); border-color: var(--color-ink); color: var(--color-paper); }
-.cell:active { background: var(--color-ink-2); color: var(--color-paper); }
-.cell:disabled { opacity: 0.55; cursor: not-allowed; }
-.cell .n { font-weight: 400; }
-.cells.scroll { max-width: 100%; overflow-x: auto; scrollbar-width: thin; }
-.bar .cell:hover { background: var(--color-ink-2); }
-.bar .cell[aria-selected="true"] { background: var(--color-paper); border-color: var(--color-paper); color: var(--color-ink); }
+/* abertura */
+.intro { padding-block: var(--s-6) var(--s-5); display: grid; gap: var(--s-2); }
+.intro h1 { font-size: var(--t-3xl); font-weight: 800; line-height: 1.12; letter-spacing: -0.02em; max-width: 24ch; text-wrap: balance; }
+.intro .sum { font-size: var(--t-lg); color: var(--ink-2); max-width: 60ch; text-wrap: pretty; }
+.intro .upd { font-size: var(--t-sm); color: var(--ink-3); }
 
-/* título e resumo */
-.head { padding-block: var(--space-xl) var(--space-md); display: grid; gap: var(--space-xs); }
-.head h1 { max-width: 32ch; }
-.head p { font-size: var(--text-md); }
-.head .updated { font-size: var(--text-sm); font-weight: 500; color: var(--color-muted); }
+/* explorar por continente */
+.explore { background: var(--panel); border-block: 1px solid var(--line); }
+.explore .in { display: grid; grid-template-columns: repeat(auto-fit, minmax(13.5rem, 1fr)); gap: var(--s-3); padding-block: var(--s-4); }
+.tile { align-content: start; min-width: 0; display: grid; gap: 2px; text-align: left; padding: var(--s-3) var(--s-4); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease); }
+.tile:hover { border-color: var(--line-strong); }
+.tile[aria-pressed="true"] { border-color: var(--shell); box-shadow: inset 0 0 0 1px var(--shell); }
+.tile .nm { display: flex; align-items: center; gap: var(--s-2); font-weight: 700; font-size: var(--t-md); }
+.tile .from { font-size: var(--t-sm); color: var(--ink-2); }
+.tile .from b { color: var(--ink); font-weight: 700; white-space: nowrap; }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: oklch(64% 0.15 var(--h, 250)); flex: none; }
+[data-c="br"] { --h: var(--h-br); } [data-c="as"] { --h: var(--h-as); } [data-c="an"] { --h: var(--h-an); } [data-c="ac"] { --h: var(--h-ac); }
+[data-c="eu"] { --h: var(--h-eu); } [data-c="af"] { --h: var(--h-af); } [data-c="om"] { --h: var(--h-om); } [data-c="ao"] { --h: var(--h-ao); } [data-c="xx"] { --h: var(--h-xx); }
 
-/* controles */
-.controls { padding-block: var(--space-md) var(--space-lg); display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-md); }
-.field { display: flex; flex-direction: column; gap: var(--space-2xs); font-size: var(--text-sm); font-weight: 500; color: var(--color-muted); min-width: 0; }
-.input, .select { width: 100%; min-height: var(--control-h); padding: 0 var(--space-sm); border: var(--rule-bar) solid var(--color-ink); border-radius: 0; background: var(--color-paper-3); color: var(--color-ink); font: 400 var(--text-md)/1.2 var(--font-body); }
-.input:focus-visible, .select:focus-visible { outline-offset: calc(var(--rule-bar) * -1); }
-.input:disabled, .select:disabled { opacity: 0.55; cursor: not-allowed; }
-.q { max-width: 36rem; }
-details.filters > summary { display: inline-flex; align-items: center; gap: var(--space-xs); min-height: var(--control-h); padding: 0 var(--space-md); border: var(--rule-bar) solid var(--color-ink); background: transparent; font: 500 var(--text-sm)/1 var(--font-body); cursor: pointer; list-style: none; transition: background-color var(--dur-micro) steps(1); }
-details.filters > summary::-webkit-details-marker { display: none; }
-details.filters > summary:hover { background: var(--color-paper-2); }
-details.filters[open] > summary { background: var(--color-ink); color: var(--color-paper); }
-.fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: var(--space-md); padding-top: var(--space-md); align-items: end; }
-.check { display: flex; align-items: center; gap: var(--space-xs); min-height: var(--control-h); font-size: var(--text-sm); font-weight: 500; color: var(--color-ink); cursor: pointer; }
-.check input { width: var(--space-lg); height: var(--space-lg); accent-color: var(--color-accent); flex: none; }
-.actives { display: flex; flex-wrap: wrap; gap: var(--space-xs); align-items: center; }
-.actives .lab { font-size: var(--text-sm); font-weight: 500; color: var(--color-muted); }
-.rowsel { display: flex; flex-wrap: wrap; gap: var(--space-md); align-items: center; }
-.rowsel .lab { font-size: var(--text-sm); font-weight: 500; color: var(--color-muted); min-width: 6.5rem; }
-.rowsel > .cells.scroll { flex: 1 1 12rem; min-width: 0; }
+/* barra de ferramentas */
+.tools { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--s-3) var(--s-5); padding-block: var(--s-5) var(--s-3); }
+.kinds { display: flex; gap: var(--s-5); border-bottom: 1px solid var(--line); flex: 1 1 22rem; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.kinds::-webkit-scrollbar { display: none; }
+.kinds button { flex: none; display: flex; align-items: baseline; gap: var(--s-2); padding: var(--s-2) 0 var(--s-3); border: 0; border-bottom: 3px solid transparent; margin-bottom: -1px; background: transparent; font-weight: 600; font-size: var(--t-md); color: var(--ink-2); transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease); }
+.kinds button small { font-size: var(--t-xs); font-weight: 600; color: var(--ink-3); }
+.kinds button:hover { color: var(--ink); }
+.kinds button[aria-pressed="true"] { color: var(--ink); border-bottom-color: var(--shell); }
+.ctl { display: flex; align-items: center; gap: var(--s-3); flex-wrap: wrap; }
+.sort { display: flex; padding: var(--s-1); gap: var(--s-1); border-radius: var(--r-md); background: var(--panel); }
+.sort button { display: grid; text-align: left; gap: 0; height: auto; padding: var(--s-1) var(--s-3); border: 0; border-radius: var(--r-sm); background: transparent; font-weight: 600; font-size: var(--t-sm); color: var(--ink-2); line-height: 1.25; transition: background-color var(--dur) var(--ease); }
+.sort button small { font-size: var(--t-xs); font-weight: 500; color: var(--ink-3); }
+.sort button:hover { color: var(--ink); }
+.sort button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px oklch(24% 0.035 165 / 0.12); }
+.fwrap { position: relative; }
+.fbtn { display: inline-flex; align-items: center; gap: var(--s-2); height: var(--control); padding: 0 var(--s-4); border: 1px solid var(--line-strong); border-radius: var(--r-md); background: var(--surface); font-weight: 600; font-size: var(--t-sm); transition: border-color var(--dur) var(--ease), background-color var(--dur) var(--ease); }
+.fbtn:hover { border-color: var(--ink-3); }
+.fbtn[aria-expanded="true"] { border-color: var(--shell); background: var(--panel); }
+.fbtn .n { min-width: 20px; height: 20px; padding: 0 var(--s-1); border-radius: 10px; background: var(--shell); color: var(--on-shell); font-size: var(--t-xs); display: inline-grid; place-items: center; }
+.pop { position: absolute; right: 0; top: calc(100% + var(--s-2)); z-index: 50; width: min(22rem, calc(100vw - 2 * var(--gutter))); display: grid; gap: var(--s-3); padding: var(--s-4); border: 1px solid var(--line-strong); border-radius: var(--r-lg); background: var(--surface); box-shadow: var(--shadow-pop); }
+.field { display: grid; gap: var(--s-1); font-size: var(--t-sm); font-weight: 600; color: var(--ink-2); }
+.field select, .field input[type="number"] { width: 100%; height: var(--control); padding: 0 var(--s-3); border: 1px solid var(--line-strong); border-radius: var(--r-sm); background: var(--surface); color: var(--ink); font-size: 1rem; font-weight: 500; }
+.field select:disabled, .field input:disabled { opacity: 0.55; cursor: not-allowed; }
+.check { display: flex; align-items: center; gap: var(--s-2); min-height: var(--control); font-size: var(--t-sm); font-weight: 500; cursor: pointer; }
+.check input { width: 20px; height: 20px; accent-color: var(--shell); }
+.chips { display: flex; flex-wrap: wrap; gap: var(--s-2); padding-bottom: var(--s-3); }
+.chip { display: inline-flex; align-items: center; gap: var(--s-2); height: 32px; padding: 0 var(--s-3); border: 1px solid var(--line-strong); border-radius: 16px; background: var(--surface); font-size: var(--t-sm); font-weight: 600; transition: border-color var(--dur) var(--ease); }
+.chip:hover { border-color: var(--ink); }
+.chip .i { width: 14px; height: 14px; }
+.chip.clear { border-color: transparent; background: transparent; color: var(--deal); text-decoration: underline; }
 
-/* painel de partidas */
-.band { background: var(--color-ink); color: var(--color-paper); padding-block: var(--space-lg) var(--space-2xl); }
-.bhead { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: var(--space-md); padding-bottom: var(--space-md); }
-.bhead h2 { font-size: var(--text-xl); max-width: none; }
-.bhead .cnt { font-size: var(--text-sm); font-weight: 500; }
-.band .field { color: var(--color-paper); }
-.band .select { background: var(--color-ink); color: var(--color-paper); border-color: var(--color-paper); }
-.board { width: 100%; border-collapse: collapse; }
-.board th { text-align: left; font-weight: 500; font-size: var(--text-sm); padding: var(--space-xs) var(--space-sm); border-bottom: var(--rule-bar) solid var(--color-paper); white-space: nowrap; }
-.board td { padding: var(--space-md) var(--space-sm); border-bottom: var(--rule-hair) solid var(--color-ink-rule); vertical-align: top; }
-.board .w-dest { width: 27%; } .board .w-when { width: 23%; } .board .w-how { width: 17%; } .board .w-fig { width: 17%; } .board .w-act { width: 16%; }
-.dest { display: flex; gap: var(--space-sm); align-items: flex-start; }
-.code { flex: none; display: inline-grid; place-items: center; min-width: 3.5rem; height: 2.5rem; border: var(--rule-bar) solid var(--color-paper); font-weight: 800; font-size: var(--text-md); }
-.nm { display: grid; gap: var(--space-3xs); min-width: 0; }
-.nm b { font-weight: 800; font-size: var(--text-lg); letter-spacing: var(--tracking-display); line-height: 1.1; overflow-wrap: anywhere; }
-.sub { display: block; font-size: var(--text-sm); font-weight: 400; }
-.sub.dim { font-weight: 500; }
-.more { justify-self: start; margin-top: var(--space-2xs); padding: 0; border: 0; background: transparent; color: var(--color-paper); font: 500 var(--text-sm)/1.4 var(--font-body); text-decoration: underline; text-underline-offset: 0.2em; cursor: pointer; min-height: var(--control-h); display: inline-flex; align-items: center; }
-.more:hover { color: var(--color-accent-2); }
-.fig b { display: block; font-weight: 800; font-size: var(--text-2xl); line-height: 1; color: var(--color-accent-2); letter-spacing: var(--tracking-display); }
-.fig .sub { margin-top: var(--space-2xs); }
-.acts { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
-.btn { display: inline-flex; align-items: center; min-height: var(--control-h); padding: 0 var(--space-md); border: var(--rule-bar) solid currentColor; background: transparent; color: inherit; font: 800 var(--text-sm)/1 var(--font-body); text-decoration: none; cursor: pointer; transition: background-color var(--dur-micro) steps(1), color var(--dur-micro) steps(1); }
-.btn { white-space: nowrap; }
-.btn:hover { background: var(--color-ink-2); }
-.btn:active { background: var(--color-paper); color: var(--color-ink); }
+/* lista */
+.res-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s-3); padding-bottom: var(--s-3); flex-wrap: wrap; }
+.res-head h2 { font-size: var(--t-xl); font-weight: 800; letter-spacing: -0.01em; }
+.res-head p { font-size: var(--t-sm); color: var(--ink-3); }
+.list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); overflow: clip; }
+.cols { display: none; }
+.item + .item { border-top: 1px solid var(--line); }
+.row { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.25fr) minmax(0, 1fr) minmax(9.5rem, 0.9fr) 9.5rem; gap: var(--s-2) var(--s-5); align-items: start; padding: var(--s-4) var(--s-5); }
+.row:hover { background: var(--ground); }
+.cols .pr { text-align: right; }
+.cols small { display: block; font-weight: 500; }
+.dest { display: flex; gap: var(--s-3); align-items: flex-start; min-width: 0; }
+.code { flex: none; display: grid; place-items: center; min-width: 54px; height: 46px; border-radius: var(--r-sm); background: oklch(94.5% 0.045 var(--h, 250)); color: oklch(31% 0.08 var(--h, 250)); font-weight: 800; font-size: var(--t-md); letter-spacing: 0.02em; }
+.nm { display: grid; gap: 2px; min-width: 0; }
+.nm h3 { font-size: var(--t-lg); font-weight: 700; line-height: 1.2; letter-spacing: -0.005em; overflow-wrap: anywhere; }
+.nm .reg { font-size: var(--t-sm); color: var(--ink-2); }
+.more { justify-self: start; white-space: nowrap; display: inline-flex; align-items: center; gap: var(--s-1); min-height: 28px; padding: 0; border: 0; background: transparent; color: var(--deal); font-weight: 600; font-size: var(--t-sm); text-decoration: underline; text-underline-offset: 0.2em; }
+.more .i { width: 16px; height: 16px; transition: rotate var(--dur) var(--ease); }
+.more[aria-expanded="true"] .i { rotate: 180deg; }
+.when b, .pay b { display: block; font-weight: 700; font-size: var(--t-md); }
+.when span, .pay span { display: block; font-size: var(--t-sm); color: var(--ink-2); }
+.tags { display: flex; flex-wrap: wrap; gap: var(--s-1); margin-top: var(--s-1); }
+.tag { display: inline-block; white-space: nowrap; padding: 2px var(--s-2); border-radius: 6px; font-size: var(--t-xs); font-weight: 700; background: var(--panel); color: var(--ink-2); }
+.tag.deal { background: var(--deal-bg); color: var(--deal); }
+.tag.warn { background: var(--warn-bg); color: var(--warn); }
+.price { text-align: right; }
+.price .lab { display: block; font-size: var(--t-xs); font-weight: 600; color: var(--ink-3); }
+.price .big { display: block; font-size: var(--t-2xl); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; }
+.price .big i { font-style: normal; font-size: var(--t-sm); font-weight: 700; margin-right: 3px; color: var(--ink-2); letter-spacing: 0; }
+.price .mi { display: block; font-size: var(--t-sm); color: var(--ink-2); }
+.price .inc { display: block; margin-top: 2px; font-size: var(--t-xs); color: var(--ink-3); }
+.bar { display: block; height: 4px; border-radius: 2px; background: var(--panel); margin-top: var(--s-2); overflow: hidden; }
+.bar i { display: block; height: 100%; border-radius: 2px; background: var(--line-strong); }
+.bar.best i { background: var(--deal-fill); }
+.acts { display: grid; gap: var(--s-2); align-content: start; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--s-1); min-height: var(--control); padding: 0 var(--s-3); border: 1px solid var(--line-strong); border-radius: 10px; background: var(--surface); color: var(--ink); font-weight: 700; font-size: var(--t-sm); text-decoration: none; white-space: nowrap; transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease), transform var(--dur) var(--ease); }
+.btn .i { width: 16px; height: 16px; }
+.btn:hover { background: var(--panel); border-color: var(--ink-3); }
+.btn:active { transform: translateY(1px); }
+.btn.pri { background: var(--shell); border-color: var(--shell); color: var(--on-shell); }
+.btn.pri:hover { background: var(--shell-2); border-color: var(--shell-2); }
 .btn:disabled { opacity: 0.55; cursor: not-allowed; }
-.board td.act-cell { min-width: 11rem; }
-details.filters > summary:active, .notes > summary:active { background: var(--color-ink-2); color: var(--color-paper); }
-.more:active { color: var(--color-paper); text-decoration-thickness: 2px; }
-.when-d { display: block; font-weight: 800; font-size: var(--text-md); }
-tr.alt td { background: var(--color-ink-2); padding: var(--space-md); }
-.opts { display: grid; }
-.opt { display: grid; grid-template-columns: minmax(8rem, 12rem) minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-sm) var(--space-lg); padding-block: var(--space-md); border-bottom: var(--rule-hair) solid var(--color-ink-rule); }
-.opt:last-child { border-bottom: 0; }
-.opt .p { font-weight: 800; font-size: var(--text-xl); line-height: 1.05; color: var(--color-accent-2); }
-.opt .leg { font-size: var(--text-sm); }
-.opt .leg b { font-weight: 800; }
-.opt .acts { grid-column: 1 / -1; }
-.empty { padding: var(--space-xl) 0; display: grid; gap: var(--space-sm); justify-items: start; }
-.empty h3 { font-size: var(--text-xl); }
-.moreRow { padding-top: var(--space-lg); }
+.btn.sm { min-height: 34px; font-size: var(--t-xs); }
+.btn.quiet { border-color: transparent; background: transparent; color: var(--deal); text-decoration: underline; text-underline-offset: 0.2em; padding-inline: var(--s-2); }
+.btn.quiet:hover { background: var(--deal-bg); border-color: transparent; }
+.alt { padding: var(--s-2) var(--s-5) var(--s-5); background: var(--panel); }
+.alt h4 { margin: var(--s-3) 0 var(--s-2); font-size: var(--t-sm); font-weight: 700; color: var(--ink-2); }
+.opt { display: grid; grid-template-columns: minmax(7.5rem, 9rem) minmax(0, 1.5fr) minmax(0, 1fr); gap: var(--s-2) var(--s-5); padding: var(--s-4) 0; border-top: 1px solid var(--line-strong); }
+.opt:first-of-type { border-top: 0; }
+.opt .p { font-size: var(--t-xl); font-weight: 800; letter-spacing: -0.01em; line-height: 1.1; }
+.opt .d { font-size: var(--t-xs); color: var(--ink-3); }
+.opt .leg { font-size: var(--t-sm); }
+.opt .leg b { font-weight: 700; }
+.opt .lk { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: var(--s-2); }
+.empty { padding: var(--s-7) var(--s-5); display: grid; gap: var(--s-2); justify-items: start; }
+.empty h3 { font-size: var(--t-xl); font-weight: 800; }
+.empty p { color: var(--ink-2); max-width: 46ch; }
+.moreRow { display: flex; justify-content: center; padding-block: var(--s-5) var(--s-2); }
 
-/* notas */
-.notes { padding-block: var(--space-xl) var(--space-2xl); }
-.notes > summary { display: inline-flex; align-items: center; min-height: var(--control-h); padding: 0 var(--space-md); border: var(--rule-bar) solid var(--color-ink); font: 500 var(--text-sm)/1 var(--font-body); cursor: pointer; list-style: none; transition: background-color var(--dur-micro) steps(1); }
-.notes > summary::-webkit-details-marker { display: none; }
-.notes > summary:hover { background: var(--color-paper-2); }
-.notes ul { margin: var(--space-md) 0 0; padding-left: var(--space-lg); display: grid; gap: var(--space-xs); max-width: 70ch; font-size: var(--text-sm); }
-.foot { padding-bottom: var(--space-xl); font-size: var(--text-sm); font-weight: 500; color: var(--color-muted); }
+/* notas e rodapé */
+.notes { margin-block: var(--s-7) var(--s-5); border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); }
+.notes summary { padding: var(--s-4) var(--s-5); font-weight: 700; font-size: var(--t-md); cursor: pointer; list-style: none; border-radius: var(--r-lg); }
+.notes summary::-webkit-details-marker { display: none; }
+.notes summary:hover { background: var(--ground); }
+.notes ul { margin: 0; padding: 0 var(--s-5) var(--s-5) calc(var(--s-5) + var(--s-5)); display: grid; gap: var(--s-2); max-width: 74ch; font-size: var(--t-sm); color: var(--ink-2); }
+.foot { padding-block: var(--s-5) var(--s-7); font-size: var(--t-sm); color: var(--ink-3); }
 
-@media (pointer: coarse) { :root { --control-h: 48px; } }
-@media (max-width: 60rem) {
-  .bar .container { flex-wrap: wrap; padding-block: var(--space-xs); }
-  .board thead { display: none; }
-  .board, .board tbody, .board tr, .board td { display: block; width: 100%; }
-  .board tr.row { padding-block: var(--space-md); border-bottom: var(--rule-hair) solid var(--color-ink-rule); }
-  .board td { border: 0; padding: var(--space-xs) 0; }
-  .board td[data-label]::before { content: attr(data-label); display: block; font-size: var(--text-sm); font-weight: 500; margin-bottom: var(--space-3xs); }
-  .board td.dest-cell::before, .board td.act-cell::before { display: none; }
-  .fig b { font-size: var(--text-3xl); }
-  tr.alt td { padding: var(--space-sm); }
+@media (min-width: 64.0625rem) {
+  .cols { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.25fr) minmax(0, 1fr) minmax(9.5rem, 0.9fr) 9.5rem; gap: var(--s-2) var(--s-5); padding: var(--s-2) var(--s-5); position: sticky; top: 64px; z-index: 20; background: var(--panel); border-bottom: 1px solid var(--line); font-size: var(--t-xs); font-weight: 700; color: var(--ink-2); align-items: end; }
+  .price .lab, .price .inc { display: none; }
+}
+@media (max-width: 64rem) {
+  .row { grid-template-columns: minmax(0, 1fr) minmax(8.5rem, 10.5rem); grid-template-areas: "dest price" "when when" "pay pay" "act act"; padding: var(--s-4); }
+  .row .dest { grid-area: dest; } .row .price { grid-area: price; } .row .when { grid-area: when; } .row .pay { grid-area: pay; } .row .acts { grid-area: act; grid-template-columns: 1fr 1fr; }
+  .alt { padding-inline: var(--s-4); }
   .opt { grid-template-columns: 1fr; }
 }
+@media (max-width: 52rem) {
+  :root { --gutter: 16px; --control: 44px; }
+  .shell .in { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "brand tabs" "search search"; min-height: 0; padding-block: var(--s-3); }
+  .search { max-width: none; }
+  .explore .in { display: flex; overflow-x: auto; scrollbar-width: thin; }
+  .tile { flex: 0 0 auto; min-width: 12rem; }
+  .intro h1 { font-size: var(--t-2xl); }
+  .intro .sum { font-size: var(--t-md); }
+  .tools { align-items: stretch; }
+  .ctl { width: 100%; justify-content: space-between; }
+  .sort { overflow-x: auto; max-width: 100%; }
+  .pop { right: auto; left: 0; }
+  .btn.sm { min-height: 40px; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0.001ms !important; animation-duration: 0.001ms !important; scroll-behavior: auto !important; } }
 </style>
 </head>
 <body>
-<header class="bar">
-  <div class="container">
-    <a class="mark" href="#" aria-label="Passagens, início">Passagens</a>
-    <div class="cells" role="tablist" aria-label="Saindo de">
-      <button type="button" class="cell" role="tab" id="tab-VCP" data-o="VCP" aria-selected="true">Campinas <span class="n" id="cnt-VCP"></span></button>
-      <button type="button" class="cell" role="tab" id="tab-SP" data-o="SP" aria-selected="false">São Paulo <span class="n" id="cnt-SP"></span></button>
+<header class="shell">
+  <div class="in">
+    <a class="brand" href="#" aria-label="Passagens, voltar ao início">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="oklch(98.5% 0.01 160)"/><path d="M7 19.5l18-7.5-6.5 13-2.8-5.4-5.2 1.9z" fill="oklch(33% 0.085 165)"/></svg>
+      Passagens
+    </a>
+    <div class="search" role="search">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <label class="visually-hidden" for="q">Buscar destino, país ou programa</label>
+      <input type="search" id="q" placeholder="Buscar destino, país ou programa" autocomplete="off" inputmode="search" aria-keyshortcuts="/">
+    </div>
+    <div class="origin" role="tablist" aria-label="Saindo de">
+      <button type="button" role="tab" id="tab-VCP" data-o="VCP" aria-selected="true">Campinas <small id="cnt-VCP"></small></button>
+      <button type="button" role="tab" id="tab-SP" data-o="SP" aria-selected="false">São Paulo <small id="cnt-SP"></small></button>
     </div>
   </div>
 </header>
 
 <main>
-  <section class="container head">
+  <section class="in intro">
     <h1>Passagens baratas de São Paulo e Campinas</h1>
-    <p id="summary" class="lead"></p>
-    <p class="updated">Atualizado em 06/11/2026 às 16:49. Fonte: Secret Flight Deals, classe econômica.</p>
+    <p class="sum" id="summary"></p>
+    <p class="upd">Atualizado em 06/11/2026 às 16:49, classe econômica, fonte Secret Flight Deals.</p>
   </section>
 
-  <section class="container controls" aria-label="Busca e filtros">
-    <div class="field q">
-      <label for="q">Buscar destino, país ou programa</label>
-      <input class="input" type="search" id="q" placeholder="Lisboa, Azul, Europa…" autocomplete="off" inputmode="search">
-    </div>
-    <div class="rowsel"><span class="lab">Tipo</span><div class="cells scroll" id="chips-tipo" role="group" aria-label="Tipo de oferta"></div></div>
-    <div class="rowsel"><span class="lab">Destino</span><div class="cells scroll" id="chips-cont" role="group" aria-label="Continente"></div></div>
-    <details class="filters" id="filters">
-      <summary id="f-sum">Mais filtros</summary>
-      <div class="fields">
-        <div class="field"><label for="f-reg">Região ou país</label><select class="select" id="f-reg"><option value="">Todas</option></select></div>
-        <div class="field"><label for="f-prog">Programa de milhas</label><select class="select" id="f-prog"><option value="">Todos</option></select></div>
-        <div class="field"><label for="f-max">Preço máximo em reais</label><input class="input" type="number" id="f-max" min="0" step="50" inputmode="numeric" placeholder="sem limite"></div>
-        <label class="check"><input type="checkbox" id="f-same"> Só no mesmo programa</label>
+  <section class="explore" aria-label="Explorar por continente">
+    <div class="in" id="explore"></div>
+  </section>
+
+  <section class="in" aria-label="Ofertas">
+    <div class="tools">
+      <div class="kinds" id="kinds" role="group" aria-label="Tipo de oferta"></div>
+      <div class="ctl">
+        <div class="sort" id="sort" role="group" aria-label="Ordenar por"></div>
+        <div class="fwrap">
+          <button type="button" class="fbtn" id="f-btn" aria-expanded="false" aria-controls="pop">
+            <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg>
+            Filtros <span class="n" id="f-n" hidden>0</span>
+          </button>
+          <div class="pop" id="pop" role="dialog" aria-label="Mais filtros" hidden>
+            <div class="field"><label for="f-reg">Região ou país</label><select id="f-reg"><option value="">Todas</option></select></div>
+            <div class="field"><label for="f-prog">Programa de milhas</label><select id="f-prog"><option value="">Todos</option></select></div>
+            <div class="field"><label for="f-max">Preço máximo em reais</label><input type="number" id="f-max" min="0" step="50" inputmode="numeric" placeholder="sem limite"></div>
+            <label class="check"><input type="checkbox" id="f-same"> Só no mesmo programa</label>
+            <button type="button" class="btn" id="f-clear">Limpar filtros</button>
+          </div>
+        </div>
       </div>
-    </details>
-    <div class="actives" id="active"></div>
-  </section>
-
-  <section class="band" aria-label="Quadro de ofertas">
-    <div class="container">
-      <div class="bhead">
-        <div><h2 id="r-title">Todas as ofertas</h2><p class="cnt" id="r-cnt"></p></div>
-        <div class="field"><label for="sort">Ordenar por</label>
-          <select class="select" id="sort"><option value="price">Menor preço</option><option value="miles">Menos milhas</option><option value="date">Data mais próxima</option></select></div>
-      </div>
-      <table class="board" id="board">
-        <thead><tr><th class="w-dest" scope="col">Destino</th><th class="w-when" scope="col">Datas e rota</th><th class="w-how" scope="col">Como pagar</th><th class="w-fig" scope="col">Ida e volta a partir de</th><th class="w-act" scope="col">Abrir</th></tr></thead>
-        <tbody id="grid"></tbody>
-      </table>
-      <div class="moreRow"><button type="button" class="btn" id="more" hidden>Mostrar mais destinos</button></div>
     </div>
-  </section>
+    <div class="chips" id="active"></div>
 
-  <section class="container notes">
-    <details>
-      <summary>Como ler esta página</summary>
+    <div class="res-head"><h2 id="r-title">Todas as ofertas</h2><p id="r-cnt"></p></div>
+    <ul class="list" id="grid"></ul>
+    <div class="moreRow"><button type="button" class="btn" id="more" hidden>Mostrar mais destinos</button></div>
+
+    <details class="notes">
+      <summary>Como ler os preços e de onde vêm</summary>
       <ul>
         <li>Datas de novembro e dezembro são de 2026. Datas de janeiro a outubro são de 2027. Só aparecem datas depois de 06/11/2026.</li>
-        <li>Cada linha é um destino e mostra a melhor oferta. As outras opções do mesmo destino abrem dentro da linha.</li>
+        <li>Cada linha é um destino e mostra a melhor opção. As outras opções do mesmo destino abrem dentro da linha.</li>
         <li>Dinheiro é o preço total de ida e volta publicado pelo site. Milhas é a soma de uma ida e uma volta em bilhetes separados, com 3 a 30 dias de estadia. Um trecho é um card do site com datas de ida e de volta, mas com o preço de um trecho só: o total é maior.</li>
         <li>Em milhas, cada trecho está no preço mínimo publicado, que pode valer para outra data. A soma é um piso. O preço exato de cada dia aparece no calendário do programa, que os botões abrem.</li>
-        <li>O valor em reais das milhas usa o milheiro que o site usa: Azul R$ 14, Smiles R$ 15, LATAM Pass R$ 23, Aeroplan R$ 70, AAdvantage R$ 90. Taxas de embarque ficam de fora. Nas ofertas em dinheiro, as milhas são uma referência a R$ 15 o milheiro, só para comparar.</li>
+        <li>O valor em reais das milhas usa o preço de referência do milheiro: Azul R$ 14, Smiles R$ 15, LATAM Pass R$ 23, Aeroplan R$ 70, AAdvantage R$ 90. Taxas de embarque ficam de fora. Nas ofertas em dinheiro, as milhas mostradas são uma referência a R$ 15 o milheiro, só para comparar.</li>
         <li>Nada disso foi confirmado no site dos programas nem no checkout das companhias. Confira disponibilidade e bagagem antes de transferir pontos.</li>
         <li>Em bilhetes separados, um atraso na ida não protege a volta. Programas diferentes pedem saldo nos dois. A volta pode ser por outro aeroporto de São Paulo.</li>
         <li>874 ofertas com preço normal ou alto foram escondidas: ficam de fora as que passam de 1.6 vezes o menor preço do mesmo destino ou do teto de ida e volta da região (nacional R$ 1500, América do Sul R$ 3000, América do Norte e Caribe R$ 4000, Europa R$ 4500, Ásia, África e Oceania R$ 7000).</li>
         <li>Os botões de programa abrem a busca de milhas já preenchida com rota e data na Azul, na Smiles e na LATAM (a LATAM pede login antes). Nos outros programas abre a página inicial.</li>
-        <li>A página é refeita todo dia por um robô, que fatia as buscas por mês e por aeroporto para passar do corte de 100 resultados do site.</li>
+        <li>A página é refeita todo dia às 7h por um robô, que fatia as buscas por mês e por aeroporto para passar do corte de 100 resultados do site.</li>
       </ul>
     </details>
   </section>
 </main>
-<footer class="container foot">São Paulo reúne Guarulhos (GRU), Congonhas (CGH) e a busca geral (SAO).</footer>
+<footer class="in foot">São Paulo reúne Guarulhos (GRU), Congonhas (CGH) e a busca geral (SAO). A barra sob cada preço compara com o maior preço da lista exibida.</footer>
 
 <script>
 var DATA = `N;GRU;FLN;GOL/Smiles;6500;98;01-24 01-25 01-27 01-28 01-29;01-31 02-01 02-02 02-03 02-04 02-05 02-06 02-07 02-08 02-09 02-10 02-11;https://www.google.com/travel/flights?q=Flights%20from%20GRU%20to%20FLN%20on%202027-01-24%20through%202027-01-31&hl=pt-BR&gl=BR&curr=BRL;https://www.smiles.com.br/mfe/emissao-passagem/?adults=1&cabin=ECONOMIC&children=0&departureDate=1800792000000&infants=0&isElegible=false&isFlexibleDateChecked=false&returnDate=1801396800000&searchType=g3&segments=1&tripType=1&originAirport=GRU&originCity=&originCountry=&originAirportIsAny=false&destinationAirport=FLN&destinCity=&destinCountry=&destinAirportIsAny=false&novo-resgate-first-access=true
@@ -938,7 +976,9 @@ geoSet('DXB DOH AUH', 'Oriente Médio', 'Emirados e Catar');
 geoSet('NRT', 'Ásia e Oceania', 'Japão'); geoSet('ICN', 'Ásia e Oceania', 'Coreia do Sul'); geoSet('BKK', 'Ásia e Oceania', 'Tailândia');
 geoSet('CAN PVG', 'Ásia e Oceania', 'China'); geoSet('MLE', 'Ásia e Oceania', 'Maldivas'); geoSet('SYD MEL', 'Ásia e Oceania', 'Austrália');
 var CONT_ORDER = ['Brasil','América do Sul','América do Norte','América Central e Caribe','Europa','África','Oriente Médio','Ásia e Oceania','Outros'];
+var CONT_KEY = {'Brasil':'br','América do Sul':'as','América do Norte':'an','América Central e Caribe':'ac','Europa':'eu','África':'af','Oriente Médio':'om','Ásia e Oceania':'ao','Outros':'xx'};
 function geo(d){ return GEO[d] || ['Outros','Outros']; }
+function ckey(d){ return CONT_KEY[geo(d)[0]] || 'xx'; }
 function nz(s){ return String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); }
 function lastProg(p){ return String(p||'').split('/').pop(); }
 function progName(p){
@@ -947,7 +987,6 @@ function progName(p){
   return nz(pr).indexOf(nz(op))===0 ? pr : pr+' (voo '+op+')';
 }
 function grp(o){ return o==='VCP' ? 'VCP' : 'SP'; }
-
 function city(c){ return CITY[c] || c; }
 function nf(n){ return Number(n).toLocaleString('pt-BR'); }
 function brl(n){ return n==null||n===''||isNaN(n) ? 'R$ n/d' : 'R$ ' + nf(n); }
@@ -957,7 +996,10 @@ function pair(s){ var p = s.split('>'); return p[1] ? dm(p[0]) + ' → ' + dm(p[
 function dkey(md){ var m = +md.slice(0,2); return (m>=11 ? '0' : '1') + md; }
 function num(v){ return v===''||v==null ? null : Number(v); }
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
-function btn(u,t){ return u ? '<a class="btn" href="'+esc(u)+'" target="_blank" rel="noopener noreferrer">'+t+'</a>' : ''; }
+var ICON_OUT = '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>';
+var ICON_DOWN = '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+var ICON_X = '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+function btn(u,t,cls){ return u ? '<a class="btn '+(cls||'')+'" href="'+esc(u)+'" target="_blank" rel="noopener noreferrer">'+t+ICON_OUT+'</a>' : ''; }
 function firstPair(x){
   var ida = x.ida.split(' ').filter(Boolean), vol = x.volta.split(' ').filter(Boolean);
   for(var i=0;i<ida.length;i++){ for(var j=0;j<vol.length;j++){ if(dkey(vol[j])>dkey(ida[i])) return ida[i]+'>'+vol[j]; } }
@@ -982,7 +1024,7 @@ DATA.split('\n').forEach(function(l){
 
 /* estado */
 var S = { g:'VCP', tipo:'all', cont:'', reg:'', prog:'', max:null, same:false, q:'', sort:'price', page:1 };
-var PAGE = 25;
+var PAGE = 20;
 function el(id){ return document.getElementById(id); }
 var TIPOS = [['all','Todas'],['cash','Dinheiro'],['x','Milhas'],['nat','Um trecho']];
 
@@ -1009,14 +1051,12 @@ function passBase(x){
   return true;
 }
 function passTipo(x){ return S.tipo==='all' ? x.kind!=='nat' : x.kind===S.tipo; }
+function byPrice(a,b){ if(a.price==null&&b.price==null) return 0; if(a.price==null) return 1; if(b.price==null) return -1; return a.price-b.price; }
 function sorter(){
   if(S.sort==='miles') return function(a,b){ return (a.mi||0)-(b.mi||0); };
   if(S.sort==='date') return function(a,b){ return a.dk<b.dk ? -1 : a.dk>b.dk ? 1 : 0; };
   return byPrice;
 }
-function byPrice(a,b){ if(a.price==null&&b.price==null) return 0; if(a.price==null) return 1; if(b.price==null) return -1; return a.price-b.price; }
-
-/* uma linha por destino */
 function groupBy(list){
   var map = {}, order = [];
   list.forEach(function(x){ if(!map[x.d]){ map[x.d] = {d:x.d, items:[]}; order.push(x.d); } map[x.d].items.push(x); });
@@ -1024,54 +1064,61 @@ function groupBy(list){
   out.sort(function(a,b){ return sorter()(a.best,b.best); });
   return out;
 }
+
+/* linhas */
+function dates(x){ return x.kind==='cash' ? pair(x.pairs[0]) : x.kind==='x' ? pair(x.ex[0]) : pair(firstPair(x)); }
 function whenCell(x){
-  var d = x.kind==='cash' ? x.pairs[0] : x.kind==='x' ? x.ex[0] : firstPair(x);
   var rota, qtd;
   if(x.kind==='x'){ rota = x.o+' → '+x.d+', volta por '+(APT[x.r]||x.r); qtd = x.n+(x.n===1?' combinação possível':' combinações possíveis'); }
   else if(x.kind==='cash'){ rota = x.o+' ⇄ '+x.d; qtd = x.pairs.length+(x.pairs.length===1?' combinação':' combinações'); }
   else { rota = x.o+' ⇄ '+x.d; qtd = 'ida e volta no mesmo card'; }
-  return '<b class="when-d">'+pair(d)+'</b><span class="sub">'+esc(rota)+'</span><span class="sub dim">'+qtd+'</span>';
+  return '<b>'+dates(x)+'</b><span>'+esc(rota)+'</span><span>'+qtd+'</span>';
 }
-function howCell(x){
-  if(x.kind==='cash') return '<span class="sub">Dinheiro</span>'+(x.cia?'<span class="sub dim">'+esc(x.cia)+'</span>':'');
-  if(x.kind==='nat') return '<span class="sub">'+esc(progName(x.prog))+'</span><span class="sub dim">preço de um trecho</span>';
-  if(x.same) return '<span class="sub">'+esc(progName(x.po))+'</span><span class="sub dim">na ida e na volta</span>';
-  return '<span class="sub">Ida: '+esc(progName(x.po))+'</span><span class="sub">Volta: '+esc(progName(x.pr))+'</span>';
+function payCell(x){
+  if(x.kind==='cash') return '<b>Dinheiro</b>'+(x.cia?'<span>'+esc(x.cia)+'</span>':'');
+  if(x.kind==='nat') return '<b>'+esc(progName(x.prog))+'</b><div class="tags"><span class="tag warn">preço de um trecho</span></div>';
+  if(x.same) return '<b>'+esc(progName(x.po))+'</b><span>na ida e na volta</span>';
+  return '<b>Ida: '+esc(progName(x.po))+'</b><span>Volta: '+esc(progName(x.pr))+'</span><div class="tags"><span class="tag warn">2 programas</span></div>';
 }
-function figCell(x){
-  var m;
-  if(x.kind==='cash') m = 'cerca de '+nf(Math.round(x.price/15))+' mil milhas, referência';
-  else if(x.kind==='nat') m = 'um trecho, '+mi(x.mi);
-  else m = mi(x.mi)+' no total';
-  return '<b>'+brl(x.price)+'</b><span class="sub">'+m+'</span>';
+function priceCell(x,max,best){
+  var lab = x.kind==='nat' ? 'um trecho, a partir de' : 'ida e volta a partir de';
+  var m, inc;
+  if(x.kind==='cash'){ m = 'cerca de '+nf(Math.round(x.price/15))+' mil milhas, referência'; inc = 'Preço publicado. Confira a bagagem.'; }
+  else if(x.kind==='nat'){ m = mi(x.mi)+' por trecho'; inc = 'Um trecho, sem taxas de embarque.'; }
+  else { m = mi(x.mi)+' no total'; inc = 'Valor mínimo, sem taxas de embarque.'; }
+  var w = max>0 && x.price!=null ? Math.max(6, Math.round(x.price/max*100)) : 6;
+  return '<span class="lab">'+lab+'</span><span class="big"><i>R$</i>'+nf(x.price)+'</span><span class="mi">'+m+'</span><span class="inc">'+inc+'</span><span class="bar'+(best?' best':'')+'" aria-hidden="true"><i style="width:'+w+'%"></i></span>';
 }
 function actCell(x){
-  if(x.kind==='cash') return btn(x.gf,'Ver voo');
-  if(x.kind==='nat') return btn(x.gf,'Ver voo')+btn(x.pl,'Resgatar');
-  return btn(x.plo||x.gfo,'Resgatar ida')+btn(x.plv||x.gfv,'Resgatar volta');
+  if(x.kind==='cash') return btn(x.gf,'Ver voo','pri');
+  if(x.kind==='nat') return btn(x.pl,'Resgatar','pri')+btn(x.gf,'Ver voo');
+  return btn(x.plo||x.gfo,'Resgatar ida','pri')+btn(x.plv||x.gfv,'Resgatar volta');
 }
 function optHtml(x,best){
-  var delta = (x.price!=null && best.price!=null && x!==best) ? '<span class="sub dim">+'+brl(x.price-best.price)+' sobre a menor</span>' : (x===best ? '<span class="sub dim">menor preço</span>' : '');
+  var delta = (x.price!=null && best.price!=null && x!==best) ? '+'+brl(x.price-best.price)+' sobre a menor' : (x===best ? 'menor preço' : '');
   var legs;
   if(x.kind==='x'){
-    legs = '<div class="leg"><b>Ida '+x.o+' → '+x.d+'</b> '+esc(progName(x.po))+', '+mi(x.mo)+', '+brl(x.bo)+'</div>'+
-           '<div class="leg"><b>Volta '+x.d+' → '+x.r+'</b> '+esc(progName(x.pr))+', '+mi(x.mr)+', '+brl(x.br)+'</div>';
+    legs = '<div class="leg"><b>Ida '+x.o+' → '+x.d+':</b> '+esc(progName(x.po))+', '+mi(x.mo)+', '+brl(x.bo)+'</div>'+
+           '<div class="leg"><b>Volta '+x.d+' → '+x.r+':</b> '+esc(progName(x.pr))+', '+mi(x.mr)+', '+brl(x.br)+'</div>';
   } else if(x.kind==='cash'){
-    legs = '<div class="leg"><b>Dinheiro</b> '+esc(x.cia||'companhia não informada')+'</div>';
+    legs = '<div class="leg"><b>Dinheiro:</b> '+esc(x.cia||'companhia não informada')+'</div>';
   } else {
-    legs = '<div class="leg"><b>'+esc(progName(x.prog))+'</b> preço de um trecho, '+mi(x.mi)+'</div>';
+    legs = '<div class="leg"><b>'+esc(progName(x.prog))+':</b> preço de um trecho, '+mi(x.mi)+'</div>';
   }
-  var datas = x.kind==='cash' ? x.pairs.slice(0,4).map(pair) : x.kind==='x' ? x.ex.slice(0,3).map(pair) : [pair(firstPair(x))];
-  var links = x.kind==='x' ? btn(x.gfo,'Ver voo de ida')+btn(x.plo,'Resgatar ida')+btn(x.gfv,'Ver voo de volta')+btn(x.plv,'Resgatar volta')
-            : x.kind==='cash' ? btn(x.gf,'Ver voo') : btn(x.gf,'Ver voo')+btn(x.pl,'Resgatar');
-  return '<div class="opt"><div><span class="p">'+brl(x.price)+'</span><br>'+delta+'</div><div>'+legs+'</div><div>'+datas.map(function(t){return '<div class="leg">'+t+'</div>';}).join('')+'</div><div class="acts">'+links+'</div></div>';
+  var ds = x.kind==='cash' ? x.pairs.slice(0,4).map(pair) : x.kind==='x' ? x.ex.slice(0,3).map(pair) : [pair(firstPair(x))];
+  var links = x.kind==='x' ? btn(x.plo,'Resgatar ida','sm')+btn(x.plv,'Resgatar volta','sm')+btn(x.gfo,'Ver voo de ida','sm quiet')+btn(x.gfv,'Ver voo de volta','sm quiet')
+            : x.kind==='cash' ? btn(x.gf,'Ver voo','sm') : btn(x.pl,'Resgatar','sm')+btn(x.gf,'Ver voo','sm quiet');
+  return '<div class="opt"><div><div class="p">'+brl(x.price)+'</div><div class="d">'+delta+'</div></div><div>'+legs+'</div><div>'+ds.map(function(t){return '<div class="leg">'+t+'</div>';}).join('')+'</div><div class="lk">'+links+'</div></div>';
 }
-function rowHtml(g,i){
-  var b = g.best, gi = geo(g.d), n = g.items.length, id = 'alt-'+i;
-  var more = n>1 ? '<button type="button" class="more" data-alt="'+id+'" aria-expanded="false" aria-controls="'+id+'">Ver '+n+' opções</button>' : '<span class="sub dim">1 opção</span>';
-  return '<tr class="row"><td class="dest-cell"><div class="dest"><span class="code">'+g.d+'</span><div class="nm"><b>'+esc(city(g.d))+'</b><span class="sub">'+esc(gi[1])+'</span>'+more+'</div></div></td>'+
-    '<td data-label="Datas e rota">'+whenCell(b)+'</td><td data-label="Como pagar">'+howCell(b)+'</td><td class="fig" data-label="Ida e volta a partir de">'+figCell(b)+'</td><td class="act-cell"><div class="acts">'+actCell(b)+'</div></td></tr>'+
-    '<tr class="alt" id="'+id+'" hidden><td colspan="5"><div class="opts">'+g.items.map(function(x){return optHtml(x,g.items[0]);}).join('')+'</div></td></tr>';
+function rowHtml(g,i,max,minP){
+  var b = g.best, gi = geo(g.d), n = g.items.length, id = 'alt-'+i, c = ckey(g.d);
+  var more = n>1 ? '<button type="button" class="more" data-alt="'+id+'" aria-expanded="false" aria-controls="'+id+'">Ver '+n+' opções'+ICON_DOWN+'</button>' : '';
+  var isBest = b.price!=null && b.price===minP;
+  var tag = isBest ? '<div class="tags"><span class="tag deal">menor preço</span></div>' : '';
+  return '<li class="item"><div class="row" data-c="'+c+'">'+
+    '<div class="dest"><span class="code">'+g.d+'</span><div class="nm"><h3>'+esc(city(g.d))+'</h3><span class="reg">'+esc(gi[1]===gi[0]?gi[0]:gi[1]+', '+gi[0])+'</span>'+tag+more+'</div></div>'+
+    '<div class="when">'+whenCell(b)+'</div><div class="pay">'+payCell(b)+'</div><div class="price">'+priceCell(b,max,isBest)+'</div><div class="acts">'+actCell(b)+'</div></div>'+
+    (n>1 ? '<div class="alt" id="'+id+'" hidden><h4>Todas as opções para '+esc(city(g.d))+'</h4>'+g.items.map(function(x){return optHtml(x,g.items[0]);}).join('')+'</div>' : '')+'</li>';
 }
 
 /* controles */
@@ -1081,16 +1128,12 @@ function fillSelect(sel, values, first){
   sel.value = values.indexOf(keep)>=0 ? keep : '';
   return sel.value;
 }
-function cellHtml(label, key, val, pressed, count){
-  return '<button type="button" class="cell" data-k="'+key+'" data-v="'+esc(val)+'" aria-pressed="'+(pressed?'true':'false')+'">'+esc(label)+(count!=null?' <span class="n">'+count+'</span>':'')+'</button>';
-}
 
 function render(){
   var base = items.filter(function(x){ return x.g===S.g; });
   ['VCP','SP'].forEach(function(k){ el('cnt-'+k).textContent = items.filter(function(x){return x.g===k && x.kind!=='nat';}).length; });
 
   var conts = {}; base.forEach(function(x){ conts[geo(x.d)[0]] = 1; });
-  var contList = CONT_ORDER.filter(function(k){ return conts[k]; });
   if(S.cont && !conts[S.cont]) S.cont = '';
   var regs = {}; base.forEach(function(x){ var g = geo(x.d); if(!S.cont || g[0]===S.cont) regs[g[1]] = 1; });
   S.reg = fillSelect(el('f-reg'), Object.keys(regs).sort(function(a,b){return a.localeCompare(b);}), 'Todas');
@@ -1101,19 +1144,31 @@ function render(){
   var pre = base.filter(passBase);
   var counts = {all:0,cash:0,x:0,nat:0};
   pre.forEach(function(x){ counts[x.kind]++; if(x.kind!=='nat') counts.all++; });
-  el('chips-tipo').innerHTML = TIPOS.map(function(t){ return cellHtml(t[1],'tipo',t[0],S.tipo===t[0],counts[t[0]]); }).join('');
+  el('kinds').innerHTML = TIPOS.map(function(t){ return '<button type="button" data-k="tipo" data-v="'+t[0]+'" aria-pressed="'+(S.tipo===t[0])+'">'+t[1]+' <small>'+counts[t[0]]+'</small></button>'; }).join('');
+
+  /* explorar: menor preço por continente, sem o próprio filtro de continente */
   var keepC = S.cont; S.cont = '';
-  var preC = base.filter(passBase).filter(passTipo); S.cont = keepC;
-  var cc = {}; preC.forEach(function(x){ var c = geo(x.d)[0]; cc[c] = (cc[c]||0)+1; });
-  el('chips-cont').innerHTML = cellHtml('Todos','cont','',S.cont==='',preC.length) + contList.map(function(c){ return cellHtml(c,'cont',c,S.cont===c,cc[c]||0); }).join('');
+  var preC = base.filter(passBase).filter(passTipo).filter(function(x){ return x.kind!=='nat' && x.price!=null; }); S.cont = keepC;
+  var agg = {}, allMin = null, allD = {};
+  preC.forEach(function(x){ var c = geo(x.d)[0]; var a = agg[c] || (agg[c] = {min:null, d:{}}); if(a.min==null || x.price<a.min) a.min = x.price; a.d[x.d] = 1; if(allMin==null || x.price<allMin) allMin = x.price; allD[x.d] = 1; });
+  var tiles = '<button type="button" class="tile" data-k="cont" data-v="" aria-pressed="'+(S.cont==='')+'"><span class="nm">Todos os destinos</span><span class="from">'+Object.keys(allD).length+' destinos</span><span class="from">a partir de <b>'+(allMin!=null?brl(allMin):'n/d')+'</b></span></button>';
+  CONT_ORDER.forEach(function(c){ if(!agg[c]) return; var a = agg[c], n = Object.keys(a.d).length; tiles += '<button type="button" class="tile" data-k="cont" data-v="'+esc(c)+'" data-c="'+CONT_KEY[c]+'" aria-pressed="'+(S.cont===c)+'"><span class="nm"><span class="dot"></span>'+esc(c)+'</span><span class="from">'+n+(n===1?' destino':' destinos')+'</span><span class="from">a partir de <b>'+brl(a.min)+'</b></span></button>'; });
+  el('explore').innerHTML = tiles;
 
   var list = pre.filter(passTipo);
   var groups = groupBy(list);
 
-  /* resumo da origem, sem filtros */
   var all0 = base.filter(function(x){ return x.kind!=='nat' && x.price!=null; }).sort(byPrice);
   var dst0 = {}; all0.forEach(function(x){ dst0[x.d] = 1; });
   el('summary').textContent = all0.length ? Object.keys(dst0).length+' destinos saindo de '+GROUP_NAME[S.g]+'. O menor preço de ida e volta é '+brl(all0[0].price)+' para '+city(all0[0].d)+'.' : 'Nenhuma oferta saindo de '+GROUP_NAME[S.g]+' agora.';
+
+  /* ordenar: o valor de cada critério ao lado do nome, como no Kayak */
+  var bests = groups.map(function(g){ return g.best; });
+  var minP = null, minM = null, minD = null;
+  bests.forEach(function(x){ if(x.price!=null && (minP==null||x.price<minP)) minP = x.price; if(x.mi && (minM==null||x.mi<minM)) minM = x.mi; if(minD==null||x.dk<minD) minD = x.dk; });
+  var dnear = bests.filter(function(x){ return x.dk===minD; })[0];
+  var SORTS = [['price','Menor preço', minP!=null?brl(minP):''],['miles','Menos milhas', minM!=null?nf(minM):''],['date','Data mais próxima', dnear?dates(dnear).split(' ')[0]:'']];
+  el('sort').innerHTML = SORTS.map(function(s){ return '<button type="button" data-k="sort" data-v="'+s[0]+'" aria-pressed="'+(S.sort===s[0])+'">'+s[1]+(s[2]?'<small>'+s[2]+'</small>':'')+'</button>'; }).join('');
 
   var act = [];
   if(S.q) act.push(['q','Busca: '+S.q]);
@@ -1122,16 +1177,18 @@ function render(){
   if(S.prog) act.push(['prog',S.prog]);
   if(S.max!=null) act.push(['max','até R$ '+nf(S.max)]);
   if(S.same) act.push(['same','mesmo programa']);
-  el('active').innerHTML = act.length ? '<span class="lab">Filtros ativos</span>'+act.map(function(a){ return '<button type="button" class="cell" data-clear="'+a[0]+'">'+esc(a[1])+' ×</button>'; }).join('')+'<button type="button" class="cell" data-clear="all">Limpar tudo</button>' : '';
+  el('active').innerHTML = act.length ? act.map(function(a){ return '<button type="button" class="chip" data-clear="'+a[0]+'" aria-label="Remover filtro: '+esc(a[1])+'">'+esc(a[1])+ICON_X+'</button>'; }).join('')+'<button type="button" class="chip clear" data-clear="all">Limpar tudo</button>' : '';
   var nfilt = (S.reg?1:0)+(S.prog?1:0)+(S.max!=null?1:0)+(S.same?1:0);
-  el('f-sum').textContent = nfilt ? 'Mais filtros ('+nfilt+' ativos)' : 'Mais filtros';
+  el('f-n').hidden = nfilt===0; el('f-n').textContent = nfilt;
 
   var tn = {all:'Todas as ofertas',cash:'Ida e volta em dinheiro',x:'Milhas, ida e volta',nat:'Milhas, um trecho'};
   el('r-title').textContent = tn[S.tipo];
-  el('r-cnt').textContent = groups.length+(groups.length===1?' destino':' destinos')+', '+list.length+(list.length===1?' oferta':' ofertas')+' saindo de '+GROUP_NAME[S.g]+(act.length?', com os filtros escolhidos':'')+'.';
+  el('r-cnt').textContent = groups.length+(groups.length===1?' destino':' destinos')+' e '+list.length+(list.length===1?' oferta':' ofertas')+' saindo de '+GROUP_NAME[S.g]+(act.length?', com os filtros escolhidos':'');
   var shown = groups.slice(0, S.page*PAGE);
-  el('grid').innerHTML = shown.length ? shown.map(rowHtml).join('') :
-    '<tr><td colspan="5"><div class="empty"><h3>Nenhuma oferta com esses filtros.</h3><p>Limpe os filtros ou aumente o preço máximo.</p><button type="button" class="btn" data-clear="all">Limpar filtros</button></div></td></tr>';
+  var maxP = 0; shown.forEach(function(g){ if(g.best.price!=null && g.best.price>maxP) maxP = g.best.price; });
+  var COLS = '<li class="cols" aria-hidden="true"><span>Destino</span><span>Datas e rota</span><span>Como pagar</span><span class="pr">Ida e volta, a partir de<small>sem taxas de embarque</small></span><span></span></li>';
+  el('grid').innerHTML = shown.length ? COLS + shown.map(function(g,i){ return rowHtml(g,i,maxP,minP); }).join('') :
+    '<li class="empty"><h3>Nenhuma oferta com esses filtros</h3><p>Tente outro continente, aumente o preço máximo ou limpe os filtros.</p><button type="button" class="btn pri" data-clear="all">Limpar filtros</button></li>';
   el('more').hidden = groups.length <= shown.length;
   el('more').textContent = 'Mostrar mais destinos ('+(groups.length-shown.length)+')';
 }
@@ -1152,27 +1209,39 @@ function setGroup(g,fromHash){
   if(!fromHash){ try{ location.hash = g==='VCP' ? 'campinas' : 'sao-paulo'; }catch(e){} }
   render();
 }
+function togglePop(open){ el('pop').hidden = !open; el('f-btn').setAttribute('aria-expanded', open ? 'true' : 'false'); }
+
 document.querySelectorAll('[role="tab"]').forEach(function(b){ b.addEventListener('click', function(){ setGroup(b.getAttribute('data-o')); }); });
-el('chips-tipo').addEventListener('click', function(e){ var b = e.target.closest('.cell'); if(!b) return; S.tipo = b.getAttribute('data-v'); S.page = 1; render(); });
-el('chips-cont').addEventListener('click', function(e){ var b = e.target.closest('.cell'); if(!b) return; S.cont = b.getAttribute('data-v'); S.reg=''; S.page = 1; render(); });
+function choice(e){
+  var b = e.target.closest('[data-k]'); if(!b) return;
+  var k = b.getAttribute('data-k'), v = b.getAttribute('data-v');
+  if(k==='tipo') S.tipo = v; if(k==='cont'){ S.cont = v; S.reg = ''; } if(k==='sort') S.sort = v;
+  S.page = 1; render();
+}
+['kinds','explore','sort'].forEach(function(id){ el(id).addEventListener('click', choice); });
 el('active').addEventListener('click', function(e){ var b = e.target.closest('[data-clear]'); if(b) clearOne(b.getAttribute('data-clear')); });
 el('grid').addEventListener('click', function(e){
   var c = e.target.closest('[data-clear]'); if(c){ clearOne(c.getAttribute('data-clear')); return; }
   var m = e.target.closest('.more'); if(!m) return;
   var row = el(m.getAttribute('data-alt')), open = row.hidden;
   row.hidden = !open; m.setAttribute('aria-expanded', open ? 'true' : 'false');
-  m.textContent = open ? 'Fechar opções' : 'Ver '+row.querySelectorAll('.opt').length+' opções';
+  m.firstChild.textContent = open ? 'Fechar opções' : 'Ver '+row.querySelectorAll('.opt').length+' opções';
 });
 el('q').addEventListener('input', function(){ S.q = el('q').value.trim(); S.page = 1; render(); });
 el('f-reg').addEventListener('change', function(){ S.reg = el('f-reg').value; S.page = 1; render(); });
 el('f-prog').addEventListener('change', function(){ S.prog = el('f-prog').value; S.page = 1; render(); });
 el('f-max').addEventListener('input', function(){ var v = el('f-max').value; S.max = v==='' ? null : Number(v); S.page = 1; render(); });
 el('f-same').addEventListener('change', function(){ S.same = el('f-same').checked; S.page = 1; render(); });
-el('sort').addEventListener('change', function(){ S.sort = el('sort').value; S.page = 1; render(); });
+el('f-clear').addEventListener('click', function(){ clearOne('all'); });
 el('more').addEventListener('click', function(){ S.page++; render(); });
+el('f-btn').addEventListener('click', function(){ togglePop(el('pop').hidden); });
+document.addEventListener('click', function(e){ if(!el('pop').hidden && !e.target.closest('.fwrap')) togglePop(false); });
+document.addEventListener('keydown', function(e){
+  if(e.key==='Escape' && !el('pop').hidden){ togglePop(false); el('f-btn').focus(); }
+  if(e.key==='/' && !/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)){ e.preventDefault(); el('q').focus(); }
+});
 function fromHash(){ var h = location.hash.replace('#',''); setGroup(h==='sao-paulo' ? 'SP' : 'VCP', true); }
 window.addEventListener('hashchange', fromHash);
-el('filters').open = !(window.matchMedia && window.matchMedia('(max-width:60rem)').matches);
 fromHash();
 </script>
 </body>

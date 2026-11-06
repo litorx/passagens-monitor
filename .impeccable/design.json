@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-06T20:00:00.000Z",
+  "title": "Design System: Passagens baratas de São Paulo e Campinas",
+  "extensions": {
+    "colorMeta": {
+      "shell": { "role": "primary", "displayName": "Verde-floresta da casca", "canonical": "oklch(33% 0.085 165)", "tonalRamp": ["oklch(18% 0.05 165)", "oklch(26% 0.07 165)", "oklch(33% 0.085 165)", "oklch(44% 0.1 165)", "oklch(56% 0.12 160)", "oklch(70% 0.12 155)", "oklch(84% 0.08 155)", "oklch(94% 0.04 155)"] },
+      "deal": { "role": "secondary", "displayName": "Verde de oferta", "canonical": "oklch(46% 0.14 152)", "tonalRamp": ["oklch(22% 0.07 152)", "oklch(34% 0.1 152)", "oklch(46% 0.14 152)", "oklch(56% 0.16 150)", "oklch(66% 0.16 150)", "oklch(78% 0.12 150)", "oklch(88% 0.08 150)", "oklch(94.5% 0.06 150)"] },
+      "ink": { "role": "neutral", "displayName": "Tinta verde-escura", "canonical": "oklch(24% 0.035 165)", "tonalRamp": ["oklch(24% 0.035 165)", "oklch(40% 0.03 165)", "oklch(48% 0.027 165)", "oklch(76% 0.022 165)", "oklch(89.5% 0.013 165)", "oklch(95.6% 0.014 165)", "oklch(98.4% 0.005 165)", "oklch(99.7% 0.003 165)"] }
+    },
+    "typographyMeta": {
+      "price": { "displayName": "Preço", "purpose": "O preço de cada linha, sempre a maior fonte da linha." },
+      "display": { "displayName": "Título", "purpose": "Título da página, uma vez." }
+    },
+    "shadows": [
+      { "name": "popover", "value": "0 12px 28px -10px oklch(24% 0.035 165 / 0.28), 0 2px 6px oklch(24% 0.035 165 / 0.08)", "purpose": "Só o painel de filtros aberto, que flutua sobre a lista." }
+    ],
+    "motion": [
+      { "name": "ease", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Mudança de estado em 160 ms: cor, borda, rotação do chevron." }
+    ],
+    "breakpoints": [
+      { "name": "linha em dois níveis", "value": "64rem" },
+      { "name": "casca em duas linhas, controles de 44 px", "value": "52rem" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Botão primário",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Ação principal da linha: resgatar a ida ou ver o voo.",
+      "html": "<a class=\"ds-btn-pri\" href=\"#\">Resgatar ida</a>",
+      "css": ".ds-btn-pri{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 12px;border:1px solid oklch(33% 0.085 165);border-radius:10px;background:oklch(33% 0.085 165);color:oklch(98.5% 0.01 160);font-weight:700;font-size:0.875rem;text-decoration:none;transition:background-color 160ms cubic-bezier(0.22,1,0.36,1)}.ds-btn-pri:hover{background:oklch(40% 0.09 165)}.ds-btn-pri:focus-visible{outline:2px solid oklch(52% 0.16 152);outline-offset:2px}.ds-btn-pri:active{transform:translateY(1px)}"
+    },
+    {
+      "name": "Botão secundário",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Ação secundária da linha: resgatar a volta.",
+      "html": "<a class=\"ds-btn-sec\" href=\"#\">Resgatar volta</a>",
+      "css": ".ds-btn-sec{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 12px;border:1px solid oklch(76% 0.022 165);border-radius:10px;background:oklch(99.7% 0.003 165);color:oklch(24% 0.035 165);font-weight:700;font-size:0.875rem;text-decoration:none;transition:background-color 160ms cubic-bezier(0.22,1,0.36,1)}.ds-btn-sec:hover{background:oklch(95.6% 0.014 165);border-color:oklch(48% 0.027 165)}.ds-btn-sec:focus-visible{outline:2px solid oklch(52% 0.16 152);outline-offset:2px}"
+    },
+    {
+      "name": "Bloco de continente",
+      "kind": "chip",
+      "refersTo": "tile-continent",
+      "description": "Filtro por continente, com o menor preço da região.",
+      "html": "<button class=\"ds-tile\" aria-pressed=\"false\"><span class=\"ds-nm\"><span class=\"ds-dot\"></span>Europa</span><span class=\"ds-from\">3 destinos</span><span class=\"ds-from\">a partir de <b>R$ 1.650</b></span></button>",
+      "css": ".ds-tile{display:grid;gap:2px;text-align:left;padding:12px 16px;border:1px solid oklch(89.5% 0.013 165);border-radius:12px;background:oklch(99.7% 0.003 165);color:oklch(24% 0.035 165);font:inherit;min-width:12rem}.ds-tile:hover{border-color:oklch(76% 0.022 165)}.ds-tile[aria-pressed=true]{border-color:oklch(33% 0.085 165);box-shadow:inset 0 0 0 1px oklch(33% 0.085 165)}.ds-nm{display:flex;align-items:center;gap:8px;font-weight:700}.ds-dot{width:10px;height:10px;border-radius:50%;background:oklch(64% 0.15 285)}.ds-from{font-size:0.875rem;color:oklch(40% 0.03 165)}.ds-from b{color:oklch(24% 0.035 165);white-space:nowrap}"
+    },
+    {
+      "name": "Preço da linha",
+      "kind": "custom",
+      "refersTo": "price",
+      "description": "Preço em reais com milhas abaixo e a barra de comparação.",
+      "html": "<div class=\"ds-price\"><span class=\"ds-big\"><i>R$</i>240</span><span class=\"ds-mi\">17.800 milhas no total</span><span class=\"ds-bar\"><i style=\"width:10%\"></i></span></div>",
+      "css": ".ds-price{text-align:right;font-variant-numeric:tabular-nums lining-nums}.ds-big{display:block;font-size:1.62rem;font-weight:800;line-height:1.1;letter-spacing:-0.02em}.ds-big i{font-style:normal;font-size:0.875rem;font-weight:700;margin-right:3px;color:oklch(40% 0.03 165)}.ds-mi{display:block;font-size:0.875rem;color:oklch(40% 0.03 165)}.ds-bar{display:block;height:4px;border-radius:2px;background:oklch(95.6% 0.014 165);margin-top:8px;overflow:hidden}.ds-bar i{display:block;height:100%;background:oklch(62% 0.16 150)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "A etiqueta de preço no balcão",
+    "overview": "A página se lê como uma etiqueta de preço: uma linha por destino, o preço como a coisa maior da linha, e a comparação evidente sem abrir nada. É uma ferramenta de trabalho, então a organização segue o que quem compra passagem já conhece.",
+    "keyCharacteristics": [
+      "Uma família de fonte só, Hanken Grotesk, com números tabulares e pesados nos preços.",
+      "Cor que trabalha: verde profundo na casca e no botão principal, verde claro só para o menor preço, uma cor de continente por região.",
+      "Superfícies planas com linha fina; sombra só no painel de filtros aberto.",
+      "Cada preço diz o que inclui e o que não inclui, ao lado do preço.",
+      "Densidade de ferramenta, com alvos de toque de 44 pixels no celular."
+    ],
+    "rules": [
+      { "name": "A Regra do Verde Escasso", "body": "Preenchimento verde sólido existe só na casca, no botão principal e na barra do menor preço.", "section": "colors" },
+      { "name": "A Regra do Atlas Nomeado", "body": "A cor de continente nunca carrega significado sozinha: sempre vem com o nome.", "section": "colors" },
+      { "name": "A Regra do Número que Alinha", "body": "Todo número usa algarismos tabulares e alinhados à linha de base.", "section": "typography" },
+      { "name": "A Regra da Superfície Plana", "body": "Cartões e linhas não têm sombra. Sombra só aparece quando algo flutua sobre outra coisa.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do manter o preço como a maior fonte de cada linha e alinhado à direita.",
+      "Do dizer, junto do preço, o que ele inclui e que é um piso.",
+      "Do usar a cor de continente sempre com o nome do continente.",
+      "Do manter tamanho de botão e vocabulário de controle iguais em toda a página.",
+      "Do limitar o verde sólido à casca, ao botão principal e à barra do menor preço."
+    ],
+    "donts": [
+      "Don't voltar à faixa preta com fonte monoespaçada, ao vidro com mancha de cor ou a uma lista cinza com um único destaque.",
+      "Don't usar foto de destino.",
+      "Don't usar rótulo em maiúsculas espaçadas, linha colorida lateral, gradiente em texto ou sombra dura.",
+      "Don't escrever \"comprar\": a página manda para o programa conferir preço e disponibilidade.",
+      "Don't repetir em toda linha uma nota que o cabeçalho de colunas já diz, no desktop."
+    ]
+  }
+}

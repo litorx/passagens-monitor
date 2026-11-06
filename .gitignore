@@ -6,3 +6,6 @@ data/
 logs/
 .hallmark/
 docs/.hallmark/
+.impeccable/review/
+.impeccable/mocks/
+.impeccable/config.local.json
