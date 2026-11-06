@@ -53,13 +53,21 @@ function compute(raw, cfg = cfgDefault, today = hojeISO()) {
         if (n >= cfg.minStay && n <= cfg.maxStay) combos.push([a, b]);
       }));
       if (!combos.length) return;
+      // Prêmios de datas próximas esgotam rápido (conferido nos programas): só usa datas com antecedência,
+      // a menos que o alerta seja muito recente.
+      const antec = cfg.antecedenciaMinDias != null ? cfg.antecedenciaMinDias : 14;
+      const idade = Math.max(o.pub ? days(o.pub, today) : 99, r.pub ? days(r.pub, today) : 99);
+      const longe = combos.filter((c) => days(today, c[0]) >= antec);
+      const usar = longe.length ? longe : (idade <= 3 ? combos : []);
+      if (!usar.length) return;
+      const pick = [...new Set([0, Math.floor(usar.length / 2), usar.length - 1])].map((i) => usar[i]);
       const bo = brl(o), br = brl(r);
       const row = {
         oc: o.oc, dc: o.dc, dn: o.dn, rc: r.dc, po: prog(o.prog), pr: prog(r.prog),
         mo: o.miles, mr: r.miles, bo, br,
         tot: bo != null && br != null ? bo + br : null,
-        n: combos.length,
-        ex: combos.slice(0, 3).map((x) => x[0] + '>' + x[1]),
+        n: usar.length, idade,
+        ex: pick.map((x) => x[0] + '>' + x[1]),
         lo: o.link || '', lr: r.link || '',
       };
       const key = [row.oc, row.dc, row.rc, row.po, row.pr].join('|');
@@ -126,8 +134,11 @@ function top(rows, n = 5) {
   // resgate da LATAM: 9.649 mi era só a volta). Total de viagem só vem de dinheiro ou de ida + volta somadas.
   rows.cross.forEach((x) => x.tot != null && all.push({
     oc: x.oc, dc: x.dc, dn: x.dn, tipo: 'Milhas (ida + volta separadas)', brl: x.tot, miles: x.mo + x.mr,
-    desc: x.po === x.pr ? x.po : x.po + ' + ' + x.pr, volta: x.rc, datas: x.ex[0], links: linksCross(x, x.ex[0]),
+    desc: x.po === x.pr ? x.po : x.po + ' + ' + x.pr, volta: x.rc, datas: x.ex[0], links: linksCross(x, x.ex[0]), vs: x.vs, vat: x.vat, idade: x.idade,
   }));
+  // com conferência feita, o top só traz o que foi conferido (e dinheiro, que não passa por conferência)
+  const temConf = all.some((a) => a.vs === 'ok' || a.vs === 'parcial');
+  if (temConf) { const k = all.filter((a) => a.tipo === 'Dinheiro' || a.vs === 'ok' || a.vs === 'parcial'); all.length = 0; k.forEach((a) => all.push(a)); }
   all.sort((a, b) => a.brl - b.brl);
   const seen = new Set(), out = [];
   for (const a of all) {
@@ -177,4 +188,42 @@ function filtrar(rows, cfg = cfgDefault) {
   return { rows: out, escondidas: before - after };
 }
 
-module.exports = { compute, top, hojeISO, gf, awardLink, linksNat, linksCross, filtrar, regiao };
+
+// ---- conferência: troca o preço anunciado pelo preço real lido no programa ----
+const plat = (p) => ({ 'Azul Fidelidade': 'azul', Smiles: 'smiles', 'LATAM Pass': 'latam' }[String(p || '').split('/').pop()] || 'nv');
+function aplicarConferencia(rows, verified, cfg = cfgDefault) {
+  if (!verified || !Object.keys(verified).length) return { rows, esgotadas: 0, conferidas: 0 };
+  let esg = 0, conf = 0;
+  const cross = [];
+  rows.cross.forEach((x) => {
+    const pares = x.ex.map((par) => {
+      const [a, b] = par.split('>');
+      const vi = verified[[plat(x.po), x.oc, x.dc, a].join('|')];
+      const vv = verified[[plat(x.pr), x.dc, x.rc, b].join('|')];
+      const viv = vi && vi.status === 'ok' ? vi : null, vvv = vv && vv.status === 'ok' ? vv : null;
+      const sold = (vi && vi.status === 'esgotado') || (vv && vv.status === 'esgotado');
+      const mo = viv ? viv.mi : x.mo, mr = vvv ? vvv.mi : x.mr;
+      const unv = (plat(x.po) === 'nv') && (plat(x.pr) === 'nv');
+      return { par, sold, viv, vvv, mo, mr, checked: !!(viv || vvv), full: (viv || plat(x.po) === 'nv') && (vvv || plat(x.pr) === 'nv') && !unv };
+    });
+    const vivos = pares.filter((p) => !p.sold);
+    if (!vivos.length && pares.some((p) => p.sold)) { esg++; return; }
+    // melhor par: todos os trechos conferidos primeiro, depois o menor total em milhas
+    vivos.sort((p, q) => (q.full - p.full) || ((p.mo + p.mr) - (q.mo + q.mr)));
+    const best = vivos[0];
+    if (best && best.checked) {
+      const kO = x.mo ? x.bo / x.mo : 0, kR = x.mr ? x.br / x.mr : 0;
+      const y = { ...x, mo: best.mo, mr: best.mr, bo: Math.round(best.mo * kO), br: Math.round(best.mr * kR), vs: best.full ? 'ok' : 'parcial' };
+      y.tot = y.bo != null && y.br != null ? y.bo + y.br : null;
+      y.ex = [best.par, ...x.ex.filter((e) => e !== best.par)];
+      y.vat = [best.viv, best.vvv].filter(Boolean).map((v) => v.at).sort().pop();
+      conf++;
+      cross.push(y);
+    } else cross.push({ ...x, vs: 'nc' });
+  });
+  const num = (a, b) => (a == null && b == null ? 0 : a == null ? 1 : b == null ? -1 : a - b);
+  cross.sort((a, b) => num(a.tot, b.tot));
+  return { rows: { ...rows, cross }, esgotadas: esg, conferidas: conf };
+}
+
+module.exports = { aplicarConferencia,  compute, top, hojeISO, gf, awardLink, linksNat, linksCross, filtrar, regiao };

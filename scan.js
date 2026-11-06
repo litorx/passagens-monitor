@@ -34,8 +34,12 @@ async function main() {
       const ca = h.match(/≈ R\$ ([\d.]+) em dinheiro \(milheiro a R\$ ([\d.,]+)\)/);
       const cash = h.match(/R\$(.*?) · Econômica\s*R\$ ([\d.]+),\d\d/);
       const isMiles = m[4] === 'Milhas';
+      const pb = h.match(/Publicado em (\d+) de (\w+)/);
+      const MES = { jan: 0, fev: 1, mar: 2, abr: 3, mai: 4, jun: 5, jul: 6, ago: 7, set: 8, out: 9, nov: 10, dez: 11 };
+      let pub = null;
+      if (pb && MES[pb[2].slice(0, 3).toLowerCase()] != null) { const hoje = new Date(); const d = new Date(hoje.getFullYear(), MES[pb[2].slice(0, 3).toLowerCase()], +pb[1]); if (d > hoje) d.setFullYear(d.getFullYear() - 1); pub = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
       return {
-        oc: m[1], dc: m[3], dn: m[2].trim(), vt: isMiles ? 'miles' : 'cash',
+        oc: m[1], dc: m[3], dn: m[2].trim(), vt: isMiles ? 'miles' : 'cash', pub,
         miles: mi ? +mi[1].replace(/\./g, '') : null,
         prog: pr ? pr[1].trim() : '',
         brl: ca ? +ca[1].replace(/\./g, '') : (!isMiles && cash ? +cash[2].replace(/\./g, '') : null),

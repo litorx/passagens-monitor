@@ -27,6 +27,8 @@ function buildMessage(rows, scannedAt, siteUrl) {
       : t.desc.replace(/\//g, ' · ') + ', ida + volta separadas (volta por ' + t.volta + ')';
     linhas.push(NUM[i] + ' *' + dest + '* saindo de ' + (ORIGEM[t.oc] || t.oc));
     linhas.push('💰 ' + valor);
+    const conf = t.vs === 'ok' ? '✅ Conferido no programa hoje' : t.vs === 'parcial' ? '⚠️ Conferido só em parte' : (t.tipo === 'Dinheiro' ? '' : '⚠️ Ainda não conferido no programa');
+    if (conf) linhas.push(conf);
     linhas.push('📅 ' + par(t.datas) + ' · ' + como);
     const L = t.links || {};
     if (t.tipo === 'Dinheiro') linhas.push('🔗 Ver voo: ' + L.gf);

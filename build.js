@@ -2,11 +2,15 @@
 const fs = require('fs');
 const path = require('path');
 const cfg = require('./config.json');
-const { compute, top, gf, linksNat, linksCross, filtrar } = require('./compute');
+const { compute, top, gf, linksNat, linksCross, filtrar, aplicarConferencia } = require('./compute');
 
 function main() {
   const raw = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'raw.json'), 'utf8'));
-  const { rows, escondidas } = filtrar(compute(raw, cfg), cfg);
+  const filt = filtrar(compute(raw, cfg), cfg);
+  let verified = {};
+  try { verified = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'verified.json'), 'utf8')); } catch {}
+  const ap = aplicarConferencia(filt.rows, verified, cfg);
+  const rows = ap.rows, escondidas = filt.escondidas;
   const s = (v) => (v == null ? '' : String(v));
   const md = (d) => d.slice(5);
   const u = (v) => (v || '').replace(/;/g, '%3B').replace(/\s/g, '%20');
@@ -15,7 +19,7 @@ function main() {
   const lines = [];
   rows.nat.forEach((x) => { const l = linksNat(x, firstPar(x)); lines.push(['N', x.oc, x.dc, x.prog, x.miles, s(x.brl), x.ida.map(md).join(' '), x.volta.map(md).join(' '), u(l.gf), u(l.prog)].join(';')); });
   rows.cash.forEach((x) => { const [a, b] = x.pairs[0].split('>'); lines.push(['C', x.oc, x.dc, x.brl, x.pairs.map(sp).join(' '), x.cia, u(x.link || gf(x.oc, x.dc, a, b))].join(';')); });
-  rows.cross.forEach((x) => { const l = linksCross(x, x.ex[0]); lines.push(['X', x.oc, x.dc, x.rc, x.po, x.pr, x.mo, x.mr, s(x.bo), s(x.br), x.n, x.ex.map(sp).join(' '), u(l.gfIda), u(l.gfVolta), u(l.progIda), u(l.progVolta)].join(';')); });
+  rows.cross.forEach((x) => { const l = linksCross(x, x.ex[0]); lines.push(['X', x.oc, x.dc, x.rc, x.po, x.pr, x.mo, x.mr, s(x.bo), s(x.br), x.n, x.ex.map(sp).join(' '), u(l.gfIda), u(l.gfVolta), u(l.progIda), u(l.progVolta), s(x.idade), s(x.vs), s(x.vat)].join(';')); });
 
   const when = new Date(raw.scannedAt);
   const p = (n) => String(n).padStart(2, '0');
@@ -36,6 +40,6 @@ function main() {
   fs.writeFileSync(path.join(__dirname, 'docs', 'index.html'), html);
   fs.writeFileSync(path.join(__dirname, 'data', 'rows.json'), JSON.stringify({ rows, top5: top(rows, 5), scannedAt: raw.scannedAt }));
   const c = (f) => ['nat', 'cash', 'cross'].map((k) => rows[k].filter((x) => f(x.oc)).length).join('/');
-  console.log('OK docs/index.html', html.length, 'bytes | Campinas nat/cash/cross', c((o) => o === 'VCP'), '| São Paulo', c((o) => o !== 'VCP'), '| escondidas', escondidas);
+  console.log('OK docs/index.html', html.length, 'bytes | Campinas nat/cash/cross', c((o) => o === 'VCP'), '| São Paulo', c((o) => o !== 'VCP'), '| escondidas', escondidas, '| conferidas', ap.conferidas, '| esgotadas (removidas)', ap.esgotadas);
 }
 main();

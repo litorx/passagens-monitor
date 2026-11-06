@@ -250,6 +250,7 @@ svg.i { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor;
             <div class="field"><label for="f-prog">Programa de milhas</label><select id="f-prog"><option value="">Todos</option></select></div>
             <div class="field"><label for="f-max">Preço máximo em reais</label><input type="number" id="f-max" min="0" step="50" inputmode="numeric" placeholder="sem limite"></div>
             <label class="check"><input type="checkbox" id="f-same"> Só no mesmo programa</label>
+            <label class="check"><input type="checkbox" id="f-conf"> Só ofertas conferidas no programa</label>
             <button type="button" class="btn" id="f-clear">Limpar filtros</button>
           </div>
         </div>
@@ -354,7 +355,7 @@ DATA.split('\n').forEach(function(l){
   var f = l.split(';'), k = f[0], it = null;
   if(k==='N') it = {kind:'nat',o:f[1],d:f[2],prog:f[3],mi:+f[4],price:num(f[5]),ida:f[6],volta:f[7],gf:f[8]||'',pl:f[9]||''};
   else if(k==='C') it = {kind:'cash',o:f[1],d:f[2],price:+f[3],pairs:f[4].split(' ').filter(Boolean),cia:f[5]||'',gf:f[6]||''};
-  else if(k==='X'){ it = {kind:'x',o:f[1],d:f[2],r:f[3],po:f[4],pr:f[5],mo:+f[6],mr:+f[7],bo:num(f[8]),br:num(f[9]),n:+f[10],ex:f[11].split(' ').filter(Boolean),gfo:f[12]||'',gfv:f[13]||'',plo:f[14]||'',plv:f[15]||''}; it.price = (it.bo!=null && it.br!=null) ? it.bo + it.br : null; it.same = it.po===it.pr; it.mi = it.mo + it.mr; }
+  else if(k==='X'){ it = {kind:'x',o:f[1],d:f[2],r:f[3],po:f[4],pr:f[5],mo:+f[6],mr:+f[7],bo:num(f[8]),br:num(f[9]),n:+f[10],ex:f[11].split(' ').filter(Boolean),gfo:f[12]||'',gfv:f[13]||'',plo:f[14]||'',plv:f[15]||'',idade:(f[16]===''||f[16]==null)?null:+f[16],vs:f[17]||'',vat:f[18]||''}; it.price = (it.bo!=null && it.br!=null) ? it.bo + it.br : null; it.same = it.po===it.pr; it.mi = it.mo + it.mr; }
   if(!it) return;
   it.g = grp(it.o);
   if(it.kind==='cash') it.mi = Math.round(it.price/15*1000);
@@ -364,7 +365,8 @@ DATA.split('\n').forEach(function(l){
 });
 
 /* estado */
-var S = { g:'VCP', tipo:'all', cont:'', reg:'', prog:'', max:null, same:false, q:'', sort:'price', page:1 };
+var HAS_VER = items.some(function(x){ return x.kind==='x' && (x.vs==='ok' || x.vs==='parcial'); });
+var S = { g:'VCP', tipo:'all', cont:'', reg:'', prog:'', max:null, same:false, conf:HAS_VER, q:'', sort:'price', page:1 };
 var PAGE = 20;
 function el(id){ return document.getElementById(id); }
 var TIPOS = [['all','Todas'],['cash','Dinheiro'],['x','Milhas'],['nat','Um trecho']];
@@ -388,6 +390,7 @@ function passBase(x){
   }
   if(S.max!=null && (x.price==null || x.price>S.max)) return false;
   if(S.same && x.kind==='x' && !x.same) return false;
+  if(S.conf && x.kind==='x' && x.vs!=='ok' && x.vs!=='parcial') return false;
   if(S.q){ var h = hay(x), t = nz(S.q).split(/\s+/).filter(Boolean); for(var i=0;i<t.length;i++){ if(h.indexOf(t[i])<0) return false; } }
   return true;
 }
@@ -406,6 +409,15 @@ function groupBy(list){
   return out;
 }
 
+/* conferência */
+function hm(iso){ var d = new Date(iso); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+function vtag(x){
+  if(x.kind!=='x') return '';
+  if(x.vs==='ok') return '<span class="tag deal">conferido no programa'+(x.vat?' às '+hm(x.vat):'')+'</span>';
+  if(x.vs==='parcial') return '<span class="tag warn">conferido em parte</span>';
+  return '<span class="tag warn">não conferido'+(x.idade!=null && x.idade<99 ? ', alerta de '+x.idade+(x.idade===1?' dia':' dias') : '')+'</span>';
+}
+
 /* linhas */
 function dates(x){ return x.kind==='cash' ? pair(x.pairs[0]) : x.kind==='x' ? pair(x.ex[0]) : pair(firstPair(x)); }
 function whenCell(x){
@@ -418,15 +430,15 @@ function whenCell(x){
 function payCell(x){
   if(x.kind==='cash') return '<b>Dinheiro</b>'+(x.cia?'<span>'+esc(x.cia)+'</span>':'');
   if(x.kind==='nat') return '<b>'+esc(progName(x.prog))+'</b><div class="tags"><span class="tag warn">preço de um trecho</span></div>';
-  if(x.same) return '<b>'+esc(progName(x.po))+'</b><span>na ida e na volta</span>';
-  return '<b>Ida: '+esc(progName(x.po))+'</b><span>Volta: '+esc(progName(x.pr))+'</span><div class="tags"><span class="tag warn">2 programas</span></div>';
+  if(x.same) return '<b>'+esc(progName(x.po))+'</b><span>na ida e na volta</span><div class="tags">'+vtag(x)+'</div>';
+  return '<b>Ida: '+esc(progName(x.po))+'</b><span>Volta: '+esc(progName(x.pr))+'</span><div class="tags"><span class="tag warn">2 programas</span>'+vtag(x)+'</div>';
 }
 function priceCell(x,max,best){
   var lab = x.kind==='nat' ? 'um trecho, a partir de' : 'ida e volta a partir de';
   var m, inc;
   if(x.kind==='cash'){ m = 'cerca de '+nf(Math.round(x.price/15))+' mil milhas, referência'; inc = 'Preço publicado. Confira a bagagem.'; }
   else if(x.kind==='nat'){ m = mi(x.mi)+' por trecho'; inc = 'Um trecho, sem taxas de embarque.'; }
-  else { m = mi(x.mi)+' no total'; inc = 'Valor mínimo, sem taxas de embarque.'; }
+  else { m = mi(x.mi)+' no total'; inc = x.vs==='ok' ? 'Preço lido no programa. Sem taxas de embarque.' : 'Valor mínimo, sem taxas de embarque.'; }
   var w = max>0 && x.price!=null ? Math.max(6, Math.round(x.price/max*100)) : 6;
   return '<span class="lab">'+lab+'</span><span class="big"><i>R$</i>'+nf(x.price)+'</span><span class="mi">'+m+'</span><span class="inc">'+inc+'</span><span class="bar'+(best?' best':'')+'" aria-hidden="true"><i style="width:'+w+'%"></i></span>';
 }
@@ -449,7 +461,7 @@ function optHtml(x,best){
   var ds = x.kind==='cash' ? x.pairs.slice(0,4).map(pair) : x.kind==='x' ? x.ex.slice(0,3).map(pair) : [pair(firstPair(x))];
   var links = x.kind==='x' ? btn(x.plo,'Resgatar ida','sm')+btn(x.plv,'Resgatar volta','sm')+btn(x.gfo,'Ver voo de ida','sm quiet')+btn(x.gfv,'Ver voo de volta','sm quiet')
             : x.kind==='cash' ? btn(x.gf,'Ver voo','sm') : btn(x.pl,'Resgatar','sm')+btn(x.gf,'Ver voo','sm quiet');
-  return '<div class="opt"><div><div class="p">'+brl(x.price)+'</div><div class="d">'+delta+'</div></div><div>'+legs+'</div><div>'+ds.map(function(t){return '<div class="leg">'+t+'</div>';}).join('')+'</div><div class="lk">'+links+'</div></div>';
+  return '<div class="opt"><div><div class="p">'+brl(x.price)+'</div><div class="d">'+delta+'</div><div class="d">'+vtag(x)+'</div></div><div>'+legs+'</div><div>'+ds.map(function(t){return '<div class="leg">'+t+'</div>';}).join('')+'</div><div class="lk">'+links+'</div></div>';
 }
 function rowHtml(g,i,max,minP){
   var b = g.best, gi = geo(g.d), n = g.items.length, id = 'alt-'+i, c = ckey(g.d);
@@ -518,8 +530,9 @@ function render(){
   if(S.prog) act.push(['prog',S.prog]);
   if(S.max!=null) act.push(['max','até R$ '+nf(S.max)]);
   if(S.same) act.push(['same','mesmo programa']);
+  if(S.conf) act.push(['conf','só conferidas']);
   el('active').innerHTML = act.length ? act.map(function(a){ return '<button type="button" class="chip" data-clear="'+a[0]+'" aria-label="Remover filtro: '+esc(a[1])+'">'+esc(a[1])+ICON_X+'</button>'; }).join('')+'<button type="button" class="chip clear" data-clear="all">Limpar tudo</button>' : '';
-  var nfilt = (S.reg?1:0)+(S.prog?1:0)+(S.max!=null?1:0)+(S.same?1:0);
+  var nfilt = (S.reg?1:0)+(S.prog?1:0)+(S.max!=null?1:0)+(S.same?1:0)+(S.conf?1:0);
   el('f-n').hidden = nfilt===0; el('f-n').textContent = nfilt;
 
   var tn = {all:'Todas as ofertas',cash:'Ida e volta em dinheiro',x:'Milhas, ida e volta',nat:'Milhas, um trecho'};
@@ -541,7 +554,8 @@ function clearOne(k){
   if(k==='prog') S.prog='';
   if(k==='max'){ S.max=null; el('f-max').value=''; }
   if(k==='same'){ S.same=false; el('f-same').checked=false; }
-  if(k==='all'){ S.q='';S.cont='';S.reg='';S.prog='';S.max=null;S.same=false;S.tipo='all'; el('q').value='';el('f-max').value='';el('f-same').checked=false; }
+  if(k==='conf'){ S.conf=false; el('f-conf').checked=false; }
+  if(k==='all'){ S.q='';S.cont='';S.reg='';S.prog='';S.max=null;S.same=false;S.conf=false;S.tipo='all'; el('q').value='';el('f-max').value='';el('f-same').checked=false;el('f-conf').checked=false; }
   S.page = 1; render();
 }
 function setGroup(g,fromHash){
@@ -573,6 +587,8 @@ el('f-reg').addEventListener('change', function(){ S.reg = el('f-reg').value; S.
 el('f-prog').addEventListener('change', function(){ S.prog = el('f-prog').value; S.page = 1; render(); });
 el('f-max').addEventListener('input', function(){ var v = el('f-max').value; S.max = v==='' ? null : Number(v); S.page = 1; render(); });
 el('f-same').addEventListener('change', function(){ S.same = el('f-same').checked; S.page = 1; render(); });
+el('f-conf').addEventListener('change', function(){ S.conf = el('f-conf').checked; S.page = 1; render(); });
+el('f-conf').checked = S.conf;
 el('f-clear').addEventListener('click', function(){ clearOne('all'); });
 el('more').addEventListener('click', function(){ S.page++; render(); });
 el('f-btn').addEventListener('click', function(){ togglePop(el('pop').hidden); });

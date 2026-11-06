@@ -1,7 +1,17 @@
 {
   "dashboard": "https://app.iurimilhas.com.br/dashboard",
-  "origins": ["VCP", "GRU", "CGH", "SAO"],
-  "returnAirports": ["VCP", "SAO", "GRU", "CGH"],
+  "origins": [
+    "VCP",
+    "GRU",
+    "CGH",
+    "SAO"
+  ],
+  "returnAirports": [
+    "VCP",
+    "SAO",
+    "GRU",
+    "CGH"
+  ],
   "minStay": 3,
   "maxStay": 30,
   "siteUrl": "https://litorx.github.io/passagens-monitor/",
@@ -16,5 +26,10 @@
       "europaOutros": 4500,
       "longaDistancia": 7000
     }
+  },
+  "antecedenciaMinDias": 14,
+  "conferencia": {
+    "topPorGrupo": 10,
+    "validadeHoras": 30
   }
 }
