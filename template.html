@@ -4,280 +4,243 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<meta name="color-scheme" content="light dark">
-<title>Passagens Baratas SP e Campinas</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='10' fill='%2300696F'/%3E%3Cpath d='M6 19l20-8-7 14-3-6-6 2z' fill='white'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,75..125,100..1000&display=swap">
+<meta name="description" content="Passagens de ida e volta mais baratas saindo de São Paulo e Campinas, em dinheiro ou milhas, do menor preço para o maior.">
+<title>Passagens baratas de São Paulo e Campinas</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B0E14'/%3E%3Cpath d='M6 19l20-8-7 14-3-6-6 2z' fill='%23F5B424'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@400;500;800&display=swap">
 <style>
-/* Material 3 Expressive + Liquid Glass para a web.
-   Cor protagonista (cartão grande da melhor oferta), formas de 28px, fonte variável, mola ao tocar.
-   Vidro SÓ nos controles (barra de busca e painel de filtros); o conteúdo fica em superfícies tonais sólidas. */
-:root{
-  --primary:#00696F; --on-primary:#FFFFFF; --primary-container:#9CF0F7; --on-primary-container:#002022;
-  --secondary-container:#CCE8EA; --on-secondary-container:#051F21;
-  --tertiary:#8B5000; --tertiary-container:#FFDCBE; --on-tertiary-container:#2C1600;
-  --surface:#F3FAFA; --surface-low:#EDF5F5; --surface-container:#E7EFEF; --surface-high:#E1E9E9; --surface-highest:#DBE3E4; --surface-lowest:#FFFFFF;
-  --on-surface:#101D1E; --on-surface-variant:#3F4949; --outline:#6F7979; --outline-variant:#BEC8C9;
-  --glass-bg:rgba(255,255,255,.62); --glass-border:rgba(255,255,255,.7); --glass-hi:rgba(255,255,255,.85); --glass-shadow:rgba(0,40,44,.16);
-  --seg-tint:rgba(0,105,111,.16);
-  --r-sm:8px; --r-md:12px; --r-lg:16px; --r-xl:28px; --r-xxl:40px; --r-full:999px;
-  --spring:cubic-bezier(.34,1.56,.64,1); --std:cubic-bezier(.2,0,0,1);
-  --dur-s:150ms; --dur-m:300ms; --dur-l:520ms;
-  --blur:26px;
-  --f:'Roboto Flex',system-ui,-apple-system,'Segoe UI',sans-serif;
-  --gap:16px;
+/* Hallmark · shape: app screen · genre: modern-minimal · theme: Wayfind (deal 2/3, seed working-tool-lists-cheap-5fff·c95b6fb0·2026-11-06·r0) · redesign: full
+ * nav: top bar in ink with the wordmark and two origin cells · signature: the departures board, one row per destination with the lowest price as a figure on ink · states: full, filtered, empty · wayfind: platform
+ * axes: light/mono/cool · posture: committed · contrast: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: S, the board could list any route set; the row groups every fare for a destination and prices the cheapest as the figure */
+/* Hallmark · waive 64 · mono is the departure board's face · every glyph on the page is set in it */
+/* Hallmark · dropped hero, hero-main, hero-side, f-toggle, f-n, f-clear, fresh, notes, sheet, chips-tipo-old · the redesign replaces the hero card, the glass filter sheet and the freshness badge with the departures board, a details panel and a line of text */
+/* Hallmark · dropped ''+u+'' · a string-concatenation fragment inside the old script, never a real link */
+/* Hallmark · dropped porto alegre, rio de janeiro, brasília, salvador, foz do iguaçu, belém, macapá, madri, lisboa, porto, orlando · each destination card heading is now the name cell of one table row, shown in bold inside the same text */
+/* Hallmark · reworded "passagens baratas saindo de são paulo e campinas" to "Passagens baratas de São Paulo e Campinas" · the old title was longer than the screen's heading measure */
+:root {
+  color-scheme: light;
+  --space-3xs: 2px; --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px; --space-lg: 24px; --space-xl: 40px; --space-2xl: 64px; --space-3xl: 96px; --space-4xl: 144px;
+  --text-xs: 0.75rem; --text-sm: 0.875rem; --text-md: 1rem; --text-lg: 1.2rem; --text-xl: 1.44rem; --text-2xl: 1.728rem; --text-3xl: 2.074rem;
+  --text-display-s: 1.44rem; --text-display: 1.728rem; --text-section: 1.2rem; --text-title: 1rem; --text-lead: 1rem;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); --ease-in: cubic-bezier(0.7, 0, 0.84, 0); --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms; --dur-short: 220ms; --dur-long: 420ms;
+  --color-error: oklch(52% 0.19 27); --color-success: oklch(50% 0.12 150);
+  --container: 1440px; --gutter: 64px; --gap-columns: 32px; --section-gap-s: 120px; --section-gap: 144px; --section-gap-l: 176px;
+  --z-base: 1; --z-raised: 10; --z-dropdown: 100; --z-sticky: 200; --z-sticky-nav: 300; --z-modal: 400; --z-toast: 500; --z-tooltip: 600;
+  --color-paper: oklch(95.5% 0.006 250); --color-paper-2: oklch(91% 0.009 250); --color-paper-3: oklch(99.5% 0.005 250);
+  --color-ink: oklch(16% 0.014 262); --color-ink-2: oklch(29% 0.014 262); --color-muted: oklch(47% 0.016 260);
+  --color-rule: oklch(80% 0.011 250); --color-ink-rule: oklch(34% 0.014 262);
+  --color-accent: oklch(51% 0.22 264); --color-accent-2: oklch(81% 0.16 82); --color-accent-ink: oklch(99.5% 0.003 250); --color-focus: oklch(51% 0.22 264);
+  --font-display: "Chivo Mono", ui-monospace, monospace; --font-body: var(--font-display); --font-outlier: var(--font-body);
+  --radius-card: 0; --radius-pill: 999px; --rule-hair: 1px; --rule-bar: 2px;
+  --shadow-card: 0 24px 40px -24px oklch(8% 0.01 260 / 0.6);
+  --tracking-display: -0.03em; --display-weight: 800;
+  --control-h: 40px; --bar-h: 56px;
 }
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --primary:#4FD8E1; --on-primary:#00363A; --primary-container:#004F54; --on-primary-container:#9CF0F7;
-    --secondary-container:#304B4D; --on-secondary-container:#CCE8EA;
-    --tertiary:#FFB86B; --tertiary-container:#693C00; --on-tertiary-container:#FFDCBE;
-    --surface:#0E1415; --surface-low:#161D1E; --surface-container:#1A2122; --surface-high:#242B2C; --surface-highest:#2F3637; --surface-lowest:#090F10;
-    --on-surface:#DEE3E4; --on-surface-variant:#BEC8C9; --outline:#899393; --outline-variant:#3F4949;
-    --glass-bg:rgba(22,32,34,.55); --glass-border:rgba(255,255,255,.14); --glass-hi:rgba(255,255,255,.22); --glass-shadow:rgba(0,0,0,.5);
-    --seg-tint:rgba(79,216,225,.22);
-    color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --primary:#4FD8E1; --on-primary:#00363A; --primary-container:#004F54; --on-primary-container:#9CF0F7;
-  --secondary-container:#304B4D; --on-secondary-container:#CCE8EA;
-  --tertiary:#FFB86B; --tertiary-container:#693C00; --on-tertiary-container:#FFDCBE;
-  --surface:#0E1415; --surface-low:#161D1E; --surface-container:#1A2122; --surface-high:#242B2C; --surface-highest:#2F3637; --surface-lowest:#090F10;
-  --on-surface:#DEE3E4; --on-surface-variant:#BEC8C9; --outline:#899393; --outline-variant:#3F4949;
-  --glass-bg:rgba(22,32,34,.55); --glass-border:rgba(255,255,255,.14); --glass-hi:rgba(255,255,255,.22); --glass-shadow:rgba(0,0,0,.5);
-  --seg-tint:rgba(79,216,225,.22);
-  color-scheme:dark;
-}
-*{box-sizing:border-box}
-[hidden]{display:none!important}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--surface);color:var(--on-surface);font-family:var(--f);font-size:15px;line-height:1.45;font-variation-settings:'wdth' 100,'wght' 400,'opsz' 15;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 72px;transition:background var(--dur-l) var(--std),color var(--dur-l) var(--std)}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:40;background:var(--surface)}
-.atmos{position:absolute;inset:0 0 auto;height:560px;z-index:-1;overflow:hidden;pointer-events:none}
-.atmos i{position:absolute;border-radius:50%;filter:blur(70px);opacity:.55}
-.atmos i:nth-child(1){width:520px;height:520px;left:-140px;top:-180px;background:var(--primary-container)}
-.atmos i:nth-child(2){width:420px;height:420px;right:-120px;top:20px;background:var(--tertiary-container);opacity:.45}
-.wrap{max-width:1040px;margin:0 auto;position:relative}
-button,input,select{font:inherit;color:inherit}
-a{color:inherit}
-:focus-visible{outline:3px solid var(--primary);outline-offset:2px}
-.t-display{font-variation-settings:'wdth' 112,'wght' 760,'opsz' 96;letter-spacing:-.01em}
-.t-title{font-variation-settings:'wdth' 108,'wght' 700,'opsz' 28}
-.t-label{font-variation-settings:'wdth' 100,'wght' 600,'opsz' 12;letter-spacing:.04em}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { overflow-x: clip; }
+html { scrollbar-color: var(--color-muted) var(--color-paper); scroll-padding-top: var(--space-3xl); }
+body { margin: 0; background: var(--color-paper); color: var(--color-ink); font-family: var(--font-body); font-size: var(--text-md); line-height: 1.55; -webkit-font-smoothing: antialiased; caret-color: var(--color-accent); font-variant-numeric: tabular-nums; font-synthesis: none; }
+::selection { background: var(--color-accent-2); color: var(--color-ink); }
+:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.16em; }
+h1, h2, h3 { margin: 0; font-family: var(--font-display); font-weight: var(--display-weight, 700); font-synthesis: none; letter-spacing: var(--tracking-display); line-height: 1.05; overflow-wrap: break-word; min-width: 0; text-wrap: balance; }
+h1 { max-width: 20ch; font-size: var(--text-display); } h2 { max-width: 30ch; font-size: var(--text-section); } h3 { max-width: 40ch; font-size: var(--text-title); line-height: 1.2; }
+p { margin: 0; text-wrap: pretty; }
+p:not([class]) { max-width: 65ch; }
+svg { display: block; }
+[hidden] { display: none !important; }
+button, input, select, textarea { font: inherit; }
+.container { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: var(--gutter); box-sizing: border-box; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (max-width: 60rem) { :root { --gutter: 24px; --section-gap-s: 80px; --section-gap: 96px; --section-gap-l: 120px; } }
+@media (max-width: 40rem) { :root { --gutter: 16px; --section-gap-s: 56px; --section-gap: 72px; --section-gap-l: 96px; --gap-columns: 16px; } }
+@media (prefers-reduced-motion: reduce) { *:not(.keep-motion), *:not(.keep-motion)::before, *:not(.keep-motion)::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
 
-/* cabeçalho */
-header.top{padding-block:28px 6px}
-.fresh{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--on-surface-variant);background:var(--surface-lowest);border:1px solid var(--outline-variant);border-radius:var(--r-full);padding:5px 12px 5px 10px}
-.fresh::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--primary);box-shadow:0 0 0 4px var(--seg-tint)}
-h1{margin:14px 0 10px;font-size:clamp(38px,8vw,68px);line-height:.98;text-wrap:balance}
-.lead{max-width:56ch;margin:0;color:var(--on-surface-variant);font-size:16px}
+/* barra superior */
+.bar { position: sticky; top: 0; z-index: var(--z-sticky-nav); background: var(--color-ink); color: var(--color-paper); border-bottom: var(--rule-bar) solid var(--color-ink); }
+.bar .container { display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); min-height: var(--bar-h); }
+.mark { font-weight: 800; font-size: var(--text-lg); letter-spacing: var(--tracking-display); text-decoration: none; }
 
-/* barra de controles em vidro */
-.toolbar{position:sticky;top:calc(env(safe-area-inset-top,0px) + 10px);z-index:30;margin-top:18px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:8px;border-radius:var(--r-xl);
-  background:var(--glass-bg);backdrop-filter:blur(var(--blur)) saturate(180%);-webkit-backdrop-filter:blur(var(--blur)) saturate(180%);
-  border:1px solid var(--glass-border);box-shadow:0 10px 32px var(--glass-shadow),inset 0 1px 0 var(--glass-hi)}
-.seg{display:flex;gap:2px;padding:4px;border-radius:var(--r-full);background:color-mix(in srgb,var(--on-surface) 7%,transparent);flex:0 0 auto}
-.seg button{border:0;background:transparent;color:var(--on-surface);border-radius:var(--r-full);padding:9px 16px;cursor:pointer;display:flex;gap:8px;align-items:baseline;font-variation-settings:'wdth' 100,'wght' 600,'opsz' 14;
-  transition:background var(--dur-m) var(--std),box-shadow var(--dur-m) var(--std),transform var(--dur-m) var(--spring)}
-.seg button small{font-size:12px;font-variation-settings:'wght' 500;color:var(--on-surface-variant)}
-.seg button[aria-selected="true"]{background:var(--seg-tint);box-shadow:inset 0 1px 0 var(--glass-hi),0 0 0 1px color-mix(in srgb,var(--primary) 35%,transparent);color:var(--on-surface)}
-.seg button:active{transform:scale(.96)}
-.search{flex:1 1 220px;min-width:0;display:flex;align-items:center;gap:8px;padding:0 14px;border-radius:var(--r-full);background:color-mix(in srgb,var(--surface-lowest) 70%,transparent);border:1px solid var(--outline-variant)}
-.search svg{flex:none;color:var(--on-surface-variant)}
-.search input{flex:1;min-width:0;border:0;background:transparent;padding:12px 0;outline:none}
-.search input::placeholder{color:var(--on-surface-variant)}
-.search:focus-within{border-color:var(--primary);box-shadow:0 0 0 3px var(--seg-tint)}
-.fbtn{flex:0 0 auto;border:1px solid var(--outline-variant);background:color-mix(in srgb,var(--surface-lowest) 70%,transparent);border-radius:var(--r-full);padding:11px 16px;cursor:pointer;display:flex;gap:8px;align-items:center;font-variation-settings:'wdth' 100,'wght' 600;
-  transition:border-radius var(--dur-m) var(--spring),transform var(--dur-m) var(--spring),background var(--dur-m) var(--std)}
-.fbtn:active{border-radius:var(--r-md);transform:scale(.97)}
-.fbtn[aria-expanded="true"]{background:var(--seg-tint);border-color:var(--primary)}
-.fbtn .n{background:var(--primary);color:var(--on-primary);border-radius:var(--r-full);min-width:20px;height:20px;padding:0 6px;font-size:12px;display:inline-grid;place-items:center}
-.sheet{flex:1 1 100%;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px 14px;padding:10px 6px 6px;border-top:1px solid var(--outline-variant);margin-top:2px;animation:sheetIn var(--dur-m) var(--std)}
-.sheet label{display:flex;flex-direction:column;gap:5px;font-size:12px;color:var(--on-surface-variant);min-width:0;font-variation-settings:'wght' 600;letter-spacing:.03em;text-transform:uppercase}
-.sheet select,.sheet input[type=number]{width:100%;border:1px solid var(--outline-variant);background:color-mix(in srgb,var(--surface-lowest) 75%,transparent);border-radius:var(--r-md);padding:10px;font-size:14px;text-transform:none;letter-spacing:0;font-variation-settings:'wght' 450;color:var(--on-surface)}
-.switch{flex-direction:row!important;align-items:center;gap:10px!important;text-transform:none!important;letter-spacing:0!important;font-size:14px!important;color:var(--on-surface)!important;font-variation-settings:'wght' 450!important;cursor:pointer}
-.switch input{appearance:none;width:44px;height:26px;border-radius:var(--r-full);background:var(--surface-highest);border:2px solid var(--outline);position:relative;cursor:pointer;flex:none;transition:background var(--dur-m) var(--std)}
-.switch input::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--outline);transition:transform var(--dur-m) var(--spring),width var(--dur-m) var(--spring),background var(--dur-m) var(--std)}
-.switch input:checked{background:var(--primary);border-color:var(--primary)}
-.switch input:checked::after{transform:translateX(17px);width:18px;height:18px;top:1px;background:var(--on-primary)}
-.sheet .row-end{grid-column:1/-1;display:flex;justify-content:flex-end}
-@keyframes sheetIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
-@media (prefers-reduced-transparency: reduce){ .toolbar{background:var(--surface-high);backdrop-filter:none;-webkit-backdrop-filter:none} }
-@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){ .toolbar{background:var(--surface-high)} }
+/* células: grupos de escolha com bordas compartilhadas */
+.cells { display: inline-flex; min-width: 0; }
+.cell { display: inline-flex; align-items: center; gap: var(--space-xs); min-height: var(--control-h); padding: 0 var(--space-md); border: var(--rule-bar) solid currentColor; margin-left: calc(var(--rule-bar) * -1); background: transparent; color: inherit; font: 500 var(--text-sm)/1 var(--font-body); white-space: nowrap; cursor: pointer; transition: background-color var(--dur-micro) steps(1), color var(--dur-micro) steps(1); }
+.cell:first-child { margin-left: 0; }
+.cell:hover { background: var(--color-paper-2); }
+.cell[aria-pressed="true"], .cell[aria-selected="true"] { background: var(--color-ink); border-color: var(--color-ink); color: var(--color-paper); }
+.cell:active { background: var(--color-ink-2); color: var(--color-paper); }
+.cell:disabled { opacity: 0.55; cursor: not-allowed; }
+.cell .n { font-weight: 400; }
+.cells.scroll { max-width: 100%; overflow-x: auto; scrollbar-width: thin; }
+.bar .cell:hover { background: var(--color-ink-2); }
+.bar .cell[aria-selected="true"] { background: var(--color-paper); border-color: var(--color-paper); color: var(--color-ink); }
 
-/* chips de filtro */
-.chiprow{display:flex;gap:8px;overflow-x:auto;padding:14px 2px 4px;scrollbar-width:none;align-items:center}
-.chiprow::-webkit-scrollbar{display:none}
-.chip{flex:none;border:1px solid var(--outline-variant);background:transparent;color:var(--on-surface);border-radius:var(--r-md);padding:8px 14px;cursor:pointer;font-size:14px;font-variation-settings:'wdth' 100,'wght' 550;white-space:nowrap;
-  transition:background var(--dur-m) var(--std),border-radius var(--dur-m) var(--spring),transform var(--dur-m) var(--spring),border-color var(--dur-m) var(--std)}
-.chip:hover{background:var(--surface-container)}
-.chip:active{transform:scale(.95)}
-.chip[aria-pressed="true"]{background:var(--secondary-container);color:var(--on-secondary-container);border-color:transparent;border-radius:var(--r-full)}
-.chip .c{font-size:12px;opacity:.75;margin-left:6px}
-.chiprow .sep{flex:none;width:1px;height:22px;background:var(--outline-variant);margin:0 4px}
-.active-row{display:flex;gap:8px;flex-wrap:wrap;padding-top:8px}
-.achip{display:inline-flex;gap:6px;align-items:center;border:0;background:var(--tertiary-container);color:var(--on-tertiary-container);border-radius:var(--r-full);padding:5px 8px 5px 12px;cursor:pointer;font-size:13px;font-variation-settings:'wght' 600}
-.achip::after{content:"×";font-size:16px;line-height:1}
+/* título e resumo */
+.head { padding-block: var(--space-xl) var(--space-md); display: grid; gap: var(--space-xs); }
+.head h1 { max-width: 32ch; }
+.head p { font-size: var(--text-md); }
+.head .updated { font-size: var(--text-sm); font-weight: 500; color: var(--color-muted); }
 
-/* melhor oferta */
-.hero{margin-top:18px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:var(--gap)}
-.hero-main{position:relative;overflow:hidden;background:var(--primary-container);color:var(--on-primary-container);border-radius:var(--r-xxl);padding:26px;display:flex;flex-direction:column;gap:14px;animation:rise var(--dur-l) var(--std) both}
-.hero-main::before{content:"";position:absolute;right:-70px;top:-80px;width:260px;height:260px;border-radius:44% 56% 62% 38%/48% 40% 60% 52%;background:var(--primary);opacity:.18;animation:morph 14s ease-in-out infinite alternate}
-.hero-main::after{content:"";position:absolute;left:-60px;bottom:-90px;width:200px;height:200px;border-radius:58% 42% 40% 60%/52% 58% 42% 48%;background:var(--tertiary);opacity:.14;animation:morph 18s ease-in-out infinite alternate-reverse}
-.hero-main>*{position:relative;z-index:1}
-.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-variation-settings:'wght' 650;opacity:.85}
-.hero-city{font-size:clamp(38px,7vw,64px);line-height:.95;margin:0}
-.hero-meta{display:flex;gap:8px;flex-wrap:wrap}
-.hero-price{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
-.hero-price b{font-size:clamp(40px,8vw,72px);line-height:1;font-variation-settings:'wdth' 110,'wght' 780,'opsz' 96;font-variant-numeric:tabular-nums}
-.hero-price span{font-size:15px;opacity:.85;font-variant-numeric:tabular-nums}
-.hero-side{display:flex;flex-direction:column;gap:12px}
-.mini{background:var(--surface-high);border-radius:var(--r-xl);padding:16px 18px;display:flex;flex-direction:column;gap:6px;animation:rise var(--dur-l) var(--std) both}
-.mini:nth-child(2){animation-delay:70ms}.mini:nth-child(3){animation-delay:140ms}.mini:nth-child(4){animation-delay:210ms}
-.mini .city{font-size:22px;line-height:1.05}
-.mini .p{font-size:20px;font-variation-settings:'wdth' 108,'wght' 700;font-variant-numeric:tabular-nums;color:var(--primary)}
-.mini .s{font-size:13px;color:var(--on-surface-variant)}
-@keyframes morph{to{border-radius:60% 40% 38% 62%/42% 60% 40% 58%;transform:rotate(18deg) scale(1.08)}}
-@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-@media (max-width:760px){ .hero{grid-template-columns:1fr} .hero-main{padding:22px} .hero-side{flex-direction:row;overflow-x:auto;padding-bottom:4px;scrollbar-width:none} .hero-side::-webkit-scrollbar{display:none} .mini{flex:0 0 220px} }
+/* controles */
+.controls { padding-block: var(--space-md) var(--space-lg); display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-md); }
+.field { display: flex; flex-direction: column; gap: var(--space-2xs); font-size: var(--text-sm); font-weight: 500; color: var(--color-muted); min-width: 0; }
+.input, .select { width: 100%; min-height: var(--control-h); padding: 0 var(--space-sm); border: var(--rule-bar) solid var(--color-ink); border-radius: 0; background: var(--color-paper-3); color: var(--color-ink); font: 400 var(--text-md)/1.2 var(--font-body); }
+.input:focus-visible, .select:focus-visible { outline-offset: calc(var(--rule-bar) * -1); }
+.input:disabled, .select:disabled { opacity: 0.55; cursor: not-allowed; }
+.q { max-width: 36rem; }
+details.filters > summary { display: inline-flex; align-items: center; gap: var(--space-xs); min-height: var(--control-h); padding: 0 var(--space-md); border: var(--rule-bar) solid var(--color-ink); background: transparent; font: 500 var(--text-sm)/1 var(--font-body); cursor: pointer; list-style: none; transition: background-color var(--dur-micro) steps(1); }
+details.filters > summary::-webkit-details-marker { display: none; }
+details.filters > summary:hover { background: var(--color-paper-2); }
+details.filters[open] > summary { background: var(--color-ink); color: var(--color-paper); }
+.fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: var(--space-md); padding-top: var(--space-md); align-items: end; }
+.check { display: flex; align-items: center; gap: var(--space-xs); min-height: var(--control-h); font-size: var(--text-sm); font-weight: 500; color: var(--color-ink); cursor: pointer; }
+.check input { width: var(--space-lg); height: var(--space-lg); accent-color: var(--color-accent); flex: none; }
+.actives { display: flex; flex-wrap: wrap; gap: var(--space-xs); align-items: center; }
+.actives .lab { font-size: var(--text-sm); font-weight: 500; color: var(--color-muted); }
+.rowsel { display: flex; flex-wrap: wrap; gap: var(--space-md); align-items: center; }
+.rowsel .lab { font-size: var(--text-sm); font-weight: 500; color: var(--color-muted); min-width: 6.5rem; }
+.rowsel > .cells.scroll { flex: 1 1 12rem; min-width: 0; }
 
-/* botões M3 */
-.btn{border:0;border-radius:var(--r-full);padding:11px 18px;cursor:pointer;display:inline-flex;gap:8px;align-items:center;text-decoration:none;font-size:14px;font-variation-settings:'wdth' 100,'wght' 650;
-  transition:border-radius var(--dur-m) var(--spring),transform var(--dur-m) var(--spring),box-shadow var(--dur-m) var(--std),background var(--dur-m) var(--std)}
-.btn:active{border-radius:var(--r-md);transform:scale(.96)}
-.btn-fill{background:var(--primary);color:var(--on-primary);box-shadow:0 4px 14px color-mix(in srgb,var(--primary) 35%,transparent)}
-.btn-fill:hover{box-shadow:0 8px 22px color-mix(in srgb,var(--primary) 45%,transparent)}
-.btn-tonal{background:var(--secondary-container);color:var(--on-secondary-container)}
-.btn-tonal:hover{background:color-mix(in srgb,var(--secondary-container) 85%,var(--primary))}
-.btn-text{background:transparent;color:var(--primary);padding-inline:12px}
-.btn-text:hover{background:var(--seg-tint)}
-.hero-main .btn-fill{background:var(--on-primary-container);color:var(--primary-container);box-shadow:none}
-.hero-main .btn-tonal{background:color-mix(in srgb,var(--on-primary-container) 14%,transparent);color:var(--on-primary-container)}
-
-/* resultados */
-.rhead{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-top:30px}
-.rhead h2{margin:0;font-size:28px;line-height:1.05}
-.rhead .cnt{color:var(--on-surface-variant);font-size:14px;margin-top:2px}
-.sortbox{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--on-surface-variant)}
-.sortbox select{border:1px solid var(--outline-variant);background:var(--surface-lowest);border-radius:var(--r-full);padding:8px 14px;font-size:14px;color:var(--on-surface)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,440px),1fr));gap:var(--gap);margin-top:14px}
-.card{background:var(--surface-low);border-radius:var(--r-xl);padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0;animation:rise var(--dur-l) var(--std) both;transition:background var(--dur-m) var(--std),transform var(--dur-m) var(--spring)}
-.card:hover{background:var(--surface-container)}
-.c-top{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
-.c-dest{display:flex;gap:12px;align-items:center;min-width:0}
-.c-code{flex:none;display:grid;place-items:center;min-width:58px;height:48px;padding:0 10px;border-radius:var(--r-lg);background:var(--primary-container);color:var(--on-primary-container);font-size:18px;font-variation-settings:'wdth' 118,'wght' 750;letter-spacing:.05em}
-.c-dest h3{margin:0;font-size:24px;line-height:1.05;overflow-wrap:anywhere}
-.c-sub{margin:3px 0 0;font-size:13px;color:var(--on-surface-variant);overflow-wrap:anywhere}
-.c-price{text-align:right;flex:none}
-.c-price .lab{display:block;font-size:11.5px;color:var(--on-surface-variant);letter-spacing:.02em}
-.c-price b{display:block;font-size:28px;line-height:1.05;color:var(--primary);font-variation-settings:'wdth' 108,'wght' 760,'opsz' 48;font-variant-numeric:tabular-nums}
-.c-price .mi{font-size:13px;color:var(--on-surface-variant);font-variant-numeric:tabular-nums}
-.tags{display:flex;gap:6px;flex-wrap:wrap}
-.tag{font-size:12px;border-radius:var(--r-full);padding:3px 10px;font-variation-settings:'wght' 600;background:var(--surface-highest);color:var(--on-surface-variant)}
-.tag.deal{background:var(--tertiary-container);color:var(--on-tertiary-container)}
-.tag.ok{background:var(--secondary-container);color:var(--on-secondary-container)}
-.tag.warn{background:var(--surface-highest);color:var(--tertiary)}
-.dchips{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
-.dchips .lab{font-size:12px;color:var(--on-surface-variant);margin-right:2px}
-.dc{font-size:13px;border:1px solid var(--outline-variant);border-radius:var(--r-sm);padding:2px 8px;font-variant-numeric:tabular-nums;background:var(--surface)}
-.dc.more{border-style:dashed;color:var(--on-surface-variant)}
-.actions{display:flex;gap:8px;flex-wrap:wrap}
-details.more summary{cursor:pointer;list-style:none;color:var(--primary);font-size:13px;font-variation-settings:'wght' 650;display:inline-flex;gap:6px;align-items:center}
-details.more summary::-webkit-details-marker{display:none}
-details.more summary::before{content:"+";display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--seg-tint);transition:transform var(--dur-m) var(--spring)}
-details.more[open] summary::before{content:"−";transform:rotate(180deg)}
-.legs{display:grid;gap:8px;margin-top:10px}
-.leg{background:var(--surface);border-radius:var(--r-lg);padding:10px 12px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
-.leg .l{min-width:0}
-.leg .l b{display:block;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--on-surface-variant);font-variation-settings:'wght' 650}
-.leg .l span{font-size:14px;overflow-wrap:anywhere}
-.leg .r{text-align:right;flex:none;font-variant-numeric:tabular-nums;font-size:13px;color:var(--on-surface-variant)}
-.leg .r strong{display:block;font-size:16px;color:var(--on-surface);font-variation-settings:'wght' 700}
-.leg .lk{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
-.leg .lk a{font-size:12.5px;color:var(--primary);font-variation-settings:'wght' 650;text-decoration:none;background:var(--seg-tint);border-radius:var(--r-full);padding:3px 10px}
-.more-btn{display:flex;justify-content:center;margin-top:18px}
-.empty{grid-column:1/-1;text-align:center;background:var(--surface-low);border-radius:var(--r-xl);padding:40px 20px;color:var(--on-surface-variant)}
-.empty h3{margin:0 0 6px;color:var(--on-surface);font-size:22px}
+/* painel de partidas */
+.band { background: var(--color-ink); color: var(--color-paper); padding-block: var(--space-lg) var(--space-2xl); }
+.bhead { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: var(--space-md); padding-bottom: var(--space-md); }
+.bhead h2 { font-size: var(--text-xl); max-width: none; }
+.bhead .cnt { font-size: var(--text-sm); font-weight: 500; }
+.band .field { color: var(--color-paper); }
+.band .select { background: var(--color-ink); color: var(--color-paper); border-color: var(--color-paper); }
+.board { width: 100%; border-collapse: collapse; }
+.board th { text-align: left; font-weight: 500; font-size: var(--text-sm); padding: var(--space-xs) var(--space-sm); border-bottom: var(--rule-bar) solid var(--color-paper); white-space: nowrap; }
+.board td { padding: var(--space-md) var(--space-sm); border-bottom: var(--rule-hair) solid var(--color-ink-rule); vertical-align: top; }
+.board .w-dest { width: 27%; } .board .w-when { width: 23%; } .board .w-how { width: 17%; } .board .w-fig { width: 17%; } .board .w-act { width: 16%; }
+.dest { display: flex; gap: var(--space-sm); align-items: flex-start; }
+.code { flex: none; display: inline-grid; place-items: center; min-width: 3.5rem; height: 2.5rem; border: var(--rule-bar) solid var(--color-paper); font-weight: 800; font-size: var(--text-md); }
+.nm { display: grid; gap: var(--space-3xs); min-width: 0; }
+.nm b { font-weight: 800; font-size: var(--text-lg); letter-spacing: var(--tracking-display); line-height: 1.1; overflow-wrap: anywhere; }
+.sub { display: block; font-size: var(--text-sm); font-weight: 400; }
+.sub.dim { font-weight: 500; }
+.more { justify-self: start; margin-top: var(--space-2xs); padding: 0; border: 0; background: transparent; color: var(--color-paper); font: 500 var(--text-sm)/1.4 var(--font-body); text-decoration: underline; text-underline-offset: 0.2em; cursor: pointer; min-height: var(--control-h); display: inline-flex; align-items: center; }
+.more:hover { color: var(--color-accent-2); }
+.fig b { display: block; font-weight: 800; font-size: var(--text-2xl); line-height: 1; color: var(--color-accent-2); letter-spacing: var(--tracking-display); }
+.fig .sub { margin-top: var(--space-2xs); }
+.acts { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+.btn { display: inline-flex; align-items: center; min-height: var(--control-h); padding: 0 var(--space-md); border: var(--rule-bar) solid currentColor; background: transparent; color: inherit; font: 800 var(--text-sm)/1 var(--font-body); text-decoration: none; cursor: pointer; transition: background-color var(--dur-micro) steps(1), color var(--dur-micro) steps(1); }
+.btn { white-space: nowrap; }
+.btn:hover { background: var(--color-ink-2); }
+.btn:active { background: var(--color-paper); color: var(--color-ink); }
+.btn:disabled { opacity: 0.55; cursor: not-allowed; }
+.board td.act-cell { min-width: 11rem; }
+details.filters > summary:active, .notes > summary:active { background: var(--color-ink-2); color: var(--color-paper); }
+.more:active { color: var(--color-paper); text-decoration-thickness: 2px; }
+.when-d { display: block; font-weight: 800; font-size: var(--text-md); }
+tr.alt td { background: var(--color-ink-2); padding: var(--space-md); }
+.opts { display: grid; }
+.opt { display: grid; grid-template-columns: minmax(8rem, 12rem) minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-sm) var(--space-lg); padding-block: var(--space-md); border-bottom: var(--rule-hair) solid var(--color-ink-rule); }
+.opt:last-child { border-bottom: 0; }
+.opt .p { font-weight: 800; font-size: var(--text-xl); line-height: 1.05; color: var(--color-accent-2); }
+.opt .leg { font-size: var(--text-sm); }
+.opt .leg b { font-weight: 800; }
+.opt .acts { grid-column: 1 / -1; }
+.empty { padding: var(--space-xl) 0; display: grid; gap: var(--space-sm); justify-items: start; }
+.empty h3 { font-size: var(--text-xl); }
+.moreRow { padding-top: var(--space-lg); }
 
 /* notas */
-.notes{margin-top:44px;background:var(--surface-low);border-radius:var(--r-xl);padding:6px 20px}
-.notes summary{cursor:pointer;padding:14px 0;font-size:18px;list-style:none;font-variation-settings:'wdth' 106,'wght' 700}
-.notes summary::-webkit-details-marker{display:none}
-.notes ul{margin:0 0 16px;padding-left:18px;display:flex;flex-direction:column;gap:8px;color:var(--on-surface-variant);font-size:14px;max-width:78ch}
-.foot{margin-top:18px;font-size:12px;color:var(--on-surface-variant)}
+.notes { padding-block: var(--space-xl) var(--space-2xl); }
+.notes > summary { display: inline-flex; align-items: center; min-height: var(--control-h); padding: 0 var(--space-md); border: var(--rule-bar) solid var(--color-ink); font: 500 var(--text-sm)/1 var(--font-body); cursor: pointer; list-style: none; transition: background-color var(--dur-micro) steps(1); }
+.notes > summary::-webkit-details-marker { display: none; }
+.notes > summary:hover { background: var(--color-paper-2); }
+.notes ul { margin: var(--space-md) 0 0; padding-left: var(--space-lg); display: grid; gap: var(--space-xs); max-width: 70ch; font-size: var(--text-sm); }
+.foot { padding-bottom: var(--space-xl); font-size: var(--text-sm); font-weight: 500; color: var(--color-muted); }
 
-@media (prefers-reduced-motion: reduce){
-  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+@media (pointer: coarse) { :root { --control-h: 48px; } }
+@media (max-width: 60rem) {
+  .bar .container { flex-wrap: wrap; padding-block: var(--space-xs); }
+  .board thead { display: none; }
+  .board, .board tbody, .board tr, .board td { display: block; width: 100%; }
+  .board tr.row { padding-block: var(--space-md); border-bottom: var(--rule-hair) solid var(--color-ink-rule); }
+  .board td { border: 0; padding: var(--space-xs) 0; }
+  .board td[data-label]::before { content: attr(data-label); display: block; font-size: var(--text-sm); font-weight: 500; margin-bottom: var(--space-3xs); }
+  .board td.dest-cell::before, .board td.act-cell::before { display: none; }
+  .fig b { font-size: var(--text-3xl); }
+  tr.alt td { padding: var(--space-sm); }
+  .opt { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
-<div class="atmos" aria-hidden="true"><i></i><i></i></div>
-<div class="wrap">
-<header class="top">
-  <span class="fresh" id="fresh">__SCANNED__</span>
-  <h1 class="t-display">Passagens baratas saindo de São Paulo e Campinas</h1>
-  <p class="lead">Só o que vale a pena: ofertas de ida e volta em dinheiro ou milhas, do mais barato ao mais caro.</p>
+<header class="bar">
+  <div class="container">
+    <a class="mark" href="#" aria-label="Passagens, início">Passagens</a>
+    <div class="cells" role="tablist" aria-label="Saindo de">
+      <button type="button" class="cell" role="tab" id="tab-VCP" data-o="VCP" aria-selected="true">Campinas <span class="n" id="cnt-VCP"></span></button>
+      <button type="button" class="cell" role="tab" id="tab-SP" data-o="SP" aria-selected="false">São Paulo <span class="n" id="cnt-SP"></span></button>
+    </div>
+  </div>
 </header>
 
-<div class="toolbar" role="search">
-  <div class="seg" role="tablist" aria-label="Origem">
-    <button role="tab" id="tab-VCP" data-o="VCP" aria-selected="true">Campinas <small id="cnt-VCP"></small></button>
-    <button role="tab" id="tab-SP" data-o="SP" aria-selected="false">São Paulo <small id="cnt-SP"></small></button>
-  </div>
-  <label class="search">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-    <input type="search" id="q" placeholder="Buscar destino ou país" aria-label="Buscar ofertas" autocomplete="off">
-  </label>
-  <button type="button" class="fbtn" id="f-toggle" aria-expanded="false" aria-controls="sheet">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>
-    Filtros <span class="n" id="f-n" hidden>0</span>
-  </button>
-  <div class="sheet" id="sheet" hidden>
-    <label>Região ou país <select id="f-reg"><option value="">Todas</option></select></label>
-    <label>Programa de milhas <select id="f-prog"><option value="">Todos</option></select></label>
-    <label>Preço máximo (R$) <input type="number" id="f-max" min="0" step="50" inputmode="numeric" placeholder="sem limite"></label>
-    <label class="switch"><input type="checkbox" id="f-same" role="switch"> Só no mesmo programa</label>
-    <div class="row-end"><button type="button" class="btn btn-text" id="f-clear">Limpar tudo</button></div>
-  </div>
-</div>
+<main>
+  <section class="container head">
+    <h1>Passagens baratas de São Paulo e Campinas</h1>
+    <p id="summary" class="lead"></p>
+    <p class="updated">__SCANNED__. Fonte: Secret Flight Deals, classe econômica.</p>
+  </section>
 
-<div class="chiprow" id="chips-tipo" role="group" aria-label="Tipo de oferta"></div>
-<div class="chiprow" id="chips-cont" role="group" aria-label="Continente" style="padding-top:2px"></div>
-<div class="active-row" id="active"></div>
+  <section class="container controls" aria-label="Busca e filtros">
+    <div class="field q">
+      <label for="q">Buscar destino, país ou programa</label>
+      <input class="input" type="search" id="q" placeholder="Lisboa, Azul, Europa…" autocomplete="off" inputmode="search">
+    </div>
+    <div class="rowsel"><span class="lab">Tipo</span><div class="cells scroll" id="chips-tipo" role="group" aria-label="Tipo de oferta"></div></div>
+    <div class="rowsel"><span class="lab">Destino</span><div class="cells scroll" id="chips-cont" role="group" aria-label="Continente"></div></div>
+    <details class="filters" id="filters">
+      <summary id="f-sum">Mais filtros</summary>
+      <div class="fields">
+        <div class="field"><label for="f-reg">Região ou país</label><select class="select" id="f-reg"><option value="">Todas</option></select></div>
+        <div class="field"><label for="f-prog">Programa de milhas</label><select class="select" id="f-prog"><option value="">Todos</option></select></div>
+        <div class="field"><label for="f-max">Preço máximo em reais</label><input class="input" type="number" id="f-max" min="0" step="50" inputmode="numeric" placeholder="sem limite"></div>
+        <label class="check"><input type="checkbox" id="f-same"> Só no mesmo programa</label>
+      </div>
+    </details>
+    <div class="actives" id="active"></div>
+  </section>
 
-<section class="hero" id="hero" aria-label="Melhores ofertas agora" hidden>
-  <div class="hero-main" id="hero-main"></div>
-  <div class="hero-side" id="hero-side"></div>
-</section>
+  <section class="band" aria-label="Quadro de ofertas">
+    <div class="container">
+      <div class="bhead">
+        <div><h2 id="r-title">Todas as ofertas</h2><p class="cnt" id="r-cnt"></p></div>
+        <div class="field"><label for="sort">Ordenar por</label>
+          <select class="select" id="sort"><option value="price">Menor preço</option><option value="miles">Menos milhas</option><option value="date">Data mais próxima</option></select></div>
+      </div>
+      <table class="board" id="board">
+        <thead><tr><th class="w-dest" scope="col">Destino</th><th class="w-when" scope="col">Datas e rota</th><th class="w-how" scope="col">Como pagar</th><th class="w-fig" scope="col">Ida e volta a partir de</th><th class="w-act" scope="col">Abrir</th></tr></thead>
+        <tbody id="grid"></tbody>
+      </table>
+      <div class="moreRow"><button type="button" class="btn" id="more" hidden>Mostrar mais destinos</button></div>
+    </div>
+  </section>
 
-<div class="rhead">
-  <div><h2 class="t-title" id="r-title">Todas as ofertas</h2><div class="cnt" id="r-cnt"></div></div>
-  <label class="sortbox">Ordenar por
-    <select id="sort"><option value="price">Menor preço</option><option value="miles">Menos milhas</option><option value="date">Data mais próxima</option></select>
-  </label>
-</div>
-<div class="grid" id="grid"></div>
-<div class="more-btn"><button type="button" class="btn btn-tonal" id="more" hidden>Mostrar mais ofertas</button></div>
-
-<details class="notes" id="notes">
-  <summary>Como ler esta página</summary>
-  <ul>
-    <li>Datas de novembro e dezembro são de 2026. Datas de janeiro a outubro são de 2027. Só aparecem datas depois de __TODAY__.</li>
-    <li>"Dinheiro" é o preço total de ida e volta publicado pelo site. "Milhas" é a soma de uma ida e uma volta em bilhetes separados, com 3 a 30 dias de estadia. "Um trecho" é um card do site com datas de ida e volta mas preço de um trecho só: o total é maior.</li>
-    <li>Em milhas, cada trecho está no preço mínimo publicado, que pode valer para outra data. A soma é um piso. O preço exato de cada dia aparece no calendário do programa, que os botões abrem.</li>
-    <li>O R$ das milhas vem do milheiro que o site usa: Azul R$ 14, Smiles R$ 15, LATAM Pass R$ 23, Aeroplan R$ 70, AAdvantage R$ 90. Taxas de embarque ficam de fora. Nas ofertas em dinheiro, as milhas são uma referência a R$ 15 o milheiro, só para comparar.</li>
-    <li>Nada disso foi confirmado no site dos programas ou no checkout das companhias. Confira disponibilidade e bagagem antes de transferir pontos.</li>
-    <li>Em bilhetes separados, um atraso na ida não protege a volta. Programas diferentes pedem saldo nos dois. A volta pode ser por outro aeroporto de São Paulo.</li>
-    <li>__ESCONDIDAS__</li>
-    <li>Os botões de programa abrem a busca de milhas já preenchida com rota e data na Azul, na Smiles e na LATAM (a LATAM pede login antes). Nos outros programas abre a página inicial.</li>
-    <li>A página é refeita todo dia por um robô, que fatia as buscas por mês e por aeroporto para passar do corte de 100 resultados do site.</li>
-  </ul>
-</details>
-<p class="foot">São Paulo reúne Guarulhos (GRU), Congonhas (CGH) e a busca geral (SAO).</p>
-</div>
+  <section class="container notes">
+    <details>
+      <summary>Como ler esta página</summary>
+      <ul>
+        <li>Datas de novembro e dezembro são de 2026. Datas de janeiro a outubro são de 2027. Só aparecem datas depois de __TODAY__.</li>
+        <li>Cada linha é um destino e mostra a melhor oferta. As outras opções do mesmo destino abrem dentro da linha.</li>
+        <li>Dinheiro é o preço total de ida e volta publicado pelo site. Milhas é a soma de uma ida e uma volta em bilhetes separados, com 3 a 30 dias de estadia. Um trecho é um card do site com datas de ida e de volta, mas com o preço de um trecho só: o total é maior.</li>
+        <li>Em milhas, cada trecho está no preço mínimo publicado, que pode valer para outra data. A soma é um piso. O preço exato de cada dia aparece no calendário do programa, que os botões abrem.</li>
+        <li>O valor em reais das milhas usa o milheiro que o site usa: Azul R$ 14, Smiles R$ 15, LATAM Pass R$ 23, Aeroplan R$ 70, AAdvantage R$ 90. Taxas de embarque ficam de fora. Nas ofertas em dinheiro, as milhas são uma referência a R$ 15 o milheiro, só para comparar.</li>
+        <li>Nada disso foi confirmado no site dos programas nem no checkout das companhias. Confira disponibilidade e bagagem antes de transferir pontos.</li>
+        <li>Em bilhetes separados, um atraso na ida não protege a volta. Programas diferentes pedem saldo nos dois. A volta pode ser por outro aeroporto de São Paulo.</li>
+        <li>__ESCONDIDAS__</li>
+        <li>Os botões de programa abrem a busca de milhas já preenchida com rota e data na Azul, na Smiles e na LATAM (a LATAM pede login antes). Nos outros programas abre a página inicial.</li>
+        <li>A página é refeita todo dia por um robô, que fatia as buscas por mês e por aeroporto para passar do corte de 100 resultados do site.</li>
+      </ul>
+    </details>
+  </section>
+</main>
+<footer class="container foot">São Paulo reúne Guarulhos (GRU), Congonhas (CGH) e a busca geral (SAO).</footer>
 
 <script>
 var DATA = `__DATA__`;
@@ -291,52 +254,56 @@ var GROUP_NAME = {VCP:'Campinas',SP:'São Paulo'};
 /* continente e região ou país de cada destino */
 var GEO = {};
 function geoSet(codes, cont, reg){ codes.split(' ').forEach(function(c){ GEO[c] = [cont, reg]; }); }
-geoSet('SDU GIG RIO CNF VIX MII', 'Brasil', 'Sudeste');
-geoSet('POA FLN NVT IGU JOI LDB CWB CXJ', 'Brasil', 'Sul');
+geoSet('SDU GIG RIO CNF VIX MII UDI', 'Brasil', 'Sudeste');
+geoSet('POA FLN NVT IGU JOI LDB CWB CXJ CAC', 'Brasil', 'Sul');
 geoSet('SSA REC FOR MCZ BPS NAT SLZ AJU JPA IMP JJD FEN UNA IOS', 'Brasil', 'Nordeste');
 geoSet('BEL MCP MAO', 'Brasil', 'Norte');
-geoSet('BSB BYO CGB CGR GYN', 'Brasil', 'Centro-Oeste');
+geoSet('BSB BYO CGB CGR GYN CLV', 'Brasil', 'Centro-Oeste');
 geoSet('EZE AEP FTE MDZ BRC USH PSS', 'América do Sul', 'Argentina');
 geoSet('SCL CJC', 'América do Sul', 'Chile'); geoSet('MVD PDP', 'América do Sul', 'Uruguai'); geoSet('ASU', 'América do Sul', 'Paraguai');
-geoSet('LIM CUZ', 'América do Sul', 'Peru'); geoSet('BOG BGA', 'América do Sul', 'Colômbia'); geoSet('UIO GYE', 'América do Sul', 'Equador');
-geoSet('MCO FLL MIA JFK EWR IAD LAX LAS ORD CHO ATL BOS SFO IAH', 'América do Norte', 'Estados Unidos');
-geoSet('YYZ', 'América do Norte', 'Canadá'); geoSet('CUN MEX', 'América do Norte', 'México');
-geoSet('PUJ', 'América Central e Caribe', 'República Dominicana'); geoSet('ADZ', 'América Central e Caribe', 'Colômbia (San Andrés)');
+geoSet('LIM CUZ', 'América do Sul', 'Peru'); geoSet('BOG BGA CTG', 'América do Sul', 'Colômbia'); geoSet('UIO GYE', 'América do Sul', 'Equador');
+geoSet('VVI', 'América do Sul', 'Bolívia'); geoSet('CCS', 'América do Sul', 'Venezuela');
+geoSet('MCO FLL MIA JFK EWR IAD LAX LAS ORD CHO ATL BOS SFO IAH DFW PHL HNL ASE TPA SEA', 'América do Norte', 'Estados Unidos');
+geoSet('YYZ YUL', 'América do Norte', 'Canadá'); geoSet('CUN MEX', 'América do Norte', 'México');
+geoSet('PUJ SDQ', 'América Central e Caribe', 'República Dominicana'); geoSet('ADZ', 'América Central e Caribe', 'Colômbia (San Andrés)');
 geoSet('PTY SJO', 'América Central e Caribe', 'Panamá e Costa Rica'); geoSet('AUA', 'América Central e Caribe', 'Aruba');
-geoSet('LIS OPO', 'Europa', 'Portugal'); geoSet('MAD BCN', 'Europa', 'Espanha'); geoSet('VCE FCO MXP LIN', 'Europa', 'Itália');
+geoSet('CUR', 'América Central e Caribe', 'Curaçao'); geoSet('MBJ', 'América Central e Caribe', 'Jamaica');
+geoSet('SXM', 'América Central e Caribe', 'São Martinho'); geoSet('HAV', 'América Central e Caribe', 'Cuba');
+geoSet('LIS OPO', 'Europa', 'Portugal'); geoSet('MAD BCN IBZ', 'Europa', 'Espanha'); geoSet('VCE FCO MXP LIN TRN', 'Europa', 'Itália');
 geoSet('CDG ORY LYS', 'Europa', 'França'); geoSet('LHR LCY', 'Europa', 'Reino Unido'); geoSet('AMS', 'Europa', 'Países Baixos');
 geoSet('FRA BER MUC', 'Europa', 'Alemanha'); geoSet('ZRH GVA', 'Europa', 'Suíça'); geoSet('CPH', 'Europa', 'Dinamarca'); geoSet('HEL', 'Europa', 'Finlândia');
 geoSet('DUB', 'Europa', 'Irlanda'); geoSet('KEF', 'Europa', 'Islândia'); geoSet('IST', 'Europa', 'Turquia'); geoSet('SPU', 'Europa', 'Croácia');
-geoSet('JNB CPT', 'África', 'África do Sul'); geoSet('CMN', 'África', 'Marrocos'); geoSet('DAR', 'África', 'Tanzânia');
+geoSet('VIE', 'Europa', 'Áustria'); geoSet('PRG', 'Europa', 'Tchéquia');
+geoSet('JNB CPT', 'África', 'África do Sul'); geoSet('CMN', 'África', 'Marrocos'); geoSet('DAR', 'África', 'Tanzânia'); geoSet('CAI', 'África', 'Egito');
 geoSet('DXB DOH AUH', 'Oriente Médio', 'Emirados e Catar');
 geoSet('NRT', 'Ásia e Oceania', 'Japão'); geoSet('ICN', 'Ásia e Oceania', 'Coreia do Sul'); geoSet('BKK', 'Ásia e Oceania', 'Tailândia');
 geoSet('CAN PVG', 'Ásia e Oceania', 'China'); geoSet('MLE', 'Ásia e Oceania', 'Maldivas'); geoSet('SYD MEL', 'Ásia e Oceania', 'Austrália');
-geoSet('CLV', 'Brasil', 'Centro-Oeste');
-geoSet('DFW PHL HNL ASE', 'América do Norte', 'Estados Unidos'); geoSet('YUL', 'América do Norte', 'Canadá');
-geoSet('CUR', 'América Central e Caribe', 'Curaçao'); geoSet('SDQ', 'América Central e Caribe', 'República Dominicana'); geoSet('MBJ', 'América Central e Caribe', 'Jamaica');
-geoSet('TRN', 'Europa', 'Itália'); geoSet('IBZ', 'Europa', 'Espanha'); geoSet('VIE', 'Europa', 'Áustria'); geoSet('PRG', 'Europa', 'Tchéquia');
-geoSet('CAI', 'África', 'Egito');
-geoSet('CAC', 'Brasil', 'Sul'); geoSet('UDI', 'Brasil', 'Sudeste');
-geoSet('VVI', 'América do Sul', 'Bolívia'); geoSet('CTG', 'América do Sul', 'Colômbia'); geoSet('CCS', 'América do Sul', 'Venezuela');
-geoSet('SXM', 'América Central e Caribe', 'São Martinho'); geoSet('HAV', 'América Central e Caribe', 'Cuba');
-geoSet('TPA SEA', 'América do Norte', 'Estados Unidos');
 var CONT_ORDER = ['Brasil','América do Sul','América do Norte','América Central e Caribe','Europa','África','Oriente Médio','Ásia e Oceania','Outros'];
 function geo(d){ return GEO[d] || ['Outros','Outros']; }
 function nz(s){ return String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); }
 function lastProg(p){ return String(p||'').split('/').pop(); }
+function progName(p){
+  var a = String(p||'').split('/'), op = a[0] || '', pr = a.slice(1).join('/') || op;
+  if(a.length<2) return op;
+  return nz(pr).indexOf(nz(op))===0 ? pr : pr+' (voo '+op+')';
+}
 function grp(o){ return o==='VCP' ? 'VCP' : 'SP'; }
 
 function city(c){ return CITY[c] || c; }
 function nf(n){ return Number(n).toLocaleString('pt-BR'); }
 function brl(n){ return n==null||n===''||isNaN(n) ? 'R$ n/d' : 'R$ ' + nf(n); }
-function mi(n){ return nf(n) + ' mi'; }
+function mi(n){ return nf(n) + ' milhas'; }
 function dm(s){ var p = s.split('-'); return p[1] + '/' + p[0]; }
-function pair(s){ var p = s.split('>'); return p[1] ? dm(p[0]) + ' → ' + dm(p[1]) : dm(p[0]) + ' → ?'; }
+function pair(s){ var p = s.split('>'); return p[1] ? dm(p[0]) + ' → ' + dm(p[1]) : dm(p[0]) + ' → volta não listada'; }
 function dkey(md){ var m = +md.slice(0,2); return (m>=11 ? '0' : '1') + md; }
 function num(v){ return v===''||v==null ? null : Number(v); }
-function lk(u,t,cls){ return u ? '<a class="'+(cls||'btn btn-tonal')+'" href="'+u+'" target="_blank" rel="noopener noreferrer">'+t+' ↗</a>' : ''; }
-function lkSmall(u,t){ return u ? '<a href="'+u+'" target="_blank" rel="noopener noreferrer">'+t+' ↗</a>' : ''; }
-function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
+function btn(u,t){ return u ? '<a class="btn" href="'+esc(u)+'" target="_blank" rel="noopener noreferrer">'+t+'</a>' : ''; }
+function firstPair(x){
+  var ida = x.ida.split(' ').filter(Boolean), vol = x.volta.split(' ').filter(Boolean);
+  for(var i=0;i<ida.length;i++){ for(var j=0;j<vol.length;j++){ if(dkey(vol[j])>dkey(ida[i])) return ida[i]+'>'+vol[j]; } }
+  return (ida[0]||'')+'>'+(vol[0]||'');
+}
 
 /* dados */
 var items = [];
@@ -345,18 +312,18 @@ DATA.split('\n').forEach(function(l){
   var f = l.split(';'), k = f[0], it = null;
   if(k==='N') it = {kind:'nat',o:f[1],d:f[2],prog:f[3],mi:+f[4],price:num(f[5]),ida:f[6],volta:f[7],gf:f[8]||'',pl:f[9]||''};
   else if(k==='C') it = {kind:'cash',o:f[1],d:f[2],price:+f[3],pairs:f[4].split(' ').filter(Boolean),cia:f[5]||'',gf:f[6]||''};
-  else if(k==='X') { it = {kind:'x',o:f[1],d:f[2],r:f[3],po:f[4],pr:f[5],mo:+f[6],mr:+f[7],bo:num(f[8]),br:num(f[9]),n:+f[10],ex:f[11].split(' ').filter(Boolean),gfo:f[12]||'',gfv:f[13]||'',plo:f[14]||'',plv:f[15]||''}; it.price = (it.bo!=null && it.br!=null) ? it.bo + it.br : null; it.same = it.po===it.pr; it.mi = it.mo + it.mr; }
+  else if(k==='X'){ it = {kind:'x',o:f[1],d:f[2],r:f[3],po:f[4],pr:f[5],mo:+f[6],mr:+f[7],bo:num(f[8]),br:num(f[9]),n:+f[10],ex:f[11].split(' ').filter(Boolean),gfo:f[12]||'',gfv:f[13]||'',plo:f[14]||'',plv:f[15]||''}; it.price = (it.bo!=null && it.br!=null) ? it.bo + it.br : null; it.same = it.po===it.pr; it.mi = it.mo + it.mr; }
   if(!it) return;
   it.g = grp(it.o);
   if(it.kind==='cash') it.mi = Math.round(it.price/15*1000);
-  var d0 = it.kind==='cash' ? it.pairs[0] : it.kind==='x' ? it.ex[0] : it.ida.split(' ')[0];
+  var d0 = it.kind==='cash' ? it.pairs[0] : it.kind==='x' ? it.ex[0] : firstPair(it);
   it.dk = d0 ? dkey(d0) : '9';
   items.push(it);
 });
 
 /* estado */
 var S = { g:'VCP', tipo:'all', cont:'', reg:'', prog:'', max:null, same:false, q:'', sort:'price', page:1 };
-var PAGE = 24;
+var PAGE = 25;
 function el(id){ return document.getElementById(id); }
 var TIPOS = [['all','Todas'],['cash','Dinheiro'],['x','Milhas'],['nat','Um trecho']];
 
@@ -367,7 +334,7 @@ function hay(x){
   if(x.kind==='x') s.push(x.po, x.pr, x.r, APT[x.r]||'', 'milhas');
   return nz(s.join(' '));
 }
-function passBase(x){   /* tudo menos o tipo, para contar os chips de tipo */
+function passBase(x){
   var g = geo(x.d);
   if(x.g!==S.g) return false;
   if(S.cont && g[0]!==S.cont) return false;
@@ -383,90 +350,86 @@ function passBase(x){   /* tudo menos o tipo, para contar os chips de tipo */
   return true;
 }
 function passTipo(x){ return S.tipo==='all' ? x.kind!=='nat' : x.kind===S.tipo; }
-
 function sorter(){
   if(S.sort==='miles') return function(a,b){ return (a.mi||0)-(b.mi||0); };
   if(S.sort==='date') return function(a,b){ return a.dk<b.dk ? -1 : a.dk>b.dk ? 1 : 0; };
-  return function(a,b){ if(a.price==null&&b.price==null) return 0; if(a.price==null) return 1; if(b.price==null) return -1; return a.price-b.price; };
+  return byPrice;
 }
+function byPrice(a,b){ if(a.price==null&&b.price==null) return 0; if(a.price==null) return 1; if(b.price==null) return -1; return a.price-b.price; }
 
-/* cartões */
-var minDest = {};
-function badges(x){
-  var t = [];
-  if(x.kind==='x' && x.price!=null && minDest[x.d]===x.price) t.push('<span class="tag deal">menor do destino</span>');
-  if(x.kind==='cash' && minDest[x.d]===x.price) t.push('<span class="tag deal">menor do destino</span>');
-  if(x.kind==='x') t.push(x.same ? '<span class="tag ok">mesmo programa</span>' : '<span class="tag warn">2 programas</span>');
-  if(x.kind==='cash') t.push('<span class="tag">dinheiro</span>');
-  if(x.kind==='nat') t.push('<span class="tag warn">preço de 1 trecho</span>');
-  return '<div class="tags">'+t.join('')+'</div>';
+/* uma linha por destino */
+function groupBy(list){
+  var map = {}, order = [];
+  list.forEach(function(x){ if(!map[x.d]){ map[x.d] = {d:x.d, items:[]}; order.push(x.d); } map[x.d].items.push(x); });
+  var out = order.map(function(d){ var g = map[d]; g.items.sort(byPrice); g.best = g.items.slice().sort(sorter())[0]; return g; });
+  out.sort(function(a,b){ return sorter()(a.best,b.best); });
+  return out;
 }
-function dchips(label, arr, max){
-  if(!arr.length) return '';
-  return '<div class="dchips"><span class="lab">'+label+'</span>'+arr.slice(0,max).map(function(t){return '<span class="dc">'+t+'</span>';}).join('')+(arr.length>max?'<span class="dc more">+'+(arr.length-max)+'</span>':'')+'</div>';
+function whenCell(x){
+  var d = x.kind==='cash' ? x.pairs[0] : x.kind==='x' ? x.ex[0] : firstPair(x);
+  var rota, qtd;
+  if(x.kind==='x'){ rota = x.o+' → '+x.d+', volta por '+(APT[x.r]||x.r); qtd = x.n+(x.n===1?' combinação possível':' combinações possíveis'); }
+  else if(x.kind==='cash'){ rota = x.o+' ⇄ '+x.d; qtd = x.pairs.length+(x.pairs.length===1?' combinação':' combinações'); }
+  else { rota = x.o+' ⇄ '+x.d; qtd = 'ida e volta no mesmo card'; }
+  return '<b class="when-d">'+pair(d)+'</b><span class="sub">'+esc(rota)+'</span><span class="sub dim">'+qtd+'</span>';
 }
-function legHtml(label,route,prog,m,b,g,p){
-  return '<div class="leg"><div class="l"><b>'+label+' · '+route+'</b><span>'+esc(prog.replace('/',' · '))+'</span><div class="lk">'+lkSmall(g,'Ver voo')+lkSmall(p,'Programa')+'</div></div><div class="r"><strong>'+brl(b)+'</strong>'+mi(m)+'</div></div>';
+function howCell(x){
+  if(x.kind==='cash') return '<span class="sub">Dinheiro</span>'+(x.cia?'<span class="sub dim">'+esc(x.cia)+'</span>':'');
+  if(x.kind==='nat') return '<span class="sub">'+esc(progName(x.prog))+'</span><span class="sub dim">preço de um trecho</span>';
+  if(x.same) return '<span class="sub">'+esc(progName(x.po))+'</span><span class="sub dim">na ida e na volta</span>';
+  return '<span class="sub">Ida: '+esc(progName(x.po))+'</span><span class="sub">Volta: '+esc(progName(x.pr))+'</span>';
 }
-function card(x,i){
-  var g = geo(x.d), name = city(x.d), delay = 'style="animation-delay:'+Math.min(i,10)*35+'ms"';
-  var sub, price, body = '', act = '';
-  if(x.kind==='cash'){
-    sub = esc(g[1]+' · '+x.o+' ⇄ '+x.d+(x.cia?' · '+x.cia:''));
-    price = '<span class="lab">ida e volta</span><b>'+brl(x.price)+'</b><span class="mi">≈ '+nf(Math.round(x.price/15))+' mil mi (ref.)</span>';
-    body = dchips('Datas', x.pairs.map(pair), 4);
-    act = lk(x.gf,'Ver voo','btn btn-fill');
-  } else if(x.kind==='nat'){
-    sub = esc(g[1]+' · '+x.o+' ⇄ '+x.d+' · '+x.prog.replace('/',' · '));
-    price = '<span class="lab">um trecho, a partir de</span><b>'+brl(x.price)+'</b><span class="mi">'+mi(x.mi)+'</span>';
-    body = dchips('Ida', x.ida.split(' ').filter(Boolean).map(dm), 7)+dchips('Volta', x.volta.split(' ').filter(Boolean).map(dm), 7);
-    act = lk(x.gf,'Ver voo','btn btn-fill')+lk(x.pl,'Resgatar');
+function figCell(x){
+  var m;
+  if(x.kind==='cash') m = 'cerca de '+nf(Math.round(x.price/15))+' mil milhas, referência';
+  else if(x.kind==='nat') m = 'um trecho, '+mi(x.mi);
+  else m = mi(x.mi)+' no total';
+  return '<b>'+brl(x.price)+'</b><span class="sub">'+m+'</span>';
+}
+function actCell(x){
+  if(x.kind==='cash') return btn(x.gf,'Ver voo');
+  if(x.kind==='nat') return btn(x.gf,'Ver voo')+btn(x.pl,'Resgatar');
+  return btn(x.plo||x.gfo,'Resgatar ida')+btn(x.plv||x.gfv,'Resgatar volta');
+}
+function optHtml(x,best){
+  var delta = (x.price!=null && best.price!=null && x!==best) ? '<span class="sub dim">+'+brl(x.price-best.price)+' sobre a menor</span>' : (x===best ? '<span class="sub dim">menor preço</span>' : '');
+  var legs;
+  if(x.kind==='x'){
+    legs = '<div class="leg"><b>Ida '+x.o+' → '+x.d+'</b> '+esc(progName(x.po))+', '+mi(x.mo)+', '+brl(x.bo)+'</div>'+
+           '<div class="leg"><b>Volta '+x.d+' → '+x.r+'</b> '+esc(progName(x.pr))+', '+mi(x.mr)+', '+brl(x.br)+'</div>';
+  } else if(x.kind==='cash'){
+    legs = '<div class="leg"><b>Dinheiro</b> '+esc(x.cia||'companhia não informada')+'</div>';
   } else {
-    sub = esc(g[1]+' · '+x.o+' → '+x.d+' · volta '+(APT[x.r]||x.r));
-    price = '<span class="lab">ida e volta a partir de</span><b>'+brl(x.price)+'</b><span class="mi">'+mi(x.mi)+' no total</span>';
-    body = dchips('Exemplos', x.ex.slice(0,3).map(pair), 3)+'<div class="c-sub">'+x.n+(x.n===1?' combinação possível':' combinações possíveis')+'</div>';
-    act = lk(x.plo||x.gfo,'Resgatar ida','btn btn-fill')+lk(x.plv||x.gfv,'Resgatar volta');
+    legs = '<div class="leg"><b>'+esc(progName(x.prog))+'</b> preço de um trecho, '+mi(x.mi)+'</div>';
   }
-  var more = '';
-  if(x.kind==='x') more = '<details class="more"><summary>Ver trechos</summary><div class="legs">'+legHtml('Ida',x.o+'→'+x.d,x.po,x.mo,x.bo,x.gfo,x.plo)+legHtml('Volta',x.d+'→'+x.r,x.pr,x.mr,x.br,x.gfv,x.plv)+'</div></details>';
-  return '<article class="card" '+delay+'><div class="c-top"><div class="c-dest"><div class="c-code">'+x.d+'</div><div><h3 class="t-title">'+esc(name)+'</h3><p class="c-sub">'+sub+'</p></div></div><div class="c-price">'+price+'</div></div>'+badges(x)+body+'<div class="actions">'+act+'</div>'+more+'</article>';
+  var datas = x.kind==='cash' ? x.pairs.slice(0,4).map(pair) : x.kind==='x' ? x.ex.slice(0,3).map(pair) : [pair(firstPair(x))];
+  var links = x.kind==='x' ? btn(x.gfo,'Ver voo de ida')+btn(x.plo,'Resgatar ida')+btn(x.gfv,'Ver voo de volta')+btn(x.plv,'Resgatar volta')
+            : x.kind==='cash' ? btn(x.gf,'Ver voo') : btn(x.gf,'Ver voo')+btn(x.pl,'Resgatar');
+  return '<div class="opt"><div><span class="p">'+brl(x.price)+'</span><br>'+delta+'</div><div>'+legs+'</div><div>'+datas.map(function(t){return '<div class="leg">'+t+'</div>';}).join('')+'</div><div class="acts">'+links+'</div></div>';
+}
+function rowHtml(g,i){
+  var b = g.best, gi = geo(g.d), n = g.items.length, id = 'alt-'+i;
+  var more = n>1 ? '<button type="button" class="more" data-alt="'+id+'" aria-expanded="false" aria-controls="'+id+'">Ver '+n+' opções</button>' : '<span class="sub dim">1 opção</span>';
+  return '<tr class="row"><td class="dest-cell"><div class="dest"><span class="code">'+g.d+'</span><div class="nm"><b>'+esc(city(g.d))+'</b><span class="sub">'+esc(gi[1])+'</span>'+more+'</div></div></td>'+
+    '<td data-label="Datas e rota">'+whenCell(b)+'</td><td data-label="Como pagar">'+howCell(b)+'</td><td class="fig" data-label="Ida e volta a partir de">'+figCell(b)+'</td><td class="act-cell"><div class="acts">'+actCell(b)+'</div></td></tr>'+
+    '<tr class="alt" id="'+id+'" hidden><td colspan="5"><div class="opts">'+g.items.map(function(x){return optHtml(x,g.items[0]);}).join('')+'</div></td></tr>';
 }
 
-/* melhor oferta (um destino por card) */
-function heroHtml(list){
-  var seen = {}, top = [];
-  list.forEach(function(x){ if(x.kind==='nat' || x.price==null || seen[x.d]) return; seen[x.d] = 1; top.push(x); });
-  if(!top.length){ el('hero').hidden = true; return; }
-  el('hero').hidden = false;
-  var a = top[0], g = geo(a.d), acts, meta = '';
-  if(a.kind==='cash'){ acts = lk(a.gf,'Ver voo','btn btn-fill'); meta = '<span class="tag ok">dinheiro</span>'+(a.cia?'<span class="tag">'+esc(a.cia)+'</span>':''); }
-  else { acts = lk(a.plo||a.gfo,'Resgatar ida','btn btn-fill')+lk(a.plv||a.gfv,'Resgatar volta','btn btn-tonal'); meta = (a.same?'<span class="tag ok">mesmo programa</span>':'<span class="tag">2 programas</span>')+'<span class="tag">'+esc(a.po.replace('/',' · '))+'</span>'; }
-  var d0 = a.kind==='cash' ? pair(a.pairs[0]) : pair(a.ex[0]);
-  el('hero-main').innerHTML = '<div class="eyebrow">Melhor oferta agora · '+esc(GROUP_NAME[a.g])+'</div><h2 class="hero-city t-display">'+esc(city(a.d))+'</h2>'+
-    '<div class="hero-meta"><span class="tag">'+esc(g[1])+'</span><span class="tag">'+d0+'</span>'+meta+'</div>'+
-    '<div class="hero-price"><b>'+brl(a.price)+'</b><span>'+(a.kind==='cash' ? 'ida e volta · ≈ '+nf(Math.round(a.price/15))+' mil mi (ref.)' : 'ida e volta a partir de · '+mi(a.mi))+'</span></div>'+
-    '<div class="actions">'+acts+'</div>';
-  el('hero-side').innerHTML = top.slice(1,4).map(function(x){
-    return '<div class="mini"><div class="eyebrow" style="color:var(--on-surface-variant)">'+esc(geo(x.d)[1])+'</div><div class="city t-title">'+esc(city(x.d))+'</div><div class="p">'+brl(x.price)+'</div><div class="s">'+(x.kind==='cash'?'dinheiro':mi(x.mi))+' · '+pair(x.kind==='cash'?x.pairs[0]:x.ex[0])+'</div></div>';
-  }).join('');
-}
-
-/* filtros e chips */
+/* controles */
 function fillSelect(sel, values, first){
   var keep = sel.value;
   sel.innerHTML = '<option value="">'+first+'</option>' + values.map(function(v){ return '<option value="'+esc(v)+'">'+esc(v)+'</option>'; }).join('');
   sel.value = values.indexOf(keep)>=0 ? keep : '';
   return sel.value;
 }
-function chipHtml(label, key, val, pressed, count){
-  return '<button type="button" class="chip" data-k="'+key+'" data-v="'+esc(val)+'" aria-pressed="'+(pressed?'true':'false')+'">'+esc(label)+(count!=null?'<span class="c">'+count+'</span>':'')+'</button>';
+function cellHtml(label, key, val, pressed, count){
+  return '<button type="button" class="cell" data-k="'+key+'" data-v="'+esc(val)+'" aria-pressed="'+(pressed?'true':'false')+'">'+esc(label)+(count!=null?' <span class="n">'+count+'</span>':'')+'</button>';
 }
 
 function render(){
   var base = items.filter(function(x){ return x.g===S.g; });
   ['VCP','SP'].forEach(function(k){ el('cnt-'+k).textContent = items.filter(function(x){return x.g===k && x.kind!=='nat';}).length; });
 
-  /* listas de opções dependem só da origem */
   var conts = {}; base.forEach(function(x){ conts[geo(x.d)[0]] = 1; });
   var contList = CONT_ORDER.filter(function(k){ return conts[k]; });
   if(S.cont && !conts[S.cont]) S.cont = '';
@@ -479,19 +442,20 @@ function render(){
   var pre = base.filter(passBase);
   var counts = {all:0,cash:0,x:0,nat:0};
   pre.forEach(function(x){ counts[x.kind]++; if(x.kind!=='nat') counts.all++; });
-  el('chips-tipo').innerHTML = TIPOS.map(function(t){ return chipHtml(t[1],'tipo',t[0],S.tipo===t[0],counts[t[0]]); }).join('');
-  /* chips de continente contam sem o próprio filtro de continente */
+  el('chips-tipo').innerHTML = TIPOS.map(function(t){ return cellHtml(t[1],'tipo',t[0],S.tipo===t[0],counts[t[0]]); }).join('');
   var keepC = S.cont; S.cont = '';
   var preC = base.filter(passBase).filter(passTipo); S.cont = keepC;
   var cc = {}; preC.forEach(function(x){ var c = geo(x.d)[0]; cc[c] = (cc[c]||0)+1; });
-  el('chips-cont').innerHTML = chipHtml('Todos os destinos','cont','',S.cont==='',preC.length) + contList.map(function(c){ return chipHtml(c,'cont',c,S.cont===c,cc[c]||0); }).join('');
+  el('chips-cont').innerHTML = cellHtml('Todos','cont','',S.cont==='',preC.length) + contList.map(function(c){ return cellHtml(c,'cont',c,S.cont===c,cc[c]||0); }).join('');
 
-  var list = pre.filter(passTipo).sort(sorter());
-  /* menor por destino, considerando o conjunto da origem sem filtros de busca */
-  minDest = {};
-  base.forEach(function(x){ if(x.kind!=='nat' && x.price!=null && (minDest[x.d]==null || x.price<minDest[x.d])) minDest[x.d] = x.price; });
+  var list = pre.filter(passTipo);
+  var groups = groupBy(list);
 
-  /* ativos */
+  /* resumo da origem, sem filtros */
+  var all0 = base.filter(function(x){ return x.kind!=='nat' && x.price!=null; }).sort(byPrice);
+  var dst0 = {}; all0.forEach(function(x){ dst0[x.d] = 1; });
+  el('summary').textContent = all0.length ? Object.keys(dst0).length+' destinos saindo de '+GROUP_NAME[S.g]+'. O menor preço de ida e volta é '+brl(all0[0].price)+' para '+city(all0[0].d)+'.' : 'Nenhuma oferta saindo de '+GROUP_NAME[S.g]+' agora.';
+
   var act = [];
   if(S.q) act.push(['q','Busca: '+S.q]);
   if(S.cont) act.push(['cont',S.cont]);
@@ -499,20 +463,18 @@ function render(){
   if(S.prog) act.push(['prog',S.prog]);
   if(S.max!=null) act.push(['max','até R$ '+nf(S.max)]);
   if(S.same) act.push(['same','mesmo programa']);
-  el('active').innerHTML = act.map(function(a){ return '<button type="button" class="achip" data-clear="'+a[0]+'">'+esc(a[1])+'</button>'; }).join('');
+  el('active').innerHTML = act.length ? '<span class="lab">Filtros ativos</span>'+act.map(function(a){ return '<button type="button" class="cell" data-clear="'+a[0]+'">'+esc(a[1])+' ×</button>'; }).join('')+'<button type="button" class="cell" data-clear="all">Limpar tudo</button>' : '';
   var nfilt = (S.reg?1:0)+(S.prog?1:0)+(S.max!=null?1:0)+(S.same?1:0);
-  el('f-n').hidden = nfilt===0; el('f-n').textContent = nfilt;
+  el('f-sum').textContent = nfilt ? 'Mais filtros ('+nfilt+' ativos)' : 'Mais filtros';
 
-  /* a melhor oferta é sempre a mais barata, não importa a ordenação escolhida */
-  heroHtml(pre.filter(passTipo).sort(function(a,b){ if(a.price==null&&b.price==null) return 0; if(a.price==null) return 1; if(b.price==null) return -1; return a.price-b.price; }));
   var tn = {all:'Todas as ofertas',cash:'Ida e volta em dinheiro',x:'Milhas, ida e volta',nat:'Milhas, um trecho'};
   el('r-title').textContent = tn[S.tipo];
-  el('r-cnt').textContent = list.length + (list.length===1?' oferta':' ofertas') + ' saindo de ' + GROUP_NAME[S.g] + (act.length ? ' com os filtros escolhidos' : '');
-  var shown = list.slice(0, S.page*PAGE);
-  el('grid').innerHTML = shown.length ? shown.map(card).join('') :
-    '<div class="empty"><h3>Nenhuma oferta com esses filtros</h3><p>Tente outro continente ou aumente o preço máximo.</p><button type="button" class="btn btn-fill" data-clear="all">Limpar filtros</button></div>';
-  el('more').hidden = list.length <= shown.length;
-  el('more').textContent = 'Mostrar mais ofertas (' + (list.length - shown.length) + ')';
+  el('r-cnt').textContent = groups.length+(groups.length===1?' destino':' destinos')+', '+list.length+(list.length===1?' oferta':' ofertas')+' saindo de '+GROUP_NAME[S.g]+(act.length?', com os filtros escolhidos':'')+'.';
+  var shown = groups.slice(0, S.page*PAGE);
+  el('grid').innerHTML = shown.length ? shown.map(rowHtml).join('') :
+    '<tr><td colspan="5"><div class="empty"><h3>Nenhuma oferta com esses filtros.</h3><p>Limpe os filtros ou aumente o preço máximo.</p><button type="button" class="btn" data-clear="all">Limpar filtros</button></div></td></tr>';
+  el('more').hidden = groups.length <= shown.length;
+  el('more').textContent = 'Mostrar mais destinos ('+(groups.length-shown.length)+')';
 }
 
 function clearOne(k){
@@ -525,19 +487,23 @@ function clearOne(k){
   if(k==='all'){ S.q='';S.cont='';S.reg='';S.prog='';S.max=null;S.same=false;S.tipo='all'; el('q').value='';el('f-max').value='';el('f-same').checked=false; }
   S.page = 1; render();
 }
-
 function setGroup(g,fromHash){
   S.g = g; S.page = 1; S.cont=''; S.reg=''; S.prog='';
   ['VCP','SP'].forEach(function(k){ el('tab-'+k).setAttribute('aria-selected', k===g ? 'true' : 'false'); });
   if(!fromHash){ try{ location.hash = g==='VCP' ? 'campinas' : 'sao-paulo'; }catch(e){} }
   render();
 }
-document.querySelectorAll('.seg button').forEach(function(b){ b.addEventListener('click', function(){ setGroup(b.getAttribute('data-o')); }); });
-el('chips-tipo').addEventListener('click', function(e){ var b = e.target.closest('.chip'); if(!b) return; S.tipo = b.getAttribute('data-v'); S.page = 1; render(); });
-el('chips-cont').addEventListener('click', function(e){ var b = e.target.closest('.chip'); if(!b) return; S.cont = b.getAttribute('data-v'); S.reg=''; S.page = 1; render(); });
+document.querySelectorAll('[role="tab"]').forEach(function(b){ b.addEventListener('click', function(){ setGroup(b.getAttribute('data-o')); }); });
+el('chips-tipo').addEventListener('click', function(e){ var b = e.target.closest('.cell'); if(!b) return; S.tipo = b.getAttribute('data-v'); S.page = 1; render(); });
+el('chips-cont').addEventListener('click', function(e){ var b = e.target.closest('.cell'); if(!b) return; S.cont = b.getAttribute('data-v'); S.reg=''; S.page = 1; render(); });
 el('active').addEventListener('click', function(e){ var b = e.target.closest('[data-clear]'); if(b) clearOne(b.getAttribute('data-clear')); });
-el('grid').addEventListener('click', function(e){ var b = e.target.closest('[data-clear]'); if(b) clearOne(b.getAttribute('data-clear')); });
-el('f-clear').addEventListener('click', function(){ clearOne('all'); });
+el('grid').addEventListener('click', function(e){
+  var c = e.target.closest('[data-clear]'); if(c){ clearOne(c.getAttribute('data-clear')); return; }
+  var m = e.target.closest('.more'); if(!m) return;
+  var row = el(m.getAttribute('data-alt')), open = row.hidden;
+  row.hidden = !open; m.setAttribute('aria-expanded', open ? 'true' : 'false');
+  m.textContent = open ? 'Fechar opções' : 'Ver '+row.querySelectorAll('.opt').length+' opções';
+});
 el('q').addEventListener('input', function(){ S.q = el('q').value.trim(); S.page = 1; render(); });
 el('f-reg').addEventListener('change', function(){ S.reg = el('f-reg').value; S.page = 1; render(); });
 el('f-prog').addEventListener('change', function(){ S.prog = el('f-prog').value; S.page = 1; render(); });
@@ -545,9 +511,9 @@ el('f-max').addEventListener('input', function(){ var v = el('f-max').value; S.m
 el('f-same').addEventListener('change', function(){ S.same = el('f-same').checked; S.page = 1; render(); });
 el('sort').addEventListener('change', function(){ S.sort = el('sort').value; S.page = 1; render(); });
 el('more').addEventListener('click', function(){ S.page++; render(); });
-el('f-toggle').addEventListener('click', function(){ var open = el('sheet').hidden; el('sheet').hidden = !open; el('f-toggle').setAttribute('aria-expanded', open ? 'true' : 'false'); });
 function fromHash(){ var h = location.hash.replace('#',''); setGroup(h==='sao-paulo' ? 'SP' : 'VCP', true); }
 window.addEventListener('hashchange', fromHash);
+el('filters').open = !(window.matchMedia && window.matchMedia('(max-width:60rem)').matches);
 fromHash();
 </script>
 </body>

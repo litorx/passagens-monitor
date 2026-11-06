@@ -12,5 +12,8 @@
   "dependencies": {
     "playwright-core": "^1.65.0",
     "whatsapp-web.js": "github:pedroslopez/whatsapp-web.js"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^25.16.0"
   }
 }

@@ -29,7 +29,7 @@ function main() {
   let html = fs.readFileSync(path.join(__dirname, 'template.html'), 'utf8');
   html = html.replace('__CITIES__', () => JSON.stringify(cidades).replace(/</g, '\\u003c'))
     .replace('__DATA__', () => lines.join('\n'))
-    .replace('__SCANNED__', () => 'Atualizado em ' + fmt + ' · Secret Flight Deals · classe econômica')
+    .replace('__SCANNED__', () => 'Atualizado em ' + fmt)
     .replace('__TODAY__', () => today)
     .replace('__ESCONDIDAS__', () => escondidas + ' ofertas com preço normal ou alto foram escondidas: ficam de fora as que passam de ' + cfg.filtro.tolerancia + ' vezes o menor preço do mesmo destino ou do teto de ida e volta da região (nacional R$ ' + T.nacional + ', América do Sul R$ ' + T.americaDoSul + ', América do Norte e Caribe R$ ' + T.americaNorteCaribe + ', Europa R$ ' + T.europaOutros + ', Ásia, África e Oceania R$ ' + T.longaDistancia + ').');
   fs.mkdirSync(path.join(__dirname, 'docs'), { recursive: true });
