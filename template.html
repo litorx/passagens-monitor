@@ -128,8 +128,8 @@ select{font:inherit;font-size:13.5px;background:var(--surface);color:var(--ink);
 </section>
 
 <section id="sec-nat">
-  <div class="sh"><h2>Milhas, ida e volta no mesmo card</h2><span class="count" id="n-nat"></span></div>
-  <p class="sd">O site lista datas de ida e de volta no mesmo card. Ele não informa se as milhas valem por trecho ou pelo total. O R$ é a conversão do próprio site pelo milheiro do programa, sem taxas de embarque.</p>
+  <div class="sh"><h2>Milhas, mesmo card (preço de um trecho)</h2><span class="count" id="n-nat"></span></div>
+  <p class="sd">O site lista datas de ida e de volta no mesmo card, mas o preço é de um trecho só, o mais barato publicado, e não o total da viagem. No resgate da LATAM, por exemplo, 9.649 milhas era só a volta e a ida custava mais. Confira os dois trechos no programa antes de contar com o valor. O R$ é a conversão do site pelo milheiro, sem taxas.</p>
   <div class="list" id="l-nat"></div>
 </section>
 
@@ -147,7 +147,8 @@ select{font:inherit;font-size:13.5px;background:var(--surface);color:var(--ink);
   <h3>Como ler esta página</h3>
   <ul>
     <li>Datas de novembro e dezembro são de 2026. Datas de janeiro a outubro são de 2027. Só aparecem datas depois de __TODAY__.</li>
-    <li>Todo preço é "a partir de" por perna, no mínimo publicado. O R$ das milhas vem do milheiro que o site usa: Azul R$ 14, Smiles R$ 15, LATAM Pass R$ 23, Aeroplan R$ 70, AAdvantage R$ 90. Taxas de embarque ficam de fora.</li>
+    <li>O quadro "Mais barata" e o top 5 do WhatsApp usam só totais de viagem: dinheiro, ou a soma de uma ida e uma volta em milhas. Cards de um trecho só ficam de fora. Em milhas, a soma é um piso: cada trecho está no preço mínimo, que pode valer para outra data.</li>
+    <li>Todo preço é "a partir de" por perna, no mínimo publicado.</li> O R$ das milhas vem do milheiro que o site usa: Azul R$ 14, Smiles R$ 15, LATAM Pass R$ 23, Aeroplan R$ 70, AAdvantage R$ 90. Taxas de embarque ficam de fora.</li>
     <li>Nada disso foi confirmado no site dos programas ou no checkout das companhias. Confira disponibilidade e bagagem antes de transferir pontos.</li>
     <li>Em bilhetes separados, um atraso na ida não protege a volta. Programas diferentes pedem saldo nos dois.</li>
     <li>Cada exemplo de data é uma combinação possível. O número ao lado diz quantas combinações existem.</li>
@@ -202,8 +203,8 @@ function itemCash(x,i){
     links([lk(x.gf,'Ver voo no Google Flights')])+'</div>';
 }
 function itemNat(x,i){
-  return '<div class="item"><div class="l1"><div class="dest"><span class="rank">#'+i+'</span><span class="city">'+city(x.d)+'</span><span class="route">'+x.o+' ⇄ '+x.d+'</span><span class="badge b-acc">mesmo card</span></div>'+
-    '<div class="price"><div class="brl">'+brl(x.brl)+'</div><div class="mi">'+mi(x.mi)+' a partir de</div></div></div>'+
+  return '<div class="item"><div class="l1"><div class="dest"><span class="rank">#'+i+'</span><span class="city">'+city(x.d)+'</span><span class="route">'+x.o+' ⇄ '+x.d+'</span><span class="badge b-warn">preço de 1 trecho</span></div>'+
+    '<div class="price"><div class="brl">'+brl(x.brl)+'</div><div class="mi">'+mi(x.mi)+' por trecho, a partir de</div></div></div>'+
     '<div class="dates"><b>'+x.prog.replace('/',' · ')+'</b></div>'+
     '<div class="dates"><b>Ida:</b> '+list(x.ida,9)+'<br><b>Volta:</b> '+list(x.volta,9)+'</div>'+
     links([lk(x.gf,'Ver voo no Google Flights'), lk(x.pl,'Resgatar no programa')])+'</div>';
@@ -231,7 +232,6 @@ function render(){
   /* mais baratas */
   var all = [];
   c.forEach(function(x){ all.push({b:x.brl,t:'Dinheiro',d:x.d,s:(x.cia||''),m:null,l:links([lk(x.gf,'Ver voo')])}); });
-  n.forEach(function(x){ if(x.brl!=null) all.push({b:x.brl,t:'Milhas, mesmo card',d:x.d,s:x.prog.replace('/',' · '),m:x.mi,l:links([lk(x.gf,'Ver voo'),lk(x.pl,'Programa')])}); });
   xs.forEach(function(x){ if(x.tot!=null) all.push({b:x.tot,t:'Milhas, bilhetes separados',d:x.d,s:(x.same?x.po.replace('/',' · '):x.po.replace('/',' · ')+' + '+x.pr.replace('/',' · ')),m:x.mo+x.mr,l:links([lk(x.gfo,'Voo de ida'),lk(x.gfv,'Voo de volta')])}); });
   all.sort(function(a,b){return a.b-b.b;});
   var seenD = {};

@@ -122,14 +122,8 @@ function top(rows, n = 5) {
     oc: x.oc, dc: x.dc, tipo: 'Dinheiro', brl: x.brl, miles: null, desc: x.cia, datas: x.pairs[0],
     links: { gf: x.link || gf(x.oc, x.dc, x.pairs[0].split('>')[0], x.pairs[0].split('>')[1]), prog: '' },
   }));
-  rows.nat.forEach((x) => {
-    if (x.brl == null) return;
-    // primeira ida com uma volta depois dela
-    let par = null;
-    for (const a of x.ida) { const b = x.volta.find((v) => v > a); if (b) { par = a + '>' + b; break; } }
-    if (!par) return;
-    all.push({ oc: x.oc, dc: x.dc, tipo: 'Milhas (mesmo card)', brl: x.brl, miles: x.miles, desc: x.prog, datas: par, links: linksNat(x, par) });
-  });
+  // Cards "mesmo card" NÃO entram no ranking: o preço deles vale por UM trecho (confirmado no
+  // resgate da LATAM: 9.649 mi era só a volta). Total de viagem só vem de dinheiro ou de ida + volta somadas.
   rows.cross.forEach((x) => x.tot != null && all.push({
     oc: x.oc, dc: x.dc, tipo: 'Milhas (ida + volta separadas)', brl: x.tot, miles: x.mo + x.mr,
     desc: x.po === x.pr ? x.po : x.po + ' + ' + x.pr, volta: x.rc, datas: x.ex[0], links: linksCross(x, x.ex[0]),

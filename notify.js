@@ -34,13 +34,18 @@ function buildMessage(rows, scannedAt, siteUrl) {
       linhas.push('🔗 Ver voo: ' + L.gf);
       if (L.prog) linhas.push('🎫 Resgatar em: ' + L.prog);
     } else {
-      linhas.push('🔗 Ida: ' + L.gfIda);
-      linhas.push('🔗 Volta: ' + L.gfVolta);
-      const progs = [...new Set([L.progIda, L.progVolta].filter(Boolean))];
-      if (progs.length) linhas.push('🎫 Resgatar em: ' + progs.join(' e '));
+      const [da, db] = t.datas.split('>');
+      linhas.push('🛫 *Ida* ' + t.oc + '→' + t.dc + ' · ' + dm(da));
+      linhas.push('✈️ Voo: ' + L.gfIda);
+      if (L.progIda) linhas.push('🎫 Resgatar: ' + L.progIda);
+      linhas.push('🛬 *Volta* ' + t.dc + '→' + t.volta + ' · ' + dm(db));
+      linhas.push('✈️ Voo: ' + L.gfVolta);
+      if (L.progVolta) linhas.push('🎫 Resgatar: ' + L.progVolta);
     }
     linhas.push('');
   });
+  linhas.push('ℹ️ Em milhas é a soma de ida + volta, cada trecho no preço mínimo (pode valer para outra data do calendário). Confira no programa antes de contar com o valor.');
+  linhas.push('');
   linhas.push('🔗 Todas as ofertas: ' + (siteUrl || '(site ainda não configurado)'));
   return linhas.join('\n');
 }
