@@ -21,7 +21,7 @@ function buildMessage(rows, scannedAt, siteUrl) {
   const linhas = ['✈️ *Top 5 passagens mais baratas* (econômica)', 'Atualizado em ' + p(d.getDate()) + '/' + p(d.getMonth() + 1) + ' às ' + p(d.getHours()) + ':' + p(d.getMinutes()), ''];
   rows.forEach((t, i) => {
     const dest = CITY[t.dc] || t.dc;
-    const valor = t.miles != null ? 'R$ ' + nf(t.brl) + ' · ' + nf(t.miles) + ' milhas' : 'R$ ' + nf(t.brl);
+    const valor = 'Ida e volta a partir de ' + (t.miles != null ? 'R$ ' + nf(t.brl) + ' · ' + nf(t.miles) + ' milhas' : 'R$ ' + nf(t.brl));
     const como = t.tipo === 'Dinheiro' ? 'em dinheiro' + (t.desc ? ', ' + t.desc : '')
       : t.tipo.startsWith('Milhas (mesmo') ? t.desc.replace('/', ' · ') + ', mesmo bilhete'
       : t.desc.replace(/\//g, ' · ') + ', ida + volta separadas (volta por ' + t.volta + ')';

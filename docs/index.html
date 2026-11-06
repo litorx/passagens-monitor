@@ -113,8 +113,8 @@ select{font:inherit;font-size:13.5px;background:var(--surface);color:var(--ink);
   </div>
   <div class="secnav">
     <button data-s="sec-cash">Dinheiro</button>
-    <button data-s="sec-nat">Milhas, mesmo bilhete</button>
     <button data-s="sec-x">Milhas, ida + volta separadas</button>
+    <button data-s="sec-nat">Milhas, um trecho</button>
     <button data-s="sec-notes">Como ler</button>
   </div>
 </div>
@@ -127,20 +127,22 @@ select{font:inherit;font-size:13.5px;background:var(--surface);color:var(--ink);
   <div class="list" id="l-cash"></div>
 </section>
 
-<section id="sec-nat">
-  <div class="sh"><h2>Milhas, mesmo card (preço de um trecho)</h2><span class="count" id="n-nat"></span></div>
-  <p class="sd">O site lista datas de ida e de volta no mesmo card, mas o preço é de um trecho só, o mais barato publicado, e não o total da viagem. No resgate da LATAM, por exemplo, 9.649 milhas era só a volta e a ida custava mais. Confira os dois trechos no programa antes de contar com o valor. O R$ é a conversão do site pelo milheiro, sem taxas.</p>
-  <div class="list" id="l-nat"></div>
-</section>
+
 
 <section id="sec-x">
   <div class="sh"><h2>Milhas, ida e volta em bilhetes separados</h2><span class="count" id="n-x"></span></div>
-  <p class="sd">Uma ida saindo da origem somada a uma volta no sentido inverso, com 3 a 30 dias de estadia. A volta pode ser por outro aeroporto de São Paulo. O R$ de cada perna usa o milheiro do programa daquela perna.</p>
+  <p class="sd">Valor de ida e volta: o menor preço publicado da ida somado ao menor preço da volta, com 3 a 30 dias de estadia. É um piso. O preço exato de cada dia só aparece no programa, no calendário que os botões abrem. A volta pode ser por outro aeroporto de São Paulo.</p>
   <div class="filters">
     <label><input type="checkbox" id="f-same"> Só no mesmo programa</label>
     <label>Destino <select id="f-dest"><option value="">Todos</option></select></label>
   </div>
   <div class="list" id="l-x"></div>
+</section>
+
+<section id="sec-nat">
+  <div class="sh"><h2>Milhas, mesmo card (preço de um trecho)</h2><span class="count" id="n-nat"></span></div>
+  <p class="sd">O site lista datas de ida e de volta no mesmo card, mas o preço é de um trecho só, o mais barato publicado, e não o total da viagem. No resgate da LATAM, por exemplo, 9.649 milhas era só a volta e a ida custava mais. Confira os dois trechos no programa antes de contar com o valor. O R$ é a conversão do site pelo milheiro, sem taxas.</p>
+  <div class="list" id="l-nat"></div>
 </section>
 
 <section class="notes" id="sec-notes">
@@ -425,7 +427,7 @@ function itemCash(x,i){
   var ref = Math.round(x.brl/15*1000/1000);
   var shown = x.pairs.slice(0,4).map(pair).join(' · ') + (x.pairs.length>4 ? ' · +' + (x.pairs.length-4) + ' combinações' : '');
   return '<div class="item"><div class="l1"><div class="dest"><span class="rank">#'+i+'</span><span class="city">'+city(x.d)+'</span><span class="route">'+x.o+' ⇄ '+x.d+'</span></div>'+
-    '<div class="price"><div class="brl">'+brl(x.brl)+'</div><div class="mi">≈ '+ref+' mil mi (ref. R$ 15/milheiro)</div></div></div>'+
+    '<div class="price"><div class="mi">ida e volta</div><div class="brl">'+brl(x.brl)+'</div><div class="mi">≈ '+ref+' mil mi (ref. R$ 15/milheiro)</div></div></div>'+
     (cia?'<div class="dates"><b>'+cia+'</b></div>':'')+
     '<div class="dates"><b>Datas:</b> '+shown+'</div>'+
     links([lk(x.gf,'Ver voo no Google Flights')])+'</div>';
@@ -445,7 +447,7 @@ function itemX(x,i){
   var badge = x.same ? '<span class="badge b-good">mesmo programa</span>' : '<span class="badge b-warn">2 programas</span>';
   var ex = x.ex.slice(0,3).map(pair).join(' · ');
   return '<div class="item"><div class="l1"><div class="dest"><span class="rank">#'+i+'</span><span class="city">'+city(x.d)+'</span><span class="route">'+x.o+' → '+x.d+' · volta '+(APT[x.r]||x.r)+'</span>'+badge+'</div>'+
-    '<div class="price"><div class="brl">'+brl(x.tot)+'</div><div class="mi">'+mi(totMi)+' no total</div></div></div>'+
+    '<div class="price"><div class="mi">ida e volta a partir de</div><div class="brl">'+brl(x.tot)+'</div><div class="mi">'+mi(totMi)+' no total</div></div></div>'+
     '<div class="legs">'+leg('Ida',x.o+'→'+x.d,x.po,x.mo,x.bo,x.gfo,x.plo)+leg('Volta',x.d+'→'+x.r,x.pr,x.mr,x.br,x.gfv,x.plv)+'</div>'+
     '<div class="dates"><b>Exemplos:</b> '+ex+' · '+x.n+(x.n===1?' combinação':' combinações')+'</div></div>';
 }
