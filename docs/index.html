@@ -84,6 +84,17 @@ h2{font-family:var(--f-display);font-weight:700;font-size:30px;line-height:1.05;
 .links a{font-size:12.5px;font-weight:600;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:3px 10px;text-decoration:none}
 .links a:hover{text-decoration:underline}
 .links a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.fbar{margin-top:16px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:12px}
+#q{font:inherit;width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+#q::placeholder{color:var(--muted)}
+.frow{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:flex-end}
+.frow label{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;min-width:0;flex:1 1 150px}
+.frow select,.frow input[type=number]{font:inherit;font-size:14px;text-transform:none;letter-spacing:0;font-weight:500;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:7px 8px;min-width:0;max-width:100%;width:100%}
+.frow label.chk{flex:0 0 auto;flex-direction:row;align-items:center;gap:6px;text-transform:none;letter-spacing:0;font-size:13.5px;font-weight:500;color:var(--ink);padding-bottom:7px}
+.frow label.chk input{width:auto}
+#f-clear{font:inherit;font-size:13px;font-weight:600;background:transparent;color:var(--accent);border:1px solid var(--line);border-radius:999px;padding:6px 14px;cursor:pointer;margin-bottom:2px}
+.fres{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+[hidden]{display:none!important}
 .filters{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
 .filters label{font-size:13.5px;display:flex;gap:6px;align-items:center}
 select{font:inherit;font-size:13.5px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
@@ -119,6 +130,20 @@ select{font:inherit;font-size:13.5px;background:var(--surface);color:var(--ink);
   </div>
 </div>
 
+<div class="fbar" role="search">
+  <input type="search" id="q" placeholder="Buscar: Lisboa, Azul, Europa…" aria-label="Buscar ofertas" autocomplete="off">
+  <div class="frow">
+    <label>Continente <select id="f-cont"><option value="">Todos</option></select></label>
+    <label>Região ou país <select id="f-reg"><option value="">Todas</option></select></label>
+    <label>Tipo <select id="f-tipo"><option value="">Todos</option><option value="cash">Dinheiro</option><option value="miles">Milhas</option></select></label>
+    <label>Programa de milhas <select id="f-prog"><option value="">Todos</option></select></label>
+    <label>Preço máximo (R$) <input type="number" id="f-max" min="0" step="50" inputmode="numeric" placeholder="sem limite"></label>
+    <label class="chk"><input type="checkbox" id="f-same"> Só no mesmo programa</label>
+    <button type="button" id="f-clear">Limpar filtros</button>
+  </div>
+  <div class="fres" id="f-res" aria-live="polite"></div>
+</div>
+
 <div id="top3" class="top3"></div>
 
 <section id="sec-cash">
@@ -132,10 +157,6 @@ select{font:inherit;font-size:13.5px;background:var(--surface);color:var(--ink);
 <section id="sec-x">
   <div class="sh"><h2>Milhas, ida e volta em bilhetes separados</h2><span class="count" id="n-x"></span></div>
   <p class="sd">Valor de ida e volta: o menor preço publicado da ida somado ao menor preço da volta, com 3 a 30 dias de estadia. É um piso. O preço exato de cada dia só aparece no programa, no calendário que os botões abrem. A volta pode ser por outro aeroporto de São Paulo.</p>
-  <div class="filters">
-    <label><input type="checkbox" id="f-same"> Só no mesmo programa</label>
-    <label>Destino <select id="f-dest"><option value="">Todos</option></select></label>
-  </div>
   <div class="list" id="l-x"></div>
 </section>
 
@@ -280,6 +301,27 @@ X;SAO;IAD;GRU;Copa Airlines/Aeroplan;Copa Airlines/Azul pelo Mundo;40000;82500;2
 var CITY = {FLL:'Fort Lauderdale',OPO:'Porto',NVT:'Navegantes',MAD:'Madri',FLN:'Florianópolis',LIS:'Lisboa',MCZ:'Maceió',BEL:'Belém',POA:'Porto Alegre',SSA:'Salvador',MCO:'Orlando',MCP:'Macapá',IAD:'Washington',REC:'Recife',FOR:'Fortaleza',JFK:'Nova York',MIA:'Miami',CUN:'Cancún',EZE:'Buenos Aires',PUJ:'Punta Cana',LAX:'Los Angeles',ADZ:'San Andrés',FTE:'El Calafate',IGU:'Foz do Iguaçu',BSB:'Brasília',BYO:'Bonito',LAS:'Las Vegas',VCE:'Veneza',SDU:'Rio de Janeiro',BPS:'Porto Seguro',CHO:'CHO (Chicago?)',MII:'Marília',LDB:'Londrina',JOI:'Joinville'};
 var APT = {VCP:'Viracopos (VCP)',GRU:'Guarulhos (GRU)',CGH:'Congonhas (CGH)',SAO:'São Paulo (SAO)'};
 var ORIGIN = {VCP:'Campinas',SAO:'São Paulo'};
+/* continente e região ou país de cada destino */
+var GEO = {};
+function geoSet(codes, cont, reg){ codes.split(' ').forEach(function(c){ GEO[c] = [cont, reg]; }); }
+geoSet('SDU GIG CNF VIX MII', 'Brasil', 'Sudeste');
+geoSet('POA FLN NVT IGU JOI LDB CWB', 'Brasil', 'Sul');
+geoSet('SSA REC FOR MCZ BPS NAT SLZ AJU JPA', 'Brasil', 'Nordeste');
+geoSet('BEL MCP MAO', 'Brasil', 'Norte');
+geoSet('BSB BYO CGB CGR GYN', 'Brasil', 'Centro-Oeste');
+geoSet('EZE AEP FTE', 'América do Sul', 'Argentina');
+geoSet('SCL', 'América do Sul', 'Chile'); geoSet('MVD', 'América do Sul', 'Uruguai'); geoSet('ASU', 'América do Sul', 'Paraguai');
+geoSet('LIM', 'América do Sul', 'Peru'); geoSet('BOG UIO', 'América do Sul', 'Colômbia e Equador');
+geoSet('MCO FLL MIA JFK EWR IAD LAX LAS ORD CHO ATL BOS SFO', 'América do Norte', 'Estados Unidos');
+geoSet('CUN MEX', 'América do Norte', 'México');
+geoSet('PUJ', 'América Central e Caribe', 'República Dominicana');
+geoSet('ADZ', 'América Central e Caribe', 'Colômbia (San Andrés)');
+geoSet('PTY SJO', 'América Central e Caribe', 'Panamá e Costa Rica');
+geoSet('LIS OPO', 'Europa', 'Portugal'); geoSet('MAD BCN', 'Europa', 'Espanha'); geoSet('VCE FCO', 'Europa', 'Itália'); geoSet('CDG', 'Europa', 'França');
+var CONT_ORDER = ['Brasil','América do Sul','América do Norte','América Central e Caribe','Europa','Outros'];
+function geo(d){ return GEO[d] || ['Outros','Outros']; }
+function nz(s){ return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
+function lastProg(p){ return String(p||'').split('/').pop(); }
 
 function city(c){ return CITY[c] || c; }
 function lk(u,t){ return u ? '<a href="'+u+'" target="_blank" rel="noopener noreferrer">'+t+' ↗</a>' : ''; }
@@ -338,12 +380,73 @@ function itemX(x,i){
     '<div class="dates"><b>Exemplos:</b> '+ex+' · '+x.n+(x.n===1?' combinação':' combinações')+'</div></div>';
 }
 
+function F(){
+  return { q:nz(el('q').value).split(/\s+/).filter(Boolean), cont:el('f-cont').value, reg:el('f-reg').value, tipo:el('f-tipo').value,
+    prog:el('f-prog').value, max:el('f-max').value===''?null:Number(el('f-max').value), same:el('f-same').checked };
+}
+function hay(x,kind){
+  var g = geo(x.d);
+  var s = [city(x.d), x.d, g[0], g[1], ORIGIN[x.o]||x.o];
+  if(kind==='cash') s.push(x.cia||'', 'dinheiro');
+  if(kind==='nat') s.push(x.prog, 'milhas');
+  if(kind==='x') s.push(x.po, x.pr, x.r, APT[x.r]||'', 'milhas');
+  return nz(s.join(' '));
+}
+function pass(x,kind,f){
+  var g = geo(x.d);
+  if(f.cont && g[0]!==f.cont) return false;
+  if(f.reg && g[1]!==f.reg) return false;
+  if(f.tipo==='cash' && kind!=='cash') return false;
+  if(f.tipo==='miles' && kind==='cash') return false;
+  if(f.prog){
+    if(kind==='cash') return false;
+    if(kind==='nat' && lastProg(x.prog)!==f.prog) return false;
+    if(kind==='x' && lastProg(x.po)!==f.prog && lastProg(x.pr)!==f.prog) return false;
+  }
+  if(f.max!=null){
+    var v = kind==='cash' ? x.brl : kind==='nat' ? x.brl : x.tot;
+    if(v==null || v>f.max) return false;
+  }
+  if(f.same && kind==='x' && !x.same) return false;
+  if(f.q.length){ var h = hay(x,kind); for(var i=0;i<f.q.length;i++){ if(h.indexOf(f.q[i])<0) return false; } }
+  return true;
+}
+function fillSelect(sel, values, firstLabel){
+  var keep = sel.value;
+  sel.innerHTML = '<option value="">'+firstLabel+'</option>' + values.map(function(v){ return '<option value="'+v+'">'+v+'</option>'; }).join('');
+  sel.value = values.indexOf(keep)>=0 ? keep : '';
+}
+function fillFilters(c,n,xs){
+  var base = [].concat(c.map(function(x){return x.d;}), n.map(function(x){return x.d;}), xs.map(function(x){return x.d;}));
+  var conts = {}; base.forEach(function(d){ conts[geo(d)[0]] = 1; });
+  fillSelect(el('f-cont'), CONT_ORDER.filter(function(k){return conts[k];}), 'Todos');
+  var cont = el('f-cont').value, regs = {};
+  base.forEach(function(d){ var g = geo(d); if(!cont || g[0]===cont) regs[g[1]] = 1; });
+  fillSelect(el('f-reg'), Object.keys(regs).sort(function(a,b){return a.localeCompare(b);}), 'Todas');
+  var progs = {};
+  n.forEach(function(x){ progs[lastProg(x.prog)] = 1; });
+  xs.forEach(function(x){ progs[lastProg(x.po)] = 1; progs[lastProg(x.pr)] = 1; });
+  fillSelect(el('f-prog'), Object.keys(progs).sort(function(a,b){return a.localeCompare(b);}), 'Todos');
+}
+
 function render(){
-  var c = cash.filter(function(x){return x.o===cur;});
-  var n = nat.filter(function(x){return x.o===cur;});
-  var xs = cross.filter(function(x){return x.o===cur;});
-  el('cnt-VCP').textContent = (cash.filter(function(x){return x.o==='VCP';}).length + nat.filter(function(x){return x.o==='VCP';}).length + cross.filter(function(x){return x.o==='VCP';}).length) + ' ofertas';
-  el('cnt-SAO').textContent = (cash.filter(function(x){return x.o==='SAO';}).length + nat.filter(function(x){return x.o==='SAO';}).length + cross.filter(function(x){return x.o==='SAO';}).length) + ' ofertas';
+  var c0 = cash.filter(function(x){return x.o===cur;});
+  var n0 = nat.filter(function(x){return x.o===cur;});
+  var x0 = cross.filter(function(x){return x.o===cur;});
+  ['VCP','SAO'].forEach(function(k){
+    el('cnt-'+k).textContent = (cash.filter(function(x){return x.o===k;}).length + nat.filter(function(x){return x.o===k;}).length + cross.filter(function(x){return x.o===k;}).length) + ' ofertas';
+  });
+  fillFilters(c0,n0,x0);
+  var f = F();
+  var c = c0.filter(function(x){return pass(x,'cash',f);});
+  var n = n0.filter(function(x){return pass(x,'nat',f);});
+  var xs = x0.filter(function(x){return pass(x,'x',f);});
+
+  el('sec-cash').hidden = f.tipo==='miles';
+  el('sec-x').hidden = f.tipo==='cash';
+  el('sec-nat').hidden = f.tipo==='cash';
+  var total = c0.length + n0.length + x0.length, shown = c.length + n.length + xs.length;
+  el('f-res').textContent = 'Mostrando ' + shown + ' de ' + total + ' ofertas saindo de ' + (ORIGIN[cur]||cur) + (shown<total ? ' (filtros ativos)' : '');
 
   /* mais baratas */
   var all = [];
@@ -352,24 +455,18 @@ function render(){
   all.sort(function(a,b){return a.b-b.b;});
   var seenD = {};
   all = all.filter(function(a){ if(seenD[a.d]) return false; seenD[a.d] = 1; return true; });
+  el('top3').hidden = all.length===0;
   el('top3').innerHTML = all.slice(0,4).map(function(a,i){
     return '<div class="t3"><small>Mais barata #'+(i+1)+' · '+a.t+'</small><span class="c">'+city(a.d)+'</span><span class="brl">'+brl(a.b)+'</span><small>'+(a.m!=null?mi(a.m)+' · ':'')+a.s+'</small>'+a.l+'</div>';
   }).join('');
 
-  el('n-cash').textContent = c.length + ' ofertas';
-  el('l-cash').innerHTML = c.length ? c.map(function(x,i){return itemCash(x,i+1);}).join('') : '<div class="empty">Nenhuma oferta em dinheiro com datas futuras saindo daqui.</div>';
-
-  el('n-nat').textContent = n.length + ' ofertas';
-  el('l-nat').innerHTML = n.length ? n.map(function(x,i){return itemNat(x,i+1);}).join('') : '<div class="empty">Nenhuma oferta em milhas com ida e volta no mesmo card saindo de São Paulo agora. Veja as combinações em bilhetes separados abaixo.</div>';
-
-  var sel = el('f-dest'), keep = sel.value;
-  var dests = Array.from(new Set(xs.map(function(x){return x.d;}))).sort(function(a,b){return city(a).localeCompare(city(b));});
-  sel.innerHTML = '<option value="">Todos</option>' + dests.map(function(d){return '<option value="'+d+'">'+city(d)+'</option>';}).join('');
-  sel.value = dests.indexOf(keep)>=0 ? keep : '';
-  var same = el('f-same').checked, dsel = sel.value;
-  var fx = xs.filter(function(x){ return (!same || x.same) && (!dsel || x.d===dsel); });
-  el('n-x').textContent = fx.length + ' combinações';
-  el('l-x').innerHTML = fx.length ? fx.map(function(x,i){return itemX(x,i+1);}).join('') : '<div class="empty">Nenhuma combinação com esse filtro.</div>';
+  var sem = '<div class="empty">Nenhuma oferta com esses filtros.</div>';
+  el('n-cash').textContent = c.length + ' de ' + c0.length + ' ofertas';
+  el('l-cash').innerHTML = c.length ? c.map(function(x,i){return itemCash(x,i+1);}).join('') : (c0.length ? sem : '<div class="empty">Nenhuma oferta em dinheiro com datas futuras saindo daqui.</div>');
+  el('n-nat').textContent = n.length + ' de ' + n0.length + ' ofertas';
+  el('l-nat').innerHTML = n.length ? n.map(function(x,i){return itemNat(x,i+1);}).join('') : (n0.length ? sem : '<div class="empty">Nenhuma oferta de um trecho saindo daqui agora.</div>');
+  el('n-x').textContent = xs.length + ' de ' + x0.length + ' combinações';
+  el('l-x').innerHTML = xs.length ? xs.map(function(x,i){return itemX(x,i+1);}).join('') : (x0.length ? sem : '<div class="empty">Nenhuma combinação saindo daqui agora.</div>');
 }
 
 function setOrigin(o,fromHash){
@@ -380,8 +477,9 @@ function setOrigin(o,fromHash){
 }
 document.querySelectorAll('.tab').forEach(function(b){ b.addEventListener('click', function(){ setOrigin(b.getAttribute('data-o')); }); });
 document.querySelectorAll('.secnav button').forEach(function(b){ b.addEventListener('click', function(){ var t = el(b.getAttribute('data-s')); if(t) t.scrollIntoView({behavior:'smooth',block:'start'}); }); });
-el('f-same').addEventListener('change', render);
-el('f-dest').addEventListener('change', render);
+['q','f-max'].forEach(function(id){ el(id).addEventListener('input', render); });
+['f-cont','f-reg','f-tipo','f-prog','f-same'].forEach(function(id){ el(id).addEventListener('change', function(){ if(id==='f-cont') el('f-reg').value=''; render(); }); });
+el('f-clear').addEventListener('click', function(){ el('q').value=''; el('f-cont').value=''; el('f-reg').value=''; el('f-tipo').value=''; el('f-prog').value=''; el('f-max').value=''; el('f-same').checked=false; render(); });
 function fromHash(){ var h = location.hash.replace('#',''); setOrigin(h==='sao-paulo' ? 'SAO' : 'VCP', true); }
 window.addEventListener('hashchange', fromHash);
 fromHash();
