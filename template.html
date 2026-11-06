@@ -5,74 +5,129 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>Passagens Baratas SP e Campinas</title>
-
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230B6E75'/%3E%3Cpath d='M6 19l20-8-7 14-3-6-6 2z' fill='white'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
-/* Layout: quadro de partidas. Duas abas de origem, três seções ordenadas por R$ total, cada oferta em um bloco de três linhas. */
+/* Layout: abas de origem fixas no topo, painel de busca, quadro de partidas escuro com as 4 mais baratas, depois três listas ordenadas por R$ de ida e volta. */
 :root{
-  --bg:#EBF0F4; --surface:#FFFFFF; --ink:#0F1C2B; --muted:#56687A; --line:#D3DDE6;
-  --accent:#0A6C74; --accent-soft:#D8EDEF; --accent-ink:#FFFFFF;
-  --good:#1B7F4B; --good-soft:#DDF2E5; --warn:#8A5200; --warn-soft:#FBEBCF;
+  --bg:#EDF1F4; --surface:#FFFFFF; --ink:#0F1A26; --muted:#58697A; --line:#D8E0E7; --soft:#F5F8FA;
+  --accent:#0B6E75; --accent-soft:#DAEEF0; --accent-ink:#FFFFFF;
+  --good:#17794A; --good-soft:#DCF3E5; --warn:#8A5300; --warn-soft:#FBEBD0;
+  --board:#0D1620; --board-row:#142030; --board-line:#233345; --board-ink:#F4B63F; --board-dim:#8DA0B3; --board-code:#1C2B3C;
   --f-display:'Barlow Condensed','Arial Narrow',sans-serif;
   --f-body:'Figtree',system-ui,sans-serif;
   --f-mono:'IBM Plex Mono',ui-monospace,Consolas,monospace;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#0B131B; --surface:#131E2A; --ink:#E7EEF5; --muted:#93A5B7; --line:#243545;
-    --accent:#52C4CD; --accent-soft:#12343A; --accent-ink:#06222A;
-    --good:#5CD18C; --good-soft:#12301F; --warn:#F2B964; --warn-soft:#3A2B10;
+    --bg:#090F15; --surface:#111B26; --ink:#E6EDF4; --muted:#92A4B6; --line:#223344; --soft:#0D1620;
+    --accent:#55C6CF; --accent-soft:#12343A; --accent-ink:#052229;
+    --good:#5CD18C; --good-soft:#11301F; --warn:#F2B964; --warn-soft:#3A2B10;
+    --board:#060B10; --board-row:#0E1823; --board-line:#1E2E3F;
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#0B131B; --surface:#131E2A; --ink:#E7EEF5; --muted:#93A5B7; --line:#243545;
-  --accent:#52C4CD; --accent-soft:#12343A; --accent-ink:#06222A;
-  --good:#5CD18C; --good-soft:#12301F; --warn:#F2B964; --warn-soft:#3A2B10;
+  --bg:#090F15; --surface:#111B26; --ink:#E6EDF4; --muted:#92A4B6; --line:#223344; --soft:#0D1620;
+  --accent:#55C6CF; --accent-soft:#12343A; --accent-ink:#052229;
+  --good:#5CD18C; --good-soft:#11301F; --warn:#F2B964; --warn-soft:#3A2B10;
+  --board:#060B10; --board-row:#0E1823; --board-line:#1E2E3F;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 56px}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
-.wrap{max-width:980px;margin:0 auto}
-header.top{padding-block:28px 8px}
-.kicker{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-h1{font-family:var(--f-display);font-weight:700;font-size:clamp(34px,7vw,56px);line-height:1;margin:6px 0 10px;letter-spacing:.005em;text-wrap:balance}
-.lead{max-width:62ch;color:var(--muted);margin:0}
-.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--bg);padding-block:12px;border-bottom:1px solid var(--line);margin-top:18px}
+.wrap{max-width:1000px;margin:0 auto}
+a{color:inherit}
+button,select,input{font:inherit}
+button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* cabeçalho */
+header.top{padding-block:26px 6px}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--good);box-shadow:0 0 0 3px var(--good-soft)}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(36px,7.4vw,60px);line-height:.98;margin:8px 0 10px;letter-spacing:.003em;text-wrap:balance}
+.lead{max-width:60ch;color:var(--muted);margin:0}
+
+/* abas de origem */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line);margin-top:16px}
 .tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.tab{font:inherit;text-align:left;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px 14px;cursor:pointer;display:flex;flex-direction:column;gap:2px}
-.tab b{font-family:var(--f-display);font-size:24px;font-weight:700;line-height:1.05}
-.tab span{font-size:12.5px;color:var(--muted)}
+.tab{text-align:left;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:8px 14px;cursor:pointer;display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.tab b{font-family:var(--f-display);font-size:24px;font-weight:700;line-height:1.1}
+.tab span{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
 .tab[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .tab[aria-selected="true"] span{color:var(--accent-ink);opacity:.85}
-.secnav{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.secnav button{font:inherit;font-size:13px;font-weight:600;background:transparent;color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer}
+
+/* busca e filtros */
+.fbar{margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px}
+.srow{display:flex;gap:8px}
+#q{flex:1;min-width:0;padding:11px 14px;border:1px solid var(--line);border-radius:10px;background:var(--soft);color:var(--ink)}
+#q::placeholder{color:var(--muted)}
+#f-toggle{flex:none;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:10px;padding:0 14px;font-weight:600;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:8px}
+#f-toggle .n{font-family:var(--f-mono);font-size:12px;background:var(--accent);color:var(--accent-ink);border-radius:999px;padding:1px 7px}
+#f-toggle[aria-expanded="true"]{border-color:var(--accent);color:var(--accent)}
+.frow{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:flex-end}
+.frow label{display:flex;flex-direction:column;gap:4px;font-size:11.5px;font-weight:600;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;min-width:0;flex:1 1 150px}
+.frow select,.frow input[type=number]{font-size:14px;text-transform:none;letter-spacing:0;font-weight:500;color:var(--ink);background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:8px;min-width:0;width:100%}
+.frow label.chk{flex:0 0 auto;flex-direction:row;align-items:center;gap:6px;text-transform:none;letter-spacing:0;font-size:13.5px;font-weight:500;color:var(--ink);padding-bottom:8px}
+.frow label.chk input{width:auto}
+#f-clear{font-size:13px;font-weight:600;background:transparent;color:var(--accent);border:1px solid var(--line);border-radius:999px;padding:6px 14px;cursor:pointer;margin-bottom:3px}
+.fres{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+
+/* quadro de partidas */
+.board{margin-top:18px;background:var(--board);border:1px solid var(--board-line);border-radius:14px;overflow:hidden}
+.b-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--board-line);font-family:var(--f-mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--board-dim)}
+.b-head b{color:var(--board-ink);font-weight:600}
+.b-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:6px 14px;align-items:center;padding:12px 16px;border-top:1px solid var(--board-line)}
+.b-row:first-of-type{border-top:0}
+.b-code{font-family:var(--f-mono);font-weight:600;font-size:22px;letter-spacing:.06em;color:var(--board-ink);background:var(--board-code);border-radius:6px;padding:6px 10px;grid-row:span 2}
+.b-city{font-family:var(--f-display);font-size:26px;font-weight:700;line-height:1;color:#F2F6FA}
+.b-sub{font-size:13px;color:var(--board-dim);overflow-wrap:anywhere}
+.b-val{text-align:right;grid-row:span 2}
+.b-brl{font-family:var(--f-mono);font-weight:600;font-size:24px;line-height:1.05;color:var(--board-ink);font-variant-numeric:tabular-nums}
+.b-mi{font-family:var(--f-mono);font-size:12px;color:var(--board-dim)}
+.b-links{grid-column:2 / 4;display:flex;gap:8px;flex-wrap:wrap}
+.b-links a{font-size:12px;font-weight:600;color:var(--board-ink);border:1px solid var(--board-line);border-radius:999px;padding:3px 10px;text-decoration:none}
+.b-links a:hover{border-color:var(--board-ink)}
+@media (max-width:520px){ .b-row{grid-template-columns:auto minmax(0,1fr)} .b-val{grid-column:2;grid-row:auto;text-align:left;display:flex;gap:10px;align-items:baseline} .b-links{grid-column:1 / 3} .b-code{grid-row:auto} }
+
+/* navegação por seção */
+.secnav{display:flex;gap:8px;overflow-x:auto;margin-top:18px;padding-bottom:2px;scrollbar-width:none}
+.secnav::-webkit-scrollbar{display:none}
+.secnav button{flex:none;font-size:13px;font-weight:600;background:transparent;color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:6px 13px;cursor:pointer}
 .secnav button:hover{border-color:var(--accent);color:var(--accent)}
-button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-section{margin-top:34px;scroll-margin-top:150px}
+
+/* seções e listas */
+section{margin-top:30px;scroll-margin-top:90px}
 .sh{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
 h2{font-family:var(--f-display);font-weight:700;font-size:30px;line-height:1.05;margin:0}
 .count{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
-.sd{color:var(--muted);margin:6px 0 14px;max-width:70ch;font-size:14px}
+details.sd{margin:6px 0 12px;color:var(--muted);font-size:14px;max-width:72ch}
+details.sd summary{cursor:pointer;font-weight:600;font-size:13px;color:var(--accent);list-style:none;display:inline-flex;gap:6px;align-items:center}
+details.sd summary::-webkit-details-marker{display:none}
+details.sd summary::before{content:"+";font-family:var(--f-mono)}
+details.sd[open] summary::before{content:"−"}
+details.sd p{margin:8px 0 0}
 .list{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
-.item{padding:14px 16px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:8px;min-width:0}
+.item{padding:14px 16px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:9px;min-width:0}
 .item:first-child{border-top:0}
 .l1{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
-.dest{display:flex;gap:10px;align-items:baseline;min-width:0;flex-wrap:wrap}
-.rank{font-family:var(--f-mono);font-size:12px;color:var(--muted);min-width:26px}
-.city{font-family:var(--f-display);font-size:26px;font-weight:700;line-height:1;letter-spacing:.005em}
+.dest{display:flex;gap:10px;align-items:center;min-width:0;flex-wrap:wrap}
+.code{font-family:var(--f-mono);font-weight:600;font-size:13px;letter-spacing:.06em;background:var(--accent-soft);color:var(--accent);border-radius:6px;padding:4px 8px}
+.city{font-family:var(--f-display);font-size:26px;font-weight:700;line-height:1}
 .route{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.rank{font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
 .price{text-align:right;flex:none}
-.brl{font-family:var(--f-mono);font-weight:600;font-size:21px;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--accent)}
+.brl{font-family:var(--f-mono);font-weight:600;font-size:22px;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--accent)}
 .mi{font-family:var(--f-mono);font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
 .badge{font-size:11.5px;font-weight:700;border-radius:999px;padding:2px 9px;white-space:nowrap}
 .b-good{background:var(--good-soft);color:var(--good)}
 .b-warn{background:var(--warn-soft);color:var(--warn)}
 .b-acc{background:var(--accent-soft);color:var(--accent)}
 .legs{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px}
-.leg{border:1px solid var(--line);border-radius:8px;padding:8px 10px;display:flex;justify-content:space-between;gap:10px;align-items:baseline;min-width:0}
+.leg{border:1px solid var(--line);border-radius:8px;padding:8px 10px;display:flex;justify-content:space-between;gap:10px;align-items:baseline;min-width:0;background:var(--soft)}
 .leg .t{min-width:0}
 .leg .t b{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;font-family:var(--f-mono);font-weight:500}
 .leg .t span{font-size:13.5px;overflow-wrap:anywhere}
@@ -80,41 +135,32 @@ h2{font-family:var(--f-display);font-weight:700;font-size:30px;line-height:1.05;
 .leg .v strong{display:block;font-size:14px}
 .dates{font-size:13px;color:var(--muted);overflow-wrap:anywhere}
 .dates b{color:var(--ink);font-weight:600}
-.links{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chips .lab{font-size:12px;font-weight:600;color:var(--muted);margin-right:2px}
+.chip{font-family:var(--f-mono);font-size:12px;border:1px solid var(--line);border-radius:6px;padding:2px 7px;color:var(--ink);background:var(--soft);white-space:nowrap}
+.chip.more{border-style:dashed;color:var(--muted)}
+.links{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px}
 .links a{font-size:12.5px;font-weight:600;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:3px 10px;text-decoration:none}
 .links a:hover{text-decoration:underline}
-.links a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.fbar{margin-top:16px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:12px}
-#q{font:inherit;width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
-#q::placeholder{color:var(--muted)}
-.frow{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:flex-end}
-.frow label{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;min-width:0;flex:1 1 150px}
-.frow select,.frow input[type=number]{font:inherit;font-size:14px;text-transform:none;letter-spacing:0;font-weight:500;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:7px 8px;min-width:0;max-width:100%;width:100%}
-.frow label.chk{flex:0 0 auto;flex-direction:row;align-items:center;gap:6px;text-transform:none;letter-spacing:0;font-size:13.5px;font-weight:500;color:var(--ink);padding-bottom:7px}
-.frow label.chk input{width:auto}
-#f-clear{font:inherit;font-size:13px;font-weight:600;background:transparent;color:var(--accent);border:1px solid var(--line);border-radius:999px;padding:6px 14px;cursor:pointer;margin-bottom:2px}
-.fres{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
-[hidden]{display:none!important}
-.filters{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
-.filters label{font-size:13.5px;display:flex;gap:6px;align-items:center}
-select{font:inherit;font-size:13.5px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
 .empty{padding:22px 16px;color:var(--muted)}
-.top3{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin-top:16px}
-.t3{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:4px}
-.t3 .c{font-family:var(--f-display);font-size:24px;font-weight:700;line-height:1}
-.t3 small{color:var(--muted);font-size:12.5px}
 .notes{margin-top:40px;border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font-size:13.5px}
 .notes h3{font-family:var(--f-display);font-size:22px;color:var(--ink);margin:0 0 8px}
 .notes ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;max-width:78ch}
+@media (max-width:560px){
+  .tab{flex-direction:column;align-items:flex-start;gap:0}
+  .l1{flex-direction:column;gap:8px}
+  .price{text-align:left;display:flex;gap:4px 12px;align-items:baseline;flex-wrap:wrap}
+  .city{font-size:24px}
+}
+@media (prefers-reduced-motion:no-preference){ .tab,.secnav button,.links a,.b-links a{transition:background-color .15s,border-color .15s,color .15s} }
 </style>
-
 </head>
 <body>
 <div class="wrap">
 <header class="top">
   <div class="kicker">__SCANNED__</div>
   <h1>Passagens baratas saindo de São Paulo e Campinas</h1>
-  <p class="lead">Ofertas de ida e volta do mais barato para o mais caro, sempre com o valor em R$ e em milhas. Cada seção está separada pelo tipo de bilhete.</p>
+  <p class="lead">Só ofertas de ida e volta que valem a pena, do mais barato ao mais caro, com o valor em R$ e em milhas.</p>
 </header>
 
 <div class="bar">
@@ -122,17 +168,14 @@ select{font:inherit;font-size:13.5px;background:var(--surface);color:var(--ink);
     <button class="tab" role="tab" id="tab-VCP" data-o="VCP" aria-selected="true"><b>Campinas</b><span id="cnt-VCP"></span></button>
     <button class="tab" role="tab" id="tab-SAO" data-o="SAO" aria-selected="false"><b>São Paulo</b><span id="cnt-SAO"></span></button>
   </div>
-  <div class="secnav">
-    <button data-s="sec-cash">Dinheiro</button>
-    <button data-s="sec-x">Milhas, ida + volta separadas</button>
-    <button data-s="sec-nat">Milhas, um trecho</button>
-    <button data-s="sec-notes">Como ler</button>
-  </div>
 </div>
 
 <div class="fbar" role="search">
-  <input type="search" id="q" placeholder="Buscar: Lisboa, Azul, Europa…" aria-label="Buscar ofertas" autocomplete="off">
-  <div class="frow">
+  <div class="srow">
+    <input type="search" id="q" placeholder="Buscar: Lisboa, Azul, Europa…" aria-label="Buscar ofertas" autocomplete="off">
+    <button type="button" id="f-toggle" aria-expanded="false" aria-controls="frow">Filtros <span class="n" id="f-n" hidden>0</span></button>
+  </div>
+  <div class="frow" id="frow" hidden>
     <label>Continente <select id="f-cont"><option value="">Todos</option></select></label>
     <label>Região ou país <select id="f-reg"><option value="">Todas</option></select></label>
     <label>Tipo <select id="f-tipo"><option value="">Todos</option><option value="cash">Dinheiro</option><option value="miles">Milhas</option></select></label>
@@ -144,25 +187,33 @@ select{font:inherit;font-size:13.5px;background:var(--surface);color:var(--ink);
   <div class="fres" id="f-res" aria-live="polite"></div>
 </div>
 
-<div id="top3" class="top3"></div>
+<div class="board" id="board" aria-label="As ofertas mais baratas agora">
+  <div class="b-head"><span><b>Partidas</b> · mais baratas agora</span><span id="b-sub">ida e volta</span></div>
+  <div id="b-rows"></div>
+</div>
+
+<div class="secnav">
+  <button data-s="sec-cash">Dinheiro</button>
+  <button data-s="sec-x">Milhas, ida + volta separadas</button>
+  <button data-s="sec-nat">Milhas, um trecho</button>
+  <button data-s="sec-notes">Como ler</button>
+</div>
 
 <section id="sec-cash">
   <div class="sh"><h2>Ida e volta em dinheiro</h2><span class="count" id="n-cash"></span></div>
-  <p class="sd">Preço em reais publicado pelo site para o par de datas. As milhas ao lado são uma referência de conversão a R$ 15 o milheiro, só para comparar.</p>
+  <details class="sd"><summary>Como ler esta seção</summary><p>Preço em reais publicado pelo site para o par de datas. As milhas ao lado são uma referência de conversão a R$ 15 o milheiro, só para comparar.</p></details>
   <div class="list" id="l-cash"></div>
 </section>
 
-
-
 <section id="sec-x">
   <div class="sh"><h2>Milhas, ida e volta em bilhetes separados</h2><span class="count" id="n-x"></span></div>
-  <p class="sd">Valor de ida e volta: o menor preço publicado da ida somado ao menor preço da volta, com 3 a 30 dias de estadia. É um piso. O preço exato de cada dia só aparece no programa, no calendário que os botões abrem. A volta pode ser por outro aeroporto de São Paulo.</p>
+  <details class="sd"><summary>Como ler esta seção</summary><p>Valor de ida e volta: o menor preço publicado da ida somado ao menor preço da volta, com 3 a 30 dias de estadia. É um piso. O preço exato de cada dia só aparece no programa, no calendário que os botões abrem. A volta pode ser por outro aeroporto de São Paulo.</p></details>
   <div class="list" id="l-x"></div>
 </section>
 
 <section id="sec-nat">
   <div class="sh"><h2>Milhas, mesmo card (preço de um trecho)</h2><span class="count" id="n-nat"></span></div>
-  <p class="sd">O site lista datas de ida e de volta no mesmo card, mas o preço é de um trecho só, o mais barato publicado, e não o total da viagem. No resgate da LATAM, por exemplo, 9.649 milhas era só a volta e a ida custava mais. Confira os dois trechos no programa antes de contar com o valor. O R$ é a conversão do site pelo milheiro, sem taxas.</p>
+  <details class="sd"><summary>Como ler esta seção</summary><p>O site lista datas de ida e de volta no mesmo card, mas o preço é de um trecho só, o mais barato publicado, e não o total da viagem. No resgate da LATAM, por exemplo, 9.649 milhas era só a volta e a ida custava mais. Confira os dois trechos no programa antes de contar com o valor. O R$ é a conversão do site pelo milheiro, sem taxas.</p></details>
   <div class="list" id="l-nat"></div>
 </section>
 
@@ -170,8 +221,8 @@ select{font:inherit;font-size:13.5px;background:var(--surface);color:var(--ink);
   <h3>Como ler esta página</h3>
   <ul>
     <li>Datas de novembro e dezembro são de 2026. Datas de janeiro a outubro são de 2027. Só aparecem datas depois de __TODAY__.</li>
-    <li>O quadro "Mais barata" e o top 5 do WhatsApp usam só totais de viagem: dinheiro, ou a soma de uma ida e uma volta em milhas. Cards de um trecho só ficam de fora. Em milhas, a soma é um piso: cada trecho está no preço mínimo, que pode valer para outra data.</li>
-    <li>Todo preço é "a partir de" por perna, no mínimo publicado.</li> O R$ das milhas vem do milheiro que o site usa: Azul R$ 14, Smiles R$ 15, LATAM Pass R$ 23, Aeroplan R$ 70, AAdvantage R$ 90. Taxas de embarque ficam de fora.</li>
+    <li>O quadro de partidas e o top 5 do WhatsApp usam só totais de viagem: dinheiro, ou a soma de uma ida e uma volta em milhas. Cards de um trecho só ficam de fora. Em milhas, a soma é um piso: cada trecho está no preço mínimo, que pode valer para outra data.</li>
+    <li>Todo preço é "a partir de" por perna, no mínimo publicado. O R$ das milhas vem do milheiro que o site usa: Azul R$ 14, Smiles R$ 15, LATAM Pass R$ 23, Aeroplan R$ 70, AAdvantage R$ 90. Taxas de embarque ficam de fora.</li>
     <li>Nada disso foi confirmado no site dos programas ou no checkout das companhias. Confira disponibilidade e bagagem antes de transferir pontos.</li>
     <li>Em bilhetes separados, um atraso na ida não protege a volta. Programas diferentes pedem saldo nos dois.</li>
     <li>__ESCONDIDAS__</li>
@@ -207,18 +258,22 @@ geoSet('PTY SJO', 'América Central e Caribe', 'Panamá e Costa Rica');
 geoSet('LIS OPO', 'Europa', 'Portugal'); geoSet('MAD BCN', 'Europa', 'Espanha'); geoSet('VCE FCO', 'Europa', 'Itália'); geoSet('CDG', 'Europa', 'França');
 var CONT_ORDER = ['Brasil','América do Sul','América do Norte','América Central e Caribe','Europa','Outros'];
 function geo(d){ return GEO[d] || ['Outros','Outros']; }
-function nz(s){ return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
+function nz(s){ return String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); }
 function lastProg(p){ return String(p||'').split('/').pop(); }
 
 function city(c){ return CITY[c] || c; }
 function lk(u,t){ return u ? '<a href="'+u+'" target="_blank" rel="noopener noreferrer">'+t+' ↗</a>' : ''; }
-function links(arr){ var s = arr.filter(Boolean).join(''); return s ? '<div class="links">'+s+'</div>' : ''; }
+function links(arr,cls){ var s = arr.filter(Boolean).join(''); return s ? '<div class="'+(cls||'links')+'">'+s+'</div>' : ''; }
 function nf(n){ return Number(n).toLocaleString('pt-BR'); }
 function brl(n){ return n==null||n===''||isNaN(n) ? 'R$ n/d' : 'R$ ' + nf(n); }
 function mi(n){ return nf(n) + ' mi'; }
 function dm(s){ var p = s.split('-'); return p[1] + '/' + p[0]; }
-function pair(s){ var p = s.split('>'); return p[1] ? dm(p[0]) + ' → ' + dm(p[1]) : dm(p[0]) + ' → volta não listada'; }
-function list(s,n){ var a = s.split(' ').filter(Boolean).map(dm); return a.length>n ? a.slice(0,n).join(', ') + ' +' + (a.length-n) : a.join(', '); }
+function pair(s){ var p = s.split('>'); return p[1] ? dm(p[0]) + ' → ' + dm(p[1]) : dm(p[0]) + ' → ?'; }
+function chips(label, items, max){
+  var show = items.slice(0,max).map(function(t){ return '<span class="chip">'+t+'</span>'; }).join('');
+  var more = items.length>max ? '<span class="chip more">+'+(items.length-max)+'</span>' : '';
+  return '<div class="chips"><span class="lab">'+label+'</span>'+show+more+'</div>';
+}
 function num(v){ return v===''||v==null ? null : Number(v); }
 
 var nat = [], cash = [], cross = [];
@@ -235,23 +290,24 @@ cash.sort(function(a,b){ return a.brl-b.brl; });
 cross.sort(function(a,b){ return byBrl(a,b,'tot','tot'); });
 
 var cur = 'VCP';
+var minDest = {};   /* menor total de ida e volta por destino, na origem atual */
 function el(id){ return document.getElementById(id); }
+function menor(d,v){ return v!=null && minDest[d]===v ? '<span class="badge b-good">menor do destino</span>' : ''; }
 
 function itemCash(x,i){
-  var cia = x.cia || '';
-  var ref = Math.round(x.brl/15*1000/1000);
-  var shown = x.pairs.slice(0,4).map(pair).join(' · ') + (x.pairs.length>4 ? ' · +' + (x.pairs.length-4) + ' combinações' : '');
-  return '<div class="item"><div class="l1"><div class="dest"><span class="rank">#'+i+'</span><span class="city">'+city(x.d)+'</span><span class="route">'+x.o+' ⇄ '+x.d+'</span></div>'+
-    '<div class="price"><div class="mi">ida e volta</div><div class="brl">'+brl(x.brl)+'</div><div class="mi">≈ '+ref+' mil mi (ref. R$ 15/milheiro)</div></div></div>'+
-    (cia?'<div class="dates"><b>'+cia+'</b></div>':'')+
-    '<div class="dates"><b>Datas:</b> '+shown+'</div>'+
+  var ref = Math.round(x.brl/15);
+  var datas = x.pairs.map(pair);
+  return '<div class="item"><div class="l1"><div class="dest"><span class="code">'+x.d+'</span><span class="city">'+city(x.d)+'</span><span class="route">'+x.o+' ⇄ '+x.d+'</span>'+menor(x.d,x.brl)+'<span class="rank">#'+i+'</span></div>'+
+    '<div class="price"><div class="mi">ida e volta</div><div class="brl">'+brl(x.brl)+'</div><div class="mi" title="Referência de conversão a R$ 15 o milheiro">≈ '+ref+' mil mi (ref.)</div></div></div>'+
+    (x.cia?'<div class="dates"><b>'+x.cia+'</b></div>':'')+
+    chips('Datas', datas, 4)+
     links([lk(x.gf,'Ver voo no Google Flights')])+'</div>';
 }
 function itemNat(x,i){
-  return '<div class="item"><div class="l1"><div class="dest"><span class="rank">#'+i+'</span><span class="city">'+city(x.d)+'</span><span class="route">'+x.o+' ⇄ '+x.d+'</span><span class="badge b-warn">preço de 1 trecho</span></div>'+
+  return '<div class="item"><div class="l1"><div class="dest"><span class="code">'+x.d+'</span><span class="city">'+city(x.d)+'</span><span class="route">'+x.o+' ⇄ '+x.d+'</span><span class="badge b-warn">preço de 1 trecho</span><span class="rank">#'+i+'</span></div>'+
     '<div class="price"><div class="brl">'+brl(x.brl)+'</div><div class="mi">'+mi(x.mi)+' por trecho, a partir de</div></div></div>'+
     '<div class="dates"><b>'+x.prog.replace('/',' · ')+'</b></div>'+
-    '<div class="dates"><b>Ida:</b> '+list(x.ida,9)+'<br><b>Volta:</b> '+list(x.volta,9)+'</div>'+
+    chips('Ida', x.ida.split(' ').filter(Boolean).map(dm), 9)+chips('Volta', x.volta.split(' ').filter(Boolean).map(dm), 9)+
     links([lk(x.gf,'Ver voo no Google Flights'), lk(x.pl,'Resgatar no programa')])+'</div>';
 }
 function leg(label,route,prog,m,b,g,p){
@@ -260,13 +316,14 @@ function leg(label,route,prog,m,b,g,p){
 function itemX(x,i){
   var totMi = x.mo + x.mr;
   var badge = x.same ? '<span class="badge b-good">mesmo programa</span>' : '<span class="badge b-warn">2 programas</span>';
-  var ex = x.ex.slice(0,3).map(pair).join(' · ');
-  return '<div class="item"><div class="l1"><div class="dest"><span class="rank">#'+i+'</span><span class="city">'+city(x.d)+'</span><span class="route">'+x.o+' → '+x.d+' · volta '+(APT[x.r]||x.r)+'</span>'+badge+'</div>'+
+  return '<div class="item"><div class="l1"><div class="dest"><span class="code">'+x.d+'</span><span class="city">'+city(x.d)+'</span><span class="route">'+x.o+' → '+x.d+' · volta '+(APT[x.r]||x.r)+'</span>'+badge+menor(x.d,x.tot)+'<span class="rank">#'+i+'</span></div>'+
     '<div class="price"><div class="mi">ida e volta a partir de</div><div class="brl">'+brl(x.tot)+'</div><div class="mi">'+mi(totMi)+' no total</div></div></div>'+
     '<div class="legs">'+leg('Ida',x.o+'→'+x.d,x.po,x.mo,x.bo,x.gfo,x.plo)+leg('Volta',x.d+'→'+x.r,x.pr,x.mr,x.br,x.gfv,x.plv)+'</div>'+
-    '<div class="dates"><b>Exemplos:</b> '+ex+' · '+x.n+(x.n===1?' combinação':' combinações')+'</div></div>';
+    chips('Exemplos', x.ex.slice(0,3).map(pair), 3)+
+    '<div class="dates">'+x.n+(x.n===1?' combinação possível':' combinações possíveis')+'</div></div>';
 }
 
+/* filtros */
 function F(){
   return { q:nz(el('q').value).split(/\s+/).filter(Boolean), cont:el('f-cont').value, reg:el('f-reg').value, tipo:el('f-tipo').value,
     prog:el('f-prog').value, max:el('f-max').value===''?null:Number(el('f-max').value), same:el('f-same').checked };
@@ -291,7 +348,7 @@ function pass(x,kind,f){
     if(kind==='x' && lastProg(x.po)!==f.prog && lastProg(x.pr)!==f.prog) return false;
   }
   if(f.max!=null){
-    var v = kind==='cash' ? x.brl : kind==='nat' ? x.brl : x.tot;
+    var v = kind==='x' ? x.tot : x.brl;
     if(v==null || v>f.max) return false;
   }
   if(f.same && kind==='x' && !x.same) return false;
@@ -315,6 +372,7 @@ function fillFilters(c,n,xs){
   xs.forEach(function(x){ progs[lastProg(x.po)] = 1; progs[lastProg(x.pr)] = 1; });
   fillSelect(el('f-prog'), Object.keys(progs).sort(function(a,b){return a.localeCompare(b);}), 'Todos');
 }
+function activeCount(f){ return (f.cont?1:0)+(f.reg?1:0)+(f.tipo?1:0)+(f.prog?1:0)+(f.max!=null?1:0)+(f.same?1:0); }
 
 function render(){
   var c0 = cash.filter(function(x){return x.o===cur;});
@@ -323,11 +381,16 @@ function render(){
   ['VCP','SAO'].forEach(function(k){
     el('cnt-'+k).textContent = (cash.filter(function(x){return x.o===k;}).length + nat.filter(function(x){return x.o===k;}).length + cross.filter(function(x){return x.o===k;}).length) + ' ofertas';
   });
+  minDest = {};
+  c0.forEach(function(x){ if(minDest[x.d]==null || x.brl<minDest[x.d]) minDest[x.d] = x.brl; });
+  x0.forEach(function(x){ if(x.tot!=null && (minDest[x.d]==null || x.tot<minDest[x.d])) minDest[x.d] = x.tot; });
   fillFilters(c0,n0,x0);
   var f = F();
   var c = c0.filter(function(x){return pass(x,'cash',f);});
   var n = n0.filter(function(x){return pass(x,'nat',f);});
   var xs = x0.filter(function(x){return pass(x,'x',f);});
+  var na = activeCount(f);
+  el('f-n').hidden = na===0; el('f-n').textContent = na;
 
   el('sec-cash').hidden = f.tipo==='miles';
   el('sec-x').hidden = f.tipo==='cash';
@@ -335,16 +398,17 @@ function render(){
   var total = c0.length + n0.length + x0.length, shown = c.length + n.length + xs.length;
   el('f-res').textContent = 'Mostrando ' + shown + ' de ' + total + ' ofertas saindo de ' + (ORIGIN[cur]||cur) + (shown<total ? ' (filtros ativos)' : '');
 
-  /* mais baratas */
+  /* quadro de partidas: as mais baratas, um destino por linha */
   var all = [];
-  c.forEach(function(x){ all.push({b:x.brl,t:'Dinheiro',d:x.d,s:(x.cia||''),m:null,l:links([lk(x.gf,'Ver voo')])}); });
-  xs.forEach(function(x){ if(x.tot!=null) all.push({b:x.tot,t:'Milhas, bilhetes separados',d:x.d,s:(x.same?x.po.replace('/',' · '):x.po.replace('/',' · ')+' + '+x.pr.replace('/',' · ')),m:x.mo+x.mr,l:links([lk(x.gfo,'Voo de ida'),lk(x.gfv,'Voo de volta')])}); });
+  c.forEach(function(x){ all.push({b:x.brl,t:'Dinheiro',d:x.d,s:(x.cia||''),m:null,l:links([lk(x.gf,'Ver voo')],'b-links')}); });
+  xs.forEach(function(x){ if(x.tot!=null) all.push({b:x.tot,t:'Milhas, ida + volta separadas',d:x.d,s:(x.same?x.po.replace('/',' · '):x.po.replace('/',' · ')+' + '+x.pr.replace('/',' · ')),m:x.mo+x.mr,l:links([lk(x.gfo,'Voo de ida'),lk(x.gfv,'Voo de volta')],'b-links')}); });
   all.sort(function(a,b){return a.b-b.b;});
   var seenD = {};
   all = all.filter(function(a){ if(seenD[a.d]) return false; seenD[a.d] = 1; return true; });
-  el('top3').hidden = all.length===0;
-  el('top3').innerHTML = all.slice(0,4).map(function(a,i){
-    return '<div class="t3"><small>Mais barata #'+(i+1)+' · '+a.t+'</small><span class="c">'+city(a.d)+'</span><span class="brl">'+brl(a.b)+'</span><small>'+(a.m!=null?mi(a.m)+' · ':'')+a.s+'</small>'+a.l+'</div>';
+  el('board').hidden = all.length===0;
+  el('b-rows').innerHTML = all.slice(0,4).map(function(a){
+    return '<div class="b-row"><div class="b-code">'+a.d+'</div><div><div class="b-city">'+city(a.d)+'</div><div class="b-sub">'+a.t+(a.s?' · '+a.s:'')+'</div></div>'+
+      '<div class="b-val"><div class="b-brl">'+brl(a.b)+'</div><div class="b-mi">'+(a.m!=null?mi(a.m):'dinheiro')+'</div></div>'+a.l+'</div>';
   }).join('');
 
   var sem = '<div class="empty">Nenhuma oferta com esses filtros.</div>';
@@ -362,15 +426,17 @@ function setOrigin(o,fromHash){
   if(!fromHash){ try{ location.hash = o==='VCP' ? 'campinas' : 'sao-paulo'; }catch(e){} }
   render();
 }
+function setFiltros(open){ el('frow').hidden = !open; el('f-toggle').setAttribute('aria-expanded', open ? 'true' : 'false'); }
 document.querySelectorAll('.tab').forEach(function(b){ b.addEventListener('click', function(){ setOrigin(b.getAttribute('data-o')); }); });
 document.querySelectorAll('.secnav button').forEach(function(b){ b.addEventListener('click', function(){ var t = el(b.getAttribute('data-s')); if(t) t.scrollIntoView({behavior:'smooth',block:'start'}); }); });
+el('f-toggle').addEventListener('click', function(){ setFiltros(el('frow').hidden); });
 ['q','f-max'].forEach(function(id){ el(id).addEventListener('input', render); });
 ['f-cont','f-reg','f-tipo','f-prog','f-same'].forEach(function(id){ el(id).addEventListener('change', function(){ if(id==='f-cont') el('f-reg').value=''; render(); }); });
 el('f-clear').addEventListener('click', function(){ el('q').value=''; el('f-cont').value=''; el('f-reg').value=''; el('f-tipo').value=''; el('f-prog').value=''; el('f-max').value=''; el('f-same').checked=false; render(); });
 function fromHash(){ var h = location.hash.replace('#',''); setOrigin(h==='sao-paulo' ? 'SAO' : 'VCP', true); }
 window.addEventListener('hashchange', fromHash);
+setFiltros(window.matchMedia && window.matchMedia('(min-width:760px)').matches);
 fromHash();
 </script>
-
 </body>
 </html>
