@@ -9,7 +9,7 @@ const cfg = require('./config.json');
 
 const CHROME = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 const WA_VERSION = process.env.WA_VERSION || '2.3000.1053430300-alpha';
-const ORIGEM = { VCP: 'Campinas', SAO: 'São Paulo' };
+const ORIGEM = { VCP: 'Campinas', SAO: 'São Paulo', GRU: 'São Paulo (Guarulhos)', CGH: 'São Paulo (Congonhas)' };
 const CITY = { FLL: 'Fort Lauderdale', OPO: 'Porto', NVT: 'Navegantes', MAD: 'Madri', FLN: 'Florianópolis', LIS: 'Lisboa', MCZ: 'Maceió', BEL: 'Belém', POA: 'Porto Alegre', SSA: 'Salvador', MCO: 'Orlando', MCP: 'Macapá', IAD: 'Washington', REC: 'Recife', FOR: 'Fortaleza', JFK: 'Nova York', MIA: 'Miami', CUN: 'Cancún', EZE: 'Buenos Aires', PUJ: 'Punta Cana', LAX: 'Los Angeles', ADZ: 'San Andrés', FTE: 'El Calafate', IGU: 'Foz do Iguaçu', BSB: 'Brasília', BYO: 'Bonito', LAS: 'Las Vegas', VCE: 'Veneza', SDU: 'Rio de Janeiro', BPS: 'Porto Seguro' };
 const nf = (n) => Number(n).toLocaleString('pt-BR');
 const dm = (s) => { const p = s.split('-'); return p[p.length - 1] + '/' + p[p.length - 2]; };
@@ -20,7 +20,7 @@ function buildMessage(rows, scannedAt, siteUrl) {
   const d = new Date(scannedAt), p = (n) => String(n).padStart(2, '0');
   const linhas = ['✈️ *Top 5 passagens mais baratas* (econômica)', 'Atualizado em ' + p(d.getDate()) + '/' + p(d.getMonth() + 1) + ' às ' + p(d.getHours()) + ':' + p(d.getMinutes()), ''];
   rows.forEach((t, i) => {
-    const dest = CITY[t.dc] || t.dc;
+    const dest = CITY[t.dc] || t.dn || t.dc;
     const valor = 'Ida e volta a partir de ' + (t.miles != null ? 'R$ ' + nf(t.brl) + ' · ' + nf(t.miles) + ' milhas' : 'R$ ' + nf(t.brl));
     const como = t.tipo === 'Dinheiro' ? 'em dinheiro' + (t.desc ? ', ' + t.desc : '')
       : t.tipo.startsWith('Milhas (mesmo') ? t.desc.replace('/', ' · ') + ', mesmo bilhete'

@@ -4,438 +4,550 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
+<meta name="color-scheme" content="light dark">
 <title>Passagens Baratas SP e Campinas</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230B6E75'/%3E%3Cpath d='M6 19l20-8-7 14-3-6-6 2z' fill='white'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='10' fill='%2300696F'/%3E%3Cpath d='M6 19l20-8-7 14-3-6-6 2z' fill='white'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,75..125,100..1000&display=swap">
 <style>
-/* Layout: abas de origem fixas no topo, painel de busca, quadro de partidas escuro com as 4 mais baratas, depois três listas ordenadas por R$ de ida e volta. */
+/* Material 3 Expressive + Liquid Glass para a web.
+   Cor protagonista (cartão grande da melhor oferta), formas de 28px, fonte variável, mola ao tocar.
+   Vidro SÓ nos controles (barra de busca e painel de filtros); o conteúdo fica em superfícies tonais sólidas. */
 :root{
-  --bg:#EDF1F4; --surface:#FFFFFF; --ink:#0F1A26; --muted:#58697A; --line:#D8E0E7; --soft:#F5F8FA;
-  --accent:#0B6E75; --accent-soft:#DAEEF0; --accent-ink:#FFFFFF;
-  --good:#17794A; --good-soft:#DCF3E5; --warn:#8A5300; --warn-soft:#FBEBD0;
-  --board:#0D1620; --board-row:#142030; --board-line:#233345; --board-ink:#F4B63F; --board-dim:#8DA0B3; --board-code:#1C2B3C;
-  --f-display:'Barlow Condensed','Arial Narrow',sans-serif;
-  --f-body:'Figtree',system-ui,sans-serif;
-  --f-mono:'IBM Plex Mono',ui-monospace,Consolas,monospace;
+  --primary:#00696F; --on-primary:#FFFFFF; --primary-container:#9CF0F7; --on-primary-container:#002022;
+  --secondary-container:#CCE8EA; --on-secondary-container:#051F21;
+  --tertiary:#8B5000; --tertiary-container:#FFDCBE; --on-tertiary-container:#2C1600;
+  --surface:#F3FAFA; --surface-low:#EDF5F5; --surface-container:#E7EFEF; --surface-high:#E1E9E9; --surface-highest:#DBE3E4; --surface-lowest:#FFFFFF;
+  --on-surface:#101D1E; --on-surface-variant:#3F4949; --outline:#6F7979; --outline-variant:#BEC8C9;
+  --glass-bg:rgba(255,255,255,.62); --glass-border:rgba(255,255,255,.7); --glass-hi:rgba(255,255,255,.85); --glass-shadow:rgba(0,40,44,.16);
+  --seg-tint:rgba(0,105,111,.16);
+  --r-sm:8px; --r-md:12px; --r-lg:16px; --r-xl:28px; --r-xxl:40px; --r-full:999px;
+  --spring:cubic-bezier(.34,1.56,.64,1); --std:cubic-bezier(.2,0,0,1);
+  --dur-s:150ms; --dur-m:300ms; --dur-l:520ms;
+  --blur:26px;
+  --f:'Roboto Flex',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --gap:16px;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#090F15; --surface:#111B26; --ink:#E6EDF4; --muted:#92A4B6; --line:#223344; --soft:#0D1620;
-    --accent:#55C6CF; --accent-soft:#12343A; --accent-ink:#052229;
-    --good:#5CD18C; --good-soft:#11301F; --warn:#F2B964; --warn-soft:#3A2B10;
-    --board:#060B10; --board-row:#0E1823; --board-line:#1E2E3F;
+    --primary:#4FD8E1; --on-primary:#00363A; --primary-container:#004F54; --on-primary-container:#9CF0F7;
+    --secondary-container:#304B4D; --on-secondary-container:#CCE8EA;
+    --tertiary:#FFB86B; --tertiary-container:#693C00; --on-tertiary-container:#FFDCBE;
+    --surface:#0E1415; --surface-low:#161D1E; --surface-container:#1A2122; --surface-high:#242B2C; --surface-highest:#2F3637; --surface-lowest:#090F10;
+    --on-surface:#DEE3E4; --on-surface-variant:#BEC8C9; --outline:#899393; --outline-variant:#3F4949;
+    --glass-bg:rgba(22,32,34,.55); --glass-border:rgba(255,255,255,.14); --glass-hi:rgba(255,255,255,.22); --glass-shadow:rgba(0,0,0,.5);
+    --seg-tint:rgba(79,216,225,.22);
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#090F15; --surface:#111B26; --ink:#E6EDF4; --muted:#92A4B6; --line:#223344; --soft:#0D1620;
-  --accent:#55C6CF; --accent-soft:#12343A; --accent-ink:#052229;
-  --good:#5CD18C; --good-soft:#11301F; --warn:#F2B964; --warn-soft:#3A2B10;
-  --board:#060B10; --board-row:#0E1823; --board-line:#1E2E3F;
+  --primary:#4FD8E1; --on-primary:#00363A; --primary-container:#004F54; --on-primary-container:#9CF0F7;
+  --secondary-container:#304B4D; --on-secondary-container:#CCE8EA;
+  --tertiary:#FFB86B; --tertiary-container:#693C00; --on-tertiary-container:#FFDCBE;
+  --surface:#0E1415; --surface-low:#161D1E; --surface-container:#1A2122; --surface-high:#242B2C; --surface-highest:#2F3637; --surface-lowest:#090F10;
+  --on-surface:#DEE3E4; --on-surface-variant:#BEC8C9; --outline:#899393; --outline-variant:#3F4949;
+  --glass-bg:rgba(22,32,34,.55); --glass-border:rgba(255,255,255,.14); --glass-hi:rgba(255,255,255,.22); --glass-shadow:rgba(0,0,0,.5);
+  --seg-tint:rgba(79,216,225,.22);
   color-scheme:dark;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 56px}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
-.wrap{max-width:1000px;margin:0 auto}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--surface);color:var(--on-surface);font-family:var(--f);font-size:15px;line-height:1.45;font-variation-settings:'wdth' 100,'wght' 400,'opsz' 15;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 72px;transition:background var(--dur-l) var(--std),color var(--dur-l) var(--std)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:40;background:var(--surface)}
+.atmos{position:absolute;inset:0 0 auto;height:560px;z-index:-1;overflow:hidden;pointer-events:none}
+.atmos i{position:absolute;border-radius:50%;filter:blur(70px);opacity:.55}
+.atmos i:nth-child(1){width:520px;height:520px;left:-140px;top:-180px;background:var(--primary-container)}
+.atmos i:nth-child(2){width:420px;height:420px;right:-120px;top:20px;background:var(--tertiary-container);opacity:.45}
+.wrap{max-width:1040px;margin:0 auto;position:relative}
+button,input,select{font:inherit;color:inherit}
 a{color:inherit}
-button,select,input{font:inherit}
-button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+:focus-visible{outline:3px solid var(--primary);outline-offset:2px}
+.t-display{font-variation-settings:'wdth' 112,'wght' 760,'opsz' 96;letter-spacing:-.01em}
+.t-title{font-variation-settings:'wdth' 108,'wght' 700,'opsz' 28}
+.t-label{font-variation-settings:'wdth' 100,'wght' 600,'opsz' 12;letter-spacing:.04em}
 
 /* cabeçalho */
-header.top{padding-block:26px 6px}
-.kicker{display:inline-flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.kicker::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--good);box-shadow:0 0 0 3px var(--good-soft)}
-h1{font-family:var(--f-display);font-weight:700;font-size:clamp(36px,7.4vw,60px);line-height:.98;margin:8px 0 10px;letter-spacing:.003em;text-wrap:balance}
-.lead{max-width:60ch;color:var(--muted);margin:0}
+header.top{padding-block:28px 6px}
+.fresh{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--on-surface-variant);background:var(--surface-lowest);border:1px solid var(--outline-variant);border-radius:var(--r-full);padding:5px 12px 5px 10px}
+.fresh::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--primary);box-shadow:0 0 0 4px var(--seg-tint)}
+h1{margin:14px 0 10px;font-size:clamp(38px,8vw,68px);line-height:.98;text-wrap:balance}
+.lead{max-width:56ch;margin:0;color:var(--on-surface-variant);font-size:16px}
 
-/* abas de origem */
-.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line);margin-top:16px}
-.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.tab{text-align:left;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:8px 14px;cursor:pointer;display:flex;align-items:baseline;justify-content:space-between;gap:10px}
-.tab b{font-family:var(--f-display);font-size:24px;font-weight:700;line-height:1.1}
-.tab span{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
-.tab[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-.tab[aria-selected="true"] span{color:var(--accent-ink);opacity:.85}
+/* barra de controles em vidro */
+.toolbar{position:sticky;top:calc(env(safe-area-inset-top,0px) + 10px);z-index:30;margin-top:18px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:8px;border-radius:var(--r-xl);
+  background:var(--glass-bg);backdrop-filter:blur(var(--blur)) saturate(180%);-webkit-backdrop-filter:blur(var(--blur)) saturate(180%);
+  border:1px solid var(--glass-border);box-shadow:0 10px 32px var(--glass-shadow),inset 0 1px 0 var(--glass-hi)}
+.seg{display:flex;gap:2px;padding:4px;border-radius:var(--r-full);background:color-mix(in srgb,var(--on-surface) 7%,transparent);flex:0 0 auto}
+.seg button{border:0;background:transparent;color:var(--on-surface);border-radius:var(--r-full);padding:9px 16px;cursor:pointer;display:flex;gap:8px;align-items:baseline;font-variation-settings:'wdth' 100,'wght' 600,'opsz' 14;
+  transition:background var(--dur-m) var(--std),box-shadow var(--dur-m) var(--std),transform var(--dur-m) var(--spring)}
+.seg button small{font-size:12px;font-variation-settings:'wght' 500;color:var(--on-surface-variant)}
+.seg button[aria-selected="true"]{background:var(--seg-tint);box-shadow:inset 0 1px 0 var(--glass-hi),0 0 0 1px color-mix(in srgb,var(--primary) 35%,transparent);color:var(--on-surface)}
+.seg button:active{transform:scale(.96)}
+.search{flex:1 1 220px;min-width:0;display:flex;align-items:center;gap:8px;padding:0 14px;border-radius:var(--r-full);background:color-mix(in srgb,var(--surface-lowest) 70%,transparent);border:1px solid var(--outline-variant)}
+.search svg{flex:none;color:var(--on-surface-variant)}
+.search input{flex:1;min-width:0;border:0;background:transparent;padding:12px 0;outline:none}
+.search input::placeholder{color:var(--on-surface-variant)}
+.search:focus-within{border-color:var(--primary);box-shadow:0 0 0 3px var(--seg-tint)}
+.fbtn{flex:0 0 auto;border:1px solid var(--outline-variant);background:color-mix(in srgb,var(--surface-lowest) 70%,transparent);border-radius:var(--r-full);padding:11px 16px;cursor:pointer;display:flex;gap:8px;align-items:center;font-variation-settings:'wdth' 100,'wght' 600;
+  transition:border-radius var(--dur-m) var(--spring),transform var(--dur-m) var(--spring),background var(--dur-m) var(--std)}
+.fbtn:active{border-radius:var(--r-md);transform:scale(.97)}
+.fbtn[aria-expanded="true"]{background:var(--seg-tint);border-color:var(--primary)}
+.fbtn .n{background:var(--primary);color:var(--on-primary);border-radius:var(--r-full);min-width:20px;height:20px;padding:0 6px;font-size:12px;display:inline-grid;place-items:center}
+.sheet{flex:1 1 100%;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px 14px;padding:10px 6px 6px;border-top:1px solid var(--outline-variant);margin-top:2px;animation:sheetIn var(--dur-m) var(--std)}
+.sheet label{display:flex;flex-direction:column;gap:5px;font-size:12px;color:var(--on-surface-variant);min-width:0;font-variation-settings:'wght' 600;letter-spacing:.03em;text-transform:uppercase}
+.sheet select,.sheet input[type=number]{width:100%;border:1px solid var(--outline-variant);background:color-mix(in srgb,var(--surface-lowest) 75%,transparent);border-radius:var(--r-md);padding:10px;font-size:14px;text-transform:none;letter-spacing:0;font-variation-settings:'wght' 450;color:var(--on-surface)}
+.switch{flex-direction:row!important;align-items:center;gap:10px!important;text-transform:none!important;letter-spacing:0!important;font-size:14px!important;color:var(--on-surface)!important;font-variation-settings:'wght' 450!important;cursor:pointer}
+.switch input{appearance:none;width:44px;height:26px;border-radius:var(--r-full);background:var(--surface-highest);border:2px solid var(--outline);position:relative;cursor:pointer;flex:none;transition:background var(--dur-m) var(--std)}
+.switch input::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--outline);transition:transform var(--dur-m) var(--spring),width var(--dur-m) var(--spring),background var(--dur-m) var(--std)}
+.switch input:checked{background:var(--primary);border-color:var(--primary)}
+.switch input:checked::after{transform:translateX(17px);width:18px;height:18px;top:1px;background:var(--on-primary)}
+.sheet .row-end{grid-column:1/-1;display:flex;justify-content:flex-end}
+@keyframes sheetIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-transparency: reduce){ .toolbar{background:var(--surface-high);backdrop-filter:none;-webkit-backdrop-filter:none} }
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){ .toolbar{background:var(--surface-high)} }
 
-/* busca e filtros */
-.fbar{margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px}
-.srow{display:flex;gap:8px}
-#q{flex:1;min-width:0;padding:11px 14px;border:1px solid var(--line);border-radius:10px;background:var(--soft);color:var(--ink)}
-#q::placeholder{color:var(--muted)}
-#f-toggle{flex:none;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:10px;padding:0 14px;font-weight:600;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:8px}
-#f-toggle .n{font-family:var(--f-mono);font-size:12px;background:var(--accent);color:var(--accent-ink);border-radius:999px;padding:1px 7px}
-#f-toggle[aria-expanded="true"]{border-color:var(--accent);color:var(--accent)}
-.frow{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:flex-end}
-.frow label{display:flex;flex-direction:column;gap:4px;font-size:11.5px;font-weight:600;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;min-width:0;flex:1 1 150px}
-.frow select,.frow input[type=number]{font-size:14px;text-transform:none;letter-spacing:0;font-weight:500;color:var(--ink);background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:8px;min-width:0;width:100%}
-.frow label.chk{flex:0 0 auto;flex-direction:row;align-items:center;gap:6px;text-transform:none;letter-spacing:0;font-size:13.5px;font-weight:500;color:var(--ink);padding-bottom:8px}
-.frow label.chk input{width:auto}
-#f-clear{font-size:13px;font-weight:600;background:transparent;color:var(--accent);border:1px solid var(--line);border-radius:999px;padding:6px 14px;cursor:pointer;margin-bottom:3px}
-.fres{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+/* chips de filtro */
+.chiprow{display:flex;gap:8px;overflow-x:auto;padding:14px 2px 4px;scrollbar-width:none;align-items:center}
+.chiprow::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--outline-variant);background:transparent;color:var(--on-surface);border-radius:var(--r-md);padding:8px 14px;cursor:pointer;font-size:14px;font-variation-settings:'wdth' 100,'wght' 550;white-space:nowrap;
+  transition:background var(--dur-m) var(--std),border-radius var(--dur-m) var(--spring),transform var(--dur-m) var(--spring),border-color var(--dur-m) var(--std)}
+.chip:hover{background:var(--surface-container)}
+.chip:active{transform:scale(.95)}
+.chip[aria-pressed="true"]{background:var(--secondary-container);color:var(--on-secondary-container);border-color:transparent;border-radius:var(--r-full)}
+.chip .c{font-size:12px;opacity:.75;margin-left:6px}
+.chiprow .sep{flex:none;width:1px;height:22px;background:var(--outline-variant);margin:0 4px}
+.active-row{display:flex;gap:8px;flex-wrap:wrap;padding-top:8px}
+.achip{display:inline-flex;gap:6px;align-items:center;border:0;background:var(--tertiary-container);color:var(--on-tertiary-container);border-radius:var(--r-full);padding:5px 8px 5px 12px;cursor:pointer;font-size:13px;font-variation-settings:'wght' 600}
+.achip::after{content:"×";font-size:16px;line-height:1}
 
-/* quadro de partidas */
-.board{margin-top:18px;background:var(--board);border:1px solid var(--board-line);border-radius:14px;overflow:hidden}
-.b-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--board-line);font-family:var(--f-mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--board-dim)}
-.b-head b{color:var(--board-ink);font-weight:600}
-.b-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:6px 14px;align-items:center;padding:12px 16px;border-top:1px solid var(--board-line)}
-.b-row:first-of-type{border-top:0}
-.b-code{font-family:var(--f-mono);font-weight:600;font-size:22px;letter-spacing:.06em;color:var(--board-ink);background:var(--board-code);border-radius:6px;padding:6px 10px;grid-row:span 2}
-.b-city{font-family:var(--f-display);font-size:26px;font-weight:700;line-height:1;color:#F2F6FA}
-.b-sub{font-size:13px;color:var(--board-dim);overflow-wrap:anywhere}
-.b-val{text-align:right;grid-row:span 2}
-.b-brl{font-family:var(--f-mono);font-weight:600;font-size:24px;line-height:1.05;color:var(--board-ink);font-variant-numeric:tabular-nums}
-.b-mi{font-family:var(--f-mono);font-size:12px;color:var(--board-dim)}
-.b-links{grid-column:2 / 4;display:flex;gap:8px;flex-wrap:wrap}
-.b-links a{font-size:12px;font-weight:600;color:var(--board-ink);border:1px solid var(--board-line);border-radius:999px;padding:3px 10px;text-decoration:none}
-.b-links a:hover{border-color:var(--board-ink)}
-@media (max-width:520px){ .b-row{grid-template-columns:auto minmax(0,1fr)} .b-val{grid-column:2;grid-row:auto;text-align:left;display:flex;gap:10px;align-items:baseline} .b-links{grid-column:1 / 3} .b-code{grid-row:auto} }
+/* melhor oferta */
+.hero{margin-top:18px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:var(--gap)}
+.hero-main{position:relative;overflow:hidden;background:var(--primary-container);color:var(--on-primary-container);border-radius:var(--r-xxl);padding:26px;display:flex;flex-direction:column;gap:14px;animation:rise var(--dur-l) var(--std) both}
+.hero-main::before{content:"";position:absolute;right:-70px;top:-80px;width:260px;height:260px;border-radius:44% 56% 62% 38%/48% 40% 60% 52%;background:var(--primary);opacity:.18;animation:morph 14s ease-in-out infinite alternate}
+.hero-main::after{content:"";position:absolute;left:-60px;bottom:-90px;width:200px;height:200px;border-radius:58% 42% 40% 60%/52% 58% 42% 48%;background:var(--tertiary);opacity:.14;animation:morph 18s ease-in-out infinite alternate-reverse}
+.hero-main>*{position:relative;z-index:1}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-variation-settings:'wght' 650;opacity:.85}
+.hero-city{font-size:clamp(38px,7vw,64px);line-height:.95;margin:0}
+.hero-meta{display:flex;gap:8px;flex-wrap:wrap}
+.hero-price{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.hero-price b{font-size:clamp(40px,8vw,72px);line-height:1;font-variation-settings:'wdth' 110,'wght' 780,'opsz' 96;font-variant-numeric:tabular-nums}
+.hero-price span{font-size:15px;opacity:.85;font-variant-numeric:tabular-nums}
+.hero-side{display:flex;flex-direction:column;gap:12px}
+.mini{background:var(--surface-high);border-radius:var(--r-xl);padding:16px 18px;display:flex;flex-direction:column;gap:6px;animation:rise var(--dur-l) var(--std) both}
+.mini:nth-child(2){animation-delay:70ms}.mini:nth-child(3){animation-delay:140ms}.mini:nth-child(4){animation-delay:210ms}
+.mini .city{font-size:22px;line-height:1.05}
+.mini .p{font-size:20px;font-variation-settings:'wdth' 108,'wght' 700;font-variant-numeric:tabular-nums;color:var(--primary)}
+.mini .s{font-size:13px;color:var(--on-surface-variant)}
+@keyframes morph{to{border-radius:60% 40% 38% 62%/42% 60% 40% 58%;transform:rotate(18deg) scale(1.08)}}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (max-width:760px){ .hero{grid-template-columns:1fr} .hero-main{padding:22px} .hero-side{flex-direction:row;overflow-x:auto;padding-bottom:4px;scrollbar-width:none} .hero-side::-webkit-scrollbar{display:none} .mini{flex:0 0 220px} }
 
-/* navegação por seção */
-.secnav{display:flex;gap:8px;overflow-x:auto;margin-top:18px;padding-bottom:2px;scrollbar-width:none}
-.secnav::-webkit-scrollbar{display:none}
-.secnav button{flex:none;font-size:13px;font-weight:600;background:transparent;color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:6px 13px;cursor:pointer}
-.secnav button:hover{border-color:var(--accent);color:var(--accent)}
+/* botões M3 */
+.btn{border:0;border-radius:var(--r-full);padding:11px 18px;cursor:pointer;display:inline-flex;gap:8px;align-items:center;text-decoration:none;font-size:14px;font-variation-settings:'wdth' 100,'wght' 650;
+  transition:border-radius var(--dur-m) var(--spring),transform var(--dur-m) var(--spring),box-shadow var(--dur-m) var(--std),background var(--dur-m) var(--std)}
+.btn:active{border-radius:var(--r-md);transform:scale(.96)}
+.btn-fill{background:var(--primary);color:var(--on-primary);box-shadow:0 4px 14px color-mix(in srgb,var(--primary) 35%,transparent)}
+.btn-fill:hover{box-shadow:0 8px 22px color-mix(in srgb,var(--primary) 45%,transparent)}
+.btn-tonal{background:var(--secondary-container);color:var(--on-secondary-container)}
+.btn-tonal:hover{background:color-mix(in srgb,var(--secondary-container) 85%,var(--primary))}
+.btn-text{background:transparent;color:var(--primary);padding-inline:12px}
+.btn-text:hover{background:var(--seg-tint)}
+.hero-main .btn-fill{background:var(--on-primary-container);color:var(--primary-container);box-shadow:none}
+.hero-main .btn-tonal{background:color-mix(in srgb,var(--on-primary-container) 14%,transparent);color:var(--on-primary-container)}
 
-/* seções e listas */
-section{margin-top:30px;scroll-margin-top:90px}
-.sh{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
-h2{font-family:var(--f-display);font-weight:700;font-size:30px;line-height:1.05;margin:0}
-.count{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
-details.sd{margin:6px 0 12px;color:var(--muted);font-size:14px;max-width:72ch}
-details.sd summary{cursor:pointer;font-weight:600;font-size:13px;color:var(--accent);list-style:none;display:inline-flex;gap:6px;align-items:center}
-details.sd summary::-webkit-details-marker{display:none}
-details.sd summary::before{content:"+";font-family:var(--f-mono)}
-details.sd[open] summary::before{content:"−"}
-details.sd p{margin:8px 0 0}
-.list{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
-.item{padding:14px 16px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:9px;min-width:0}
-.item:first-child{border-top:0}
-.l1{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
-.dest{display:flex;gap:10px;align-items:center;min-width:0;flex-wrap:wrap}
-.code{font-family:var(--f-mono);font-weight:600;font-size:13px;letter-spacing:.06em;background:var(--accent-soft);color:var(--accent);border-radius:6px;padding:4px 8px}
-.city{font-family:var(--f-display);font-size:26px;font-weight:700;line-height:1}
-.route{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
-.rank{font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
-.price{text-align:right;flex:none}
-.brl{font-family:var(--f-mono);font-weight:600;font-size:22px;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--accent)}
-.mi{font-family:var(--f-mono);font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
-.badge{font-size:11.5px;font-weight:700;border-radius:999px;padding:2px 9px;white-space:nowrap}
-.b-good{background:var(--good-soft);color:var(--good)}
-.b-warn{background:var(--warn-soft);color:var(--warn)}
-.b-acc{background:var(--accent-soft);color:var(--accent)}
-.legs{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px}
-.leg{border:1px solid var(--line);border-radius:8px;padding:8px 10px;display:flex;justify-content:space-between;gap:10px;align-items:baseline;min-width:0;background:var(--soft)}
-.leg .t{min-width:0}
-.leg .t b{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;font-family:var(--f-mono);font-weight:500}
-.leg .t span{font-size:13.5px;overflow-wrap:anywhere}
-.leg .v{text-align:right;flex:none;font-family:var(--f-mono);font-size:12.5px;font-variant-numeric:tabular-nums}
-.leg .v strong{display:block;font-size:14px}
-.dates{font-size:13px;color:var(--muted);overflow-wrap:anywhere}
-.dates b{color:var(--ink);font-weight:600}
-.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-.chips .lab{font-size:12px;font-weight:600;color:var(--muted);margin-right:2px}
-.chip{font-family:var(--f-mono);font-size:12px;border:1px solid var(--line);border-radius:6px;padding:2px 7px;color:var(--ink);background:var(--soft);white-space:nowrap}
-.chip.more{border-style:dashed;color:var(--muted)}
-.links{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px}
-.links a{font-size:12.5px;font-weight:600;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:3px 10px;text-decoration:none}
-.links a:hover{text-decoration:underline}
-.empty{padding:22px 16px;color:var(--muted)}
-.notes{margin-top:40px;border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font-size:13.5px}
-.notes h3{font-family:var(--f-display);font-size:22px;color:var(--ink);margin:0 0 8px}
-.notes ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;max-width:78ch}
-@media (max-width:560px){
-  .tab{flex-direction:column;align-items:flex-start;gap:0}
-  .l1{flex-direction:column;gap:8px}
-  .price{text-align:left;display:flex;gap:4px 12px;align-items:baseline;flex-wrap:wrap}
-  .city{font-size:24px}
+/* resultados */
+.rhead{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-top:30px}
+.rhead h2{margin:0;font-size:28px;line-height:1.05}
+.rhead .cnt{color:var(--on-surface-variant);font-size:14px;margin-top:2px}
+.sortbox{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--on-surface-variant)}
+.sortbox select{border:1px solid var(--outline-variant);background:var(--surface-lowest);border-radius:var(--r-full);padding:8px 14px;font-size:14px;color:var(--on-surface)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,440px),1fr));gap:var(--gap);margin-top:14px}
+.card{background:var(--surface-low);border-radius:var(--r-xl);padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0;animation:rise var(--dur-l) var(--std) both;transition:background var(--dur-m) var(--std),transform var(--dur-m) var(--spring)}
+.card:hover{background:var(--surface-container)}
+.c-top{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
+.c-dest{display:flex;gap:12px;align-items:center;min-width:0}
+.c-code{flex:none;display:grid;place-items:center;min-width:58px;height:48px;padding:0 10px;border-radius:var(--r-lg);background:var(--primary-container);color:var(--on-primary-container);font-size:18px;font-variation-settings:'wdth' 118,'wght' 750;letter-spacing:.05em}
+.c-dest h3{margin:0;font-size:24px;line-height:1.05;overflow-wrap:anywhere}
+.c-sub{margin:3px 0 0;font-size:13px;color:var(--on-surface-variant);overflow-wrap:anywhere}
+.c-price{text-align:right;flex:none}
+.c-price .lab{display:block;font-size:11.5px;color:var(--on-surface-variant);letter-spacing:.02em}
+.c-price b{display:block;font-size:28px;line-height:1.05;color:var(--primary);font-variation-settings:'wdth' 108,'wght' 760,'opsz' 48;font-variant-numeric:tabular-nums}
+.c-price .mi{font-size:13px;color:var(--on-surface-variant);font-variant-numeric:tabular-nums}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-size:12px;border-radius:var(--r-full);padding:3px 10px;font-variation-settings:'wght' 600;background:var(--surface-highest);color:var(--on-surface-variant)}
+.tag.deal{background:var(--tertiary-container);color:var(--on-tertiary-container)}
+.tag.ok{background:var(--secondary-container);color:var(--on-secondary-container)}
+.tag.warn{background:var(--surface-highest);color:var(--tertiary)}
+.dchips{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.dchips .lab{font-size:12px;color:var(--on-surface-variant);margin-right:2px}
+.dc{font-size:13px;border:1px solid var(--outline-variant);border-radius:var(--r-sm);padding:2px 8px;font-variant-numeric:tabular-nums;background:var(--surface)}
+.dc.more{border-style:dashed;color:var(--on-surface-variant)}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+details.more summary{cursor:pointer;list-style:none;color:var(--primary);font-size:13px;font-variation-settings:'wght' 650;display:inline-flex;gap:6px;align-items:center}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::before{content:"+";display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--seg-tint);transition:transform var(--dur-m) var(--spring)}
+details.more[open] summary::before{content:"−";transform:rotate(180deg)}
+.legs{display:grid;gap:8px;margin-top:10px}
+.leg{background:var(--surface);border-radius:var(--r-lg);padding:10px 12px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.leg .l{min-width:0}
+.leg .l b{display:block;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--on-surface-variant);font-variation-settings:'wght' 650}
+.leg .l span{font-size:14px;overflow-wrap:anywhere}
+.leg .r{text-align:right;flex:none;font-variant-numeric:tabular-nums;font-size:13px;color:var(--on-surface-variant)}
+.leg .r strong{display:block;font-size:16px;color:var(--on-surface);font-variation-settings:'wght' 700}
+.leg .lk{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.leg .lk a{font-size:12.5px;color:var(--primary);font-variation-settings:'wght' 650;text-decoration:none;background:var(--seg-tint);border-radius:var(--r-full);padding:3px 10px}
+.more-btn{display:flex;justify-content:center;margin-top:18px}
+.empty{grid-column:1/-1;text-align:center;background:var(--surface-low);border-radius:var(--r-xl);padding:40px 20px;color:var(--on-surface-variant)}
+.empty h3{margin:0 0 6px;color:var(--on-surface);font-size:22px}
+
+/* notas */
+.notes{margin-top:44px;background:var(--surface-low);border-radius:var(--r-xl);padding:6px 20px}
+.notes summary{cursor:pointer;padding:14px 0;font-size:18px;list-style:none;font-variation-settings:'wdth' 106,'wght' 700}
+.notes summary::-webkit-details-marker{display:none}
+.notes ul{margin:0 0 16px;padding-left:18px;display:flex;flex-direction:column;gap:8px;color:var(--on-surface-variant);font-size:14px;max-width:78ch}
+.foot{margin-top:18px;font-size:12px;color:var(--on-surface-variant)}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
 }
-@media (prefers-reduced-motion:no-preference){ .tab,.secnav button,.links a,.b-links a{transition:background-color .15s,border-color .15s,color .15s} }
 </style>
 </head>
 <body>
+<div class="atmos" aria-hidden="true"><i></i><i></i></div>
 <div class="wrap">
 <header class="top">
-  <div class="kicker">__SCANNED__</div>
-  <h1>Passagens baratas saindo de São Paulo e Campinas</h1>
-  <p class="lead">Só ofertas de ida e volta que valem a pena, do mais barato ao mais caro, com o valor em R$ e em milhas.</p>
+  <span class="fresh" id="fresh">__SCANNED__</span>
+  <h1 class="t-display">Passagens baratas saindo de São Paulo e Campinas</h1>
+  <p class="lead">Só o que vale a pena: ofertas de ida e volta em dinheiro ou milhas, do mais barato ao mais caro.</p>
 </header>
 
-<div class="bar">
-  <div class="tabs" role="tablist" aria-label="Origem">
-    <button class="tab" role="tab" id="tab-VCP" data-o="VCP" aria-selected="true"><b>Campinas</b><span id="cnt-VCP"></span></button>
-    <button class="tab" role="tab" id="tab-SAO" data-o="SAO" aria-selected="false"><b>São Paulo</b><span id="cnt-SAO"></span></button>
+<div class="toolbar" role="search">
+  <div class="seg" role="tablist" aria-label="Origem">
+    <button role="tab" id="tab-VCP" data-o="VCP" aria-selected="true">Campinas <small id="cnt-VCP"></small></button>
+    <button role="tab" id="tab-SP" data-o="SP" aria-selected="false">São Paulo <small id="cnt-SP"></small></button>
   </div>
-</div>
-
-<div class="fbar" role="search">
-  <div class="srow">
-    <input type="search" id="q" placeholder="Buscar: Lisboa, Azul, Europa…" aria-label="Buscar ofertas" autocomplete="off">
-    <button type="button" id="f-toggle" aria-expanded="false" aria-controls="frow">Filtros <span class="n" id="f-n" hidden>0</span></button>
-  </div>
-  <div class="frow" id="frow" hidden>
-    <label>Continente <select id="f-cont"><option value="">Todos</option></select></label>
+  <label class="search">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <input type="search" id="q" placeholder="Buscar destino ou país" aria-label="Buscar ofertas" autocomplete="off">
+  </label>
+  <button type="button" class="fbtn" id="f-toggle" aria-expanded="false" aria-controls="sheet">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>
+    Filtros <span class="n" id="f-n" hidden>0</span>
+  </button>
+  <div class="sheet" id="sheet" hidden>
     <label>Região ou país <select id="f-reg"><option value="">Todas</option></select></label>
-    <label>Tipo <select id="f-tipo"><option value="">Todos</option><option value="cash">Dinheiro</option><option value="miles">Milhas</option></select></label>
     <label>Programa de milhas <select id="f-prog"><option value="">Todos</option></select></label>
     <label>Preço máximo (R$) <input type="number" id="f-max" min="0" step="50" inputmode="numeric" placeholder="sem limite"></label>
-    <label class="chk"><input type="checkbox" id="f-same"> Só no mesmo programa</label>
-    <button type="button" id="f-clear">Limpar filtros</button>
+    <label class="switch"><input type="checkbox" id="f-same" role="switch"> Só no mesmo programa</label>
+    <div class="row-end"><button type="button" class="btn btn-text" id="f-clear">Limpar tudo</button></div>
   </div>
-  <div class="fres" id="f-res" aria-live="polite"></div>
 </div>
 
-<div class="board" id="board" aria-label="As ofertas mais baratas agora">
-  <div class="b-head"><span><b>Partidas</b> · mais baratas agora</span><span id="b-sub">ida e volta</span></div>
-  <div id="b-rows"></div>
+<div class="chiprow" id="chips-tipo" role="group" aria-label="Tipo de oferta"></div>
+<div class="chiprow" id="chips-cont" role="group" aria-label="Continente" style="padding-top:2px"></div>
+<div class="active-row" id="active"></div>
+
+<section class="hero" id="hero" aria-label="Melhores ofertas agora" hidden>
+  <div class="hero-main" id="hero-main"></div>
+  <div class="hero-side" id="hero-side"></div>
+</section>
+
+<div class="rhead">
+  <div><h2 class="t-title" id="r-title">Todas as ofertas</h2><div class="cnt" id="r-cnt"></div></div>
+  <label class="sortbox">Ordenar por
+    <select id="sort"><option value="price">Menor preço</option><option value="miles">Menos milhas</option><option value="date">Data mais próxima</option></select>
+  </label>
 </div>
+<div class="grid" id="grid"></div>
+<div class="more-btn"><button type="button" class="btn btn-tonal" id="more" hidden>Mostrar mais ofertas</button></div>
 
-<div class="secnav">
-  <button data-s="sec-cash">Dinheiro</button>
-  <button data-s="sec-x">Milhas, ida + volta separadas</button>
-  <button data-s="sec-nat">Milhas, um trecho</button>
-  <button data-s="sec-notes">Como ler</button>
-</div>
-
-<section id="sec-cash">
-  <div class="sh"><h2>Ida e volta em dinheiro</h2><span class="count" id="n-cash"></span></div>
-  <details class="sd"><summary>Como ler esta seção</summary><p>Preço em reais publicado pelo site para o par de datas. As milhas ao lado são uma referência de conversão a R$ 15 o milheiro, só para comparar.</p></details>
-  <div class="list" id="l-cash"></div>
-</section>
-
-<section id="sec-x">
-  <div class="sh"><h2>Milhas, ida e volta em bilhetes separados</h2><span class="count" id="n-x"></span></div>
-  <details class="sd"><summary>Como ler esta seção</summary><p>Valor de ida e volta: o menor preço publicado da ida somado ao menor preço da volta, com 3 a 30 dias de estadia. É um piso. O preço exato de cada dia só aparece no programa, no calendário que os botões abrem. A volta pode ser por outro aeroporto de São Paulo.</p></details>
-  <div class="list" id="l-x"></div>
-</section>
-
-<section id="sec-nat">
-  <div class="sh"><h2>Milhas, mesmo card (preço de um trecho)</h2><span class="count" id="n-nat"></span></div>
-  <details class="sd"><summary>Como ler esta seção</summary><p>O site lista datas de ida e de volta no mesmo card, mas o preço é de um trecho só, o mais barato publicado, e não o total da viagem. No resgate da LATAM, por exemplo, 9.649 milhas era só a volta e a ida custava mais. Confira os dois trechos no programa antes de contar com o valor. O R$ é a conversão do site pelo milheiro, sem taxas.</p></details>
-  <div class="list" id="l-nat"></div>
-</section>
-
-<section class="notes" id="sec-notes">
-  <h3>Como ler esta página</h3>
+<details class="notes" id="notes">
+  <summary>Como ler esta página</summary>
   <ul>
     <li>Datas de novembro e dezembro são de 2026. Datas de janeiro a outubro são de 2027. Só aparecem datas depois de __TODAY__.</li>
-    <li>O quadro de partidas e o top 5 do WhatsApp usam só totais de viagem: dinheiro, ou a soma de uma ida e uma volta em milhas. Cards de um trecho só ficam de fora. Em milhas, a soma é um piso: cada trecho está no preço mínimo, que pode valer para outra data.</li>
-    <li>Todo preço é "a partir de" por perna, no mínimo publicado. O R$ das milhas vem do milheiro que o site usa: Azul R$ 14, Smiles R$ 15, LATAM Pass R$ 23, Aeroplan R$ 70, AAdvantage R$ 90. Taxas de embarque ficam de fora.</li>
+    <li>"Dinheiro" é o preço total de ida e volta publicado pelo site. "Milhas" é a soma de uma ida e uma volta em bilhetes separados, com 3 a 30 dias de estadia. "Um trecho" é um card do site com datas de ida e volta mas preço de um trecho só: o total é maior.</li>
+    <li>Em milhas, cada trecho está no preço mínimo publicado, que pode valer para outra data. A soma é um piso. O preço exato de cada dia aparece no calendário do programa, que os botões abrem.</li>
+    <li>O R$ das milhas vem do milheiro que o site usa: Azul R$ 14, Smiles R$ 15, LATAM Pass R$ 23, Aeroplan R$ 70, AAdvantage R$ 90. Taxas de embarque ficam de fora. Nas ofertas em dinheiro, as milhas são uma referência a R$ 15 o milheiro, só para comparar.</li>
     <li>Nada disso foi confirmado no site dos programas ou no checkout das companhias. Confira disponibilidade e bagagem antes de transferir pontos.</li>
-    <li>Em bilhetes separados, um atraso na ida não protege a volta. Programas diferentes pedem saldo nos dois.</li>
+    <li>Em bilhetes separados, um atraso na ida não protege a volta. Programas diferentes pedem saldo nos dois. A volta pode ser por outro aeroporto de São Paulo.</li>
     <li>__ESCONDIDAS__</li>
-    <li>Cada exemplo de data é uma combinação possível. O número ao lado diz quantas combinações existem.</li>
-    <li>Os botões de programa abrem a busca de milhas já preenchida com rota e data na Azul, na Smiles e na LATAM (a LATAM pede login antes). Nos outros programas abre a página inicial. A data do link é um exemplo: o "a partir de" vale para alguma data da lista, e o calendário do programa mostra o preço dos dias vizinhos.</li>
-    <li>A página é refeita todo dia por um robô. Ele fatia as buscas por mês para passar do corte de 100 resultados do site.</li>
+    <li>Os botões de programa abrem a busca de milhas já preenchida com rota e data na Azul, na Smiles e na LATAM (a LATAM pede login antes). Nos outros programas abre a página inicial.</li>
+    <li>A página é refeita todo dia por um robô, que fatia as buscas por mês e por aeroporto para passar do corte de 100 resultados do site.</li>
   </ul>
-</section>
+</details>
+<p class="foot">São Paulo reúne Guarulhos (GRU), Congonhas (CGH) e a busca geral (SAO).</p>
 </div>
 
 <script>
 var DATA = `__DATA__`;
+var CITY2 = __CITIES__;
 
-var CITY = {FLL:'Fort Lauderdale',OPO:'Porto',NVT:'Navegantes',MAD:'Madri',FLN:'Florianópolis',LIS:'Lisboa',MCZ:'Maceió',BEL:'Belém',POA:'Porto Alegre',SSA:'Salvador',MCO:'Orlando',MCP:'Macapá',IAD:'Washington',REC:'Recife',FOR:'Fortaleza',JFK:'Nova York',MIA:'Miami',CUN:'Cancún',EZE:'Buenos Aires',PUJ:'Punta Cana',LAX:'Los Angeles',ADZ:'San Andrés',FTE:'El Calafate',IGU:'Foz do Iguaçu',BSB:'Brasília',BYO:'Bonito',LAS:'Las Vegas',VCE:'Veneza',SDU:'Rio de Janeiro',BPS:'Porto Seguro',CHO:'CHO (Chicago?)',MII:'Marília',LDB:'Londrina',JOI:'Joinville'};
+var CITY = {FLL:'Fort Lauderdale',OPO:'Porto',NVT:'Navegantes',MAD:'Madri',FLN:'Florianópolis',LIS:'Lisboa',MCZ:'Maceió',BEL:'Belém',POA:'Porto Alegre',SSA:'Salvador',MCO:'Orlando',MCP:'Macapá',IAD:'Washington',REC:'Recife',FOR:'Fortaleza',JFK:'Nova York',MIA:'Miami',CUN:'Cancún',EZE:'Buenos Aires',PUJ:'Punta Cana',LAX:'Los Angeles',ADZ:'San Andrés',FTE:'El Calafate',IGU:'Foz do Iguaçu',BSB:'Brasília',BYO:'Bonito',LAS:'Las Vegas',VCE:'Veneza',SDU:'Rio de Janeiro',BPS:'Porto Seguro',CHO:'Chicago (CHO)',MII:'Marília',LDB:'Londrina',JOI:'Joinville',LIM:'Lima',SCL:'Santiago'};
+Object.keys(CITY2).forEach(function(k){ if(!CITY[k]) CITY[k] = CITY2[k]; });
 var APT = {VCP:'Viracopos (VCP)',GRU:'Guarulhos (GRU)',CGH:'Congonhas (CGH)',SAO:'São Paulo (SAO)'};
-var ORIGIN = {VCP:'Campinas',SAO:'São Paulo'};
+var GROUP_NAME = {VCP:'Campinas',SP:'São Paulo'};
+
 /* continente e região ou país de cada destino */
 var GEO = {};
 function geoSet(codes, cont, reg){ codes.split(' ').forEach(function(c){ GEO[c] = [cont, reg]; }); }
-geoSet('SDU GIG CNF VIX MII', 'Brasil', 'Sudeste');
-geoSet('POA FLN NVT IGU JOI LDB CWB', 'Brasil', 'Sul');
-geoSet('SSA REC FOR MCZ BPS NAT SLZ AJU JPA', 'Brasil', 'Nordeste');
+geoSet('SDU GIG RIO CNF VIX MII', 'Brasil', 'Sudeste');
+geoSet('POA FLN NVT IGU JOI LDB CWB CXJ', 'Brasil', 'Sul');
+geoSet('SSA REC FOR MCZ BPS NAT SLZ AJU JPA IMP JJD FEN UNA IOS', 'Brasil', 'Nordeste');
 geoSet('BEL MCP MAO', 'Brasil', 'Norte');
 geoSet('BSB BYO CGB CGR GYN', 'Brasil', 'Centro-Oeste');
-geoSet('EZE AEP FTE', 'América do Sul', 'Argentina');
-geoSet('SCL', 'América do Sul', 'Chile'); geoSet('MVD', 'América do Sul', 'Uruguai'); geoSet('ASU', 'América do Sul', 'Paraguai');
-geoSet('LIM', 'América do Sul', 'Peru'); geoSet('BOG UIO', 'América do Sul', 'Colômbia e Equador');
-geoSet('MCO FLL MIA JFK EWR IAD LAX LAS ORD CHO ATL BOS SFO', 'América do Norte', 'Estados Unidos');
-geoSet('CUN MEX', 'América do Norte', 'México');
-geoSet('PUJ', 'América Central e Caribe', 'República Dominicana');
-geoSet('ADZ', 'América Central e Caribe', 'Colômbia (San Andrés)');
-geoSet('PTY SJO', 'América Central e Caribe', 'Panamá e Costa Rica');
-geoSet('LIS OPO', 'Europa', 'Portugal'); geoSet('MAD BCN', 'Europa', 'Espanha'); geoSet('VCE FCO', 'Europa', 'Itália'); geoSet('CDG', 'Europa', 'França');
-var CONT_ORDER = ['Brasil','América do Sul','América do Norte','América Central e Caribe','Europa','Outros'];
+geoSet('EZE AEP FTE MDZ BRC USH PSS', 'América do Sul', 'Argentina');
+geoSet('SCL CJC', 'América do Sul', 'Chile'); geoSet('MVD PDP', 'América do Sul', 'Uruguai'); geoSet('ASU', 'América do Sul', 'Paraguai');
+geoSet('LIM CUZ', 'América do Sul', 'Peru'); geoSet('BOG BGA', 'América do Sul', 'Colômbia'); geoSet('UIO GYE', 'América do Sul', 'Equador');
+geoSet('MCO FLL MIA JFK EWR IAD LAX LAS ORD CHO ATL BOS SFO IAH', 'América do Norte', 'Estados Unidos');
+geoSet('YYZ', 'América do Norte', 'Canadá'); geoSet('CUN MEX', 'América do Norte', 'México');
+geoSet('PUJ', 'América Central e Caribe', 'República Dominicana'); geoSet('ADZ', 'América Central e Caribe', 'Colômbia (San Andrés)');
+geoSet('PTY SJO', 'América Central e Caribe', 'Panamá e Costa Rica'); geoSet('AUA', 'América Central e Caribe', 'Aruba');
+geoSet('LIS OPO', 'Europa', 'Portugal'); geoSet('MAD BCN', 'Europa', 'Espanha'); geoSet('VCE FCO MXP LIN', 'Europa', 'Itália');
+geoSet('CDG ORY LYS', 'Europa', 'França'); geoSet('LHR LCY', 'Europa', 'Reino Unido'); geoSet('AMS', 'Europa', 'Países Baixos');
+geoSet('FRA BER MUC', 'Europa', 'Alemanha'); geoSet('ZRH GVA', 'Europa', 'Suíça'); geoSet('CPH', 'Europa', 'Dinamarca'); geoSet('HEL', 'Europa', 'Finlândia');
+geoSet('DUB', 'Europa', 'Irlanda'); geoSet('KEF', 'Europa', 'Islândia'); geoSet('IST', 'Europa', 'Turquia'); geoSet('SPU', 'Europa', 'Croácia');
+geoSet('JNB CPT', 'África', 'África do Sul'); geoSet('CMN', 'África', 'Marrocos'); geoSet('DAR', 'África', 'Tanzânia');
+geoSet('DXB DOH AUH', 'Oriente Médio', 'Emirados e Catar');
+geoSet('NRT', 'Ásia e Oceania', 'Japão'); geoSet('ICN', 'Ásia e Oceania', 'Coreia do Sul'); geoSet('BKK', 'Ásia e Oceania', 'Tailândia');
+geoSet('CAN PVG', 'Ásia e Oceania', 'China'); geoSet('MLE', 'Ásia e Oceania', 'Maldivas'); geoSet('SYD MEL', 'Ásia e Oceania', 'Austrália');
+geoSet('CLV', 'Brasil', 'Centro-Oeste');
+geoSet('DFW PHL HNL ASE', 'América do Norte', 'Estados Unidos'); geoSet('YUL', 'América do Norte', 'Canadá');
+geoSet('CUR', 'América Central e Caribe', 'Curaçao'); geoSet('SDQ', 'América Central e Caribe', 'República Dominicana'); geoSet('MBJ', 'América Central e Caribe', 'Jamaica');
+geoSet('TRN', 'Europa', 'Itália'); geoSet('IBZ', 'Europa', 'Espanha'); geoSet('VIE', 'Europa', 'Áustria'); geoSet('PRG', 'Europa', 'Tchéquia');
+geoSet('CAI', 'África', 'Egito');
+geoSet('CAC', 'Brasil', 'Sul'); geoSet('UDI', 'Brasil', 'Sudeste');
+geoSet('VVI', 'América do Sul', 'Bolívia'); geoSet('CTG', 'América do Sul', 'Colômbia'); geoSet('CCS', 'América do Sul', 'Venezuela');
+geoSet('SXM', 'América Central e Caribe', 'São Martinho'); geoSet('HAV', 'América Central e Caribe', 'Cuba');
+geoSet('TPA SEA', 'América do Norte', 'Estados Unidos');
+var CONT_ORDER = ['Brasil','América do Sul','América do Norte','América Central e Caribe','Europa','África','Oriente Médio','Ásia e Oceania','Outros'];
 function geo(d){ return GEO[d] || ['Outros','Outros']; }
 function nz(s){ return String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); }
 function lastProg(p){ return String(p||'').split('/').pop(); }
+function grp(o){ return o==='VCP' ? 'VCP' : 'SP'; }
 
 function city(c){ return CITY[c] || c; }
-function lk(u,t){ return u ? '<a href="'+u+'" target="_blank" rel="noopener noreferrer">'+t+' ↗</a>' : ''; }
-function links(arr,cls){ var s = arr.filter(Boolean).join(''); return s ? '<div class="'+(cls||'links')+'">'+s+'</div>' : ''; }
 function nf(n){ return Number(n).toLocaleString('pt-BR'); }
 function brl(n){ return n==null||n===''||isNaN(n) ? 'R$ n/d' : 'R$ ' + nf(n); }
 function mi(n){ return nf(n) + ' mi'; }
 function dm(s){ var p = s.split('-'); return p[1] + '/' + p[0]; }
 function pair(s){ var p = s.split('>'); return p[1] ? dm(p[0]) + ' → ' + dm(p[1]) : dm(p[0]) + ' → ?'; }
-function chips(label, items, max){
-  var show = items.slice(0,max).map(function(t){ return '<span class="chip">'+t+'</span>'; }).join('');
-  var more = items.length>max ? '<span class="chip more">+'+(items.length-max)+'</span>' : '';
-  return '<div class="chips"><span class="lab">'+label+'</span>'+show+more+'</div>';
-}
+function dkey(md){ var m = +md.slice(0,2); return (m>=11 ? '0' : '1') + md; }
 function num(v){ return v===''||v==null ? null : Number(v); }
+function lk(u,t,cls){ return u ? '<a class="'+(cls||'btn btn-tonal')+'" href="'+u+'" target="_blank" rel="noopener noreferrer">'+t+' ↗</a>' : ''; }
+function lkSmall(u,t){ return u ? '<a href="'+u+'" target="_blank" rel="noopener noreferrer">'+t+' ↗</a>' : ''; }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
 
-var nat = [], cash = [], cross = [];
+/* dados */
+var items = [];
 DATA.split('\n').forEach(function(l){
-  var f = l.split(';');
-  if(f[0]==='N') nat.push({o:f[1],d:f[2],prog:f[3],mi:+f[4],brl:num(f[5]),ida:f[6],volta:f[7],gf:f[8]||'',pl:f[9]||''});
-  else if(f[0]==='C') cash.push({o:f[1],d:f[2],brl:+f[3],pairs:f[4].split(' ').filter(Boolean),cia:f[5]||'',gf:f[6]||''});
-  else if(f[0]==='X') cross.push({o:f[1],d:f[2],r:f[3],po:f[4],pr:f[5],mo:+f[6],mr:+f[7],bo:num(f[8]),br:num(f[9]),n:+f[10],ex:f[11].split(' '),gfo:f[12]||'',gfv:f[13]||'',plo:f[14]||'',plv:f[15]||''});
+  if(!l) return;
+  var f = l.split(';'), k = f[0], it = null;
+  if(k==='N') it = {kind:'nat',o:f[1],d:f[2],prog:f[3],mi:+f[4],price:num(f[5]),ida:f[6],volta:f[7],gf:f[8]||'',pl:f[9]||''};
+  else if(k==='C') it = {kind:'cash',o:f[1],d:f[2],price:+f[3],pairs:f[4].split(' ').filter(Boolean),cia:f[5]||'',gf:f[6]||''};
+  else if(k==='X') { it = {kind:'x',o:f[1],d:f[2],r:f[3],po:f[4],pr:f[5],mo:+f[6],mr:+f[7],bo:num(f[8]),br:num(f[9]),n:+f[10],ex:f[11].split(' ').filter(Boolean),gfo:f[12]||'',gfv:f[13]||'',plo:f[14]||'',plv:f[15]||''}; it.price = (it.bo!=null && it.br!=null) ? it.bo + it.br : null; it.same = it.po===it.pr; it.mi = it.mo + it.mr; }
+  if(!it) return;
+  it.g = grp(it.o);
+  if(it.kind==='cash') it.mi = Math.round(it.price/15*1000);
+  var d0 = it.kind==='cash' ? it.pairs[0] : it.kind==='x' ? it.ex[0] : it.ida.split(' ')[0];
+  it.dk = d0 ? dkey(d0) : '9';
+  items.push(it);
 });
-cross.forEach(function(x){ x.tot = (x.bo!=null && x.br!=null) ? x.bo + x.br : null; x.same = x.po===x.pr; });
-function byBrl(a,b,ka,kb){ var x=a[ka], y=b[kb]; if(x==null&&y==null) return 0; if(x==null) return 1; if(y==null) return -1; return x-y; }
-nat.sort(function(a,b){ return byBrl(a,b,'brl','brl'); });
-cash.sort(function(a,b){ return a.brl-b.brl; });
-cross.sort(function(a,b){ return byBrl(a,b,'tot','tot'); });
 
-var cur = 'VCP';
-var minDest = {};   /* menor total de ida e volta por destino, na origem atual */
+/* estado */
+var S = { g:'VCP', tipo:'all', cont:'', reg:'', prog:'', max:null, same:false, q:'', sort:'price', page:1 };
+var PAGE = 24;
 function el(id){ return document.getElementById(id); }
-function menor(d,v){ return v!=null && minDest[d]===v ? '<span class="badge b-good">menor do destino</span>' : ''; }
+var TIPOS = [['all','Todas'],['cash','Dinheiro'],['x','Milhas'],['nat','Um trecho']];
 
-function itemCash(x,i){
-  var ref = Math.round(x.brl/15);
-  var datas = x.pairs.map(pair);
-  return '<div class="item"><div class="l1"><div class="dest"><span class="code">'+x.d+'</span><span class="city">'+city(x.d)+'</span><span class="route">'+x.o+' ⇄ '+x.d+'</span>'+menor(x.d,x.brl)+'<span class="rank">#'+i+'</span></div>'+
-    '<div class="price"><div class="mi">ida e volta</div><div class="brl">'+brl(x.brl)+'</div><div class="mi" title="Referência de conversão a R$ 15 o milheiro">≈ '+ref+' mil mi (ref.)</div></div></div>'+
-    (x.cia?'<div class="dates"><b>'+x.cia+'</b></div>':'')+
-    chips('Datas', datas, 4)+
-    links([lk(x.gf,'Ver voo no Google Flights')])+'</div>';
-}
-function itemNat(x,i){
-  return '<div class="item"><div class="l1"><div class="dest"><span class="code">'+x.d+'</span><span class="city">'+city(x.d)+'</span><span class="route">'+x.o+' ⇄ '+x.d+'</span><span class="badge b-warn">preço de 1 trecho</span><span class="rank">#'+i+'</span></div>'+
-    '<div class="price"><div class="brl">'+brl(x.brl)+'</div><div class="mi">'+mi(x.mi)+' por trecho, a partir de</div></div></div>'+
-    '<div class="dates"><b>'+x.prog.replace('/',' · ')+'</b></div>'+
-    chips('Ida', x.ida.split(' ').filter(Boolean).map(dm), 9)+chips('Volta', x.volta.split(' ').filter(Boolean).map(dm), 9)+
-    links([lk(x.gf,'Ver voo no Google Flights'), lk(x.pl,'Resgatar no programa')])+'</div>';
-}
-function leg(label,route,prog,m,b,g,p){
-  return '<div class="leg"><div class="t"><b>'+label+' · '+route+'</b><span>'+prog.replace('/',' · ')+'</span>'+links([lk(g,'Ver voo'), lk(p,'Programa')])+'</div><div class="v"><strong>'+brl(b)+'</strong>'+mi(m)+'</div></div>';
-}
-function itemX(x,i){
-  var totMi = x.mo + x.mr;
-  var badge = x.same ? '<span class="badge b-good">mesmo programa</span>' : '<span class="badge b-warn">2 programas</span>';
-  return '<div class="item"><div class="l1"><div class="dest"><span class="code">'+x.d+'</span><span class="city">'+city(x.d)+'</span><span class="route">'+x.o+' → '+x.d+' · volta '+(APT[x.r]||x.r)+'</span>'+badge+menor(x.d,x.tot)+'<span class="rank">#'+i+'</span></div>'+
-    '<div class="price"><div class="mi">ida e volta a partir de</div><div class="brl">'+brl(x.tot)+'</div><div class="mi">'+mi(totMi)+' no total</div></div></div>'+
-    '<div class="legs">'+leg('Ida',x.o+'→'+x.d,x.po,x.mo,x.bo,x.gfo,x.plo)+leg('Volta',x.d+'→'+x.r,x.pr,x.mr,x.br,x.gfv,x.plv)+'</div>'+
-    chips('Exemplos', x.ex.slice(0,3).map(pair), 3)+
-    '<div class="dates">'+x.n+(x.n===1?' combinação possível':' combinações possíveis')+'</div></div>';
-}
-
-/* filtros */
-function F(){
-  return { q:nz(el('q').value).split(/\s+/).filter(Boolean), cont:el('f-cont').value, reg:el('f-reg').value, tipo:el('f-tipo').value,
-    prog:el('f-prog').value, max:el('f-max').value===''?null:Number(el('f-max').value), same:el('f-same').checked };
-}
-function hay(x,kind){
-  var g = geo(x.d);
-  var s = [city(x.d), x.d, g[0], g[1], ORIGIN[x.o]||x.o];
-  if(kind==='cash') s.push(x.cia||'', 'dinheiro');
-  if(kind==='nat') s.push(x.prog, 'milhas');
-  if(kind==='x') s.push(x.po, x.pr, x.r, APT[x.r]||'', 'milhas');
+function hay(x){
+  var g = geo(x.d), s = [city(x.d), x.d, g[0], g[1], GROUP_NAME[x.g], x.o];
+  if(x.kind==='cash') s.push(x.cia||'', 'dinheiro');
+  if(x.kind==='nat') s.push(x.prog, 'milhas um trecho');
+  if(x.kind==='x') s.push(x.po, x.pr, x.r, APT[x.r]||'', 'milhas');
   return nz(s.join(' '));
 }
-function pass(x,kind,f){
+function passBase(x){   /* tudo menos o tipo, para contar os chips de tipo */
   var g = geo(x.d);
-  if(f.cont && g[0]!==f.cont) return false;
-  if(f.reg && g[1]!==f.reg) return false;
-  if(f.tipo==='cash' && kind!=='cash') return false;
-  if(f.tipo==='miles' && kind==='cash') return false;
-  if(f.prog){
-    if(kind==='cash') return false;
-    if(kind==='nat' && lastProg(x.prog)!==f.prog) return false;
-    if(kind==='x' && lastProg(x.po)!==f.prog && lastProg(x.pr)!==f.prog) return false;
+  if(x.g!==S.g) return false;
+  if(S.cont && g[0]!==S.cont) return false;
+  if(S.reg && g[1]!==S.reg) return false;
+  if(S.prog){
+    if(x.kind==='cash') return false;
+    if(x.kind==='nat' && lastProg(x.prog)!==S.prog) return false;
+    if(x.kind==='x' && lastProg(x.po)!==S.prog && lastProg(x.pr)!==S.prog) return false;
   }
-  if(f.max!=null){
-    var v = kind==='x' ? x.tot : x.brl;
-    if(v==null || v>f.max) return false;
-  }
-  if(f.same && kind==='x' && !x.same) return false;
-  if(f.q.length){ var h = hay(x,kind); for(var i=0;i<f.q.length;i++){ if(h.indexOf(f.q[i])<0) return false; } }
+  if(S.max!=null && (x.price==null || x.price>S.max)) return false;
+  if(S.same && x.kind==='x' && !x.same) return false;
+  if(S.q){ var h = hay(x), t = nz(S.q).split(/\s+/).filter(Boolean); for(var i=0;i<t.length;i++){ if(h.indexOf(t[i])<0) return false; } }
   return true;
 }
-function fillSelect(sel, values, firstLabel){
+function passTipo(x){ return S.tipo==='all' ? x.kind!=='nat' : x.kind===S.tipo; }
+
+function sorter(){
+  if(S.sort==='miles') return function(a,b){ return (a.mi||0)-(b.mi||0); };
+  if(S.sort==='date') return function(a,b){ return a.dk<b.dk ? -1 : a.dk>b.dk ? 1 : 0; };
+  return function(a,b){ if(a.price==null&&b.price==null) return 0; if(a.price==null) return 1; if(b.price==null) return -1; return a.price-b.price; };
+}
+
+/* cartões */
+var minDest = {};
+function badges(x){
+  var t = [];
+  if(x.kind==='x' && x.price!=null && minDest[x.d]===x.price) t.push('<span class="tag deal">menor do destino</span>');
+  if(x.kind==='cash' && minDest[x.d]===x.price) t.push('<span class="tag deal">menor do destino</span>');
+  if(x.kind==='x') t.push(x.same ? '<span class="tag ok">mesmo programa</span>' : '<span class="tag warn">2 programas</span>');
+  if(x.kind==='cash') t.push('<span class="tag">dinheiro</span>');
+  if(x.kind==='nat') t.push('<span class="tag warn">preço de 1 trecho</span>');
+  return '<div class="tags">'+t.join('')+'</div>';
+}
+function dchips(label, arr, max){
+  if(!arr.length) return '';
+  return '<div class="dchips"><span class="lab">'+label+'</span>'+arr.slice(0,max).map(function(t){return '<span class="dc">'+t+'</span>';}).join('')+(arr.length>max?'<span class="dc more">+'+(arr.length-max)+'</span>':'')+'</div>';
+}
+function legHtml(label,route,prog,m,b,g,p){
+  return '<div class="leg"><div class="l"><b>'+label+' · '+route+'</b><span>'+esc(prog.replace('/',' · '))+'</span><div class="lk">'+lkSmall(g,'Ver voo')+lkSmall(p,'Programa')+'</div></div><div class="r"><strong>'+brl(b)+'</strong>'+mi(m)+'</div></div>';
+}
+function card(x,i){
+  var g = geo(x.d), name = city(x.d), delay = 'style="animation-delay:'+Math.min(i,10)*35+'ms"';
+  var sub, price, body = '', act = '';
+  if(x.kind==='cash'){
+    sub = esc(g[1]+' · '+x.o+' ⇄ '+x.d+(x.cia?' · '+x.cia:''));
+    price = '<span class="lab">ida e volta</span><b>'+brl(x.price)+'</b><span class="mi">≈ '+nf(Math.round(x.price/15))+' mil mi (ref.)</span>';
+    body = dchips('Datas', x.pairs.map(pair), 4);
+    act = lk(x.gf,'Ver voo','btn btn-fill');
+  } else if(x.kind==='nat'){
+    sub = esc(g[1]+' · '+x.o+' ⇄ '+x.d+' · '+x.prog.replace('/',' · '));
+    price = '<span class="lab">um trecho, a partir de</span><b>'+brl(x.price)+'</b><span class="mi">'+mi(x.mi)+'</span>';
+    body = dchips('Ida', x.ida.split(' ').filter(Boolean).map(dm), 7)+dchips('Volta', x.volta.split(' ').filter(Boolean).map(dm), 7);
+    act = lk(x.gf,'Ver voo','btn btn-fill')+lk(x.pl,'Resgatar');
+  } else {
+    sub = esc(g[1]+' · '+x.o+' → '+x.d+' · volta '+(APT[x.r]||x.r));
+    price = '<span class="lab">ida e volta a partir de</span><b>'+brl(x.price)+'</b><span class="mi">'+mi(x.mi)+' no total</span>';
+    body = dchips('Exemplos', x.ex.slice(0,3).map(pair), 3)+'<div class="c-sub">'+x.n+(x.n===1?' combinação possível':' combinações possíveis')+'</div>';
+    act = lk(x.plo||x.gfo,'Resgatar ida','btn btn-fill')+lk(x.plv||x.gfv,'Resgatar volta');
+  }
+  var more = '';
+  if(x.kind==='x') more = '<details class="more"><summary>Ver trechos</summary><div class="legs">'+legHtml('Ida',x.o+'→'+x.d,x.po,x.mo,x.bo,x.gfo,x.plo)+legHtml('Volta',x.d+'→'+x.r,x.pr,x.mr,x.br,x.gfv,x.plv)+'</div></details>';
+  return '<article class="card" '+delay+'><div class="c-top"><div class="c-dest"><div class="c-code">'+x.d+'</div><div><h3 class="t-title">'+esc(name)+'</h3><p class="c-sub">'+sub+'</p></div></div><div class="c-price">'+price+'</div></div>'+badges(x)+body+'<div class="actions">'+act+'</div>'+more+'</article>';
+}
+
+/* melhor oferta (um destino por card) */
+function heroHtml(list){
+  var seen = {}, top = [];
+  list.forEach(function(x){ if(x.kind==='nat' || x.price==null || seen[x.d]) return; seen[x.d] = 1; top.push(x); });
+  if(!top.length){ el('hero').hidden = true; return; }
+  el('hero').hidden = false;
+  var a = top[0], g = geo(a.d), acts, meta = '';
+  if(a.kind==='cash'){ acts = lk(a.gf,'Ver voo','btn btn-fill'); meta = '<span class="tag ok">dinheiro</span>'+(a.cia?'<span class="tag">'+esc(a.cia)+'</span>':''); }
+  else { acts = lk(a.plo||a.gfo,'Resgatar ida','btn btn-fill')+lk(a.plv||a.gfv,'Resgatar volta','btn btn-tonal'); meta = (a.same?'<span class="tag ok">mesmo programa</span>':'<span class="tag">2 programas</span>')+'<span class="tag">'+esc(a.po.replace('/',' · '))+'</span>'; }
+  var d0 = a.kind==='cash' ? pair(a.pairs[0]) : pair(a.ex[0]);
+  el('hero-main').innerHTML = '<div class="eyebrow">Melhor oferta agora · '+esc(GROUP_NAME[a.g])+'</div><h2 class="hero-city t-display">'+esc(city(a.d))+'</h2>'+
+    '<div class="hero-meta"><span class="tag">'+esc(g[1])+'</span><span class="tag">'+d0+'</span>'+meta+'</div>'+
+    '<div class="hero-price"><b>'+brl(a.price)+'</b><span>'+(a.kind==='cash' ? 'ida e volta · ≈ '+nf(Math.round(a.price/15))+' mil mi (ref.)' : 'ida e volta a partir de · '+mi(a.mi))+'</span></div>'+
+    '<div class="actions">'+acts+'</div>';
+  el('hero-side').innerHTML = top.slice(1,4).map(function(x){
+    return '<div class="mini"><div class="eyebrow" style="color:var(--on-surface-variant)">'+esc(geo(x.d)[1])+'</div><div class="city t-title">'+esc(city(x.d))+'</div><div class="p">'+brl(x.price)+'</div><div class="s">'+(x.kind==='cash'?'dinheiro':mi(x.mi))+' · '+pair(x.kind==='cash'?x.pairs[0]:x.ex[0])+'</div></div>';
+  }).join('');
+}
+
+/* filtros e chips */
+function fillSelect(sel, values, first){
   var keep = sel.value;
-  sel.innerHTML = '<option value="">'+firstLabel+'</option>' + values.map(function(v){ return '<option value="'+v+'">'+v+'</option>'; }).join('');
+  sel.innerHTML = '<option value="">'+first+'</option>' + values.map(function(v){ return '<option value="'+esc(v)+'">'+esc(v)+'</option>'; }).join('');
   sel.value = values.indexOf(keep)>=0 ? keep : '';
+  return sel.value;
 }
-function fillFilters(c,n,xs){
-  var base = [].concat(c.map(function(x){return x.d;}), n.map(function(x){return x.d;}), xs.map(function(x){return x.d;}));
-  var conts = {}; base.forEach(function(d){ conts[geo(d)[0]] = 1; });
-  fillSelect(el('f-cont'), CONT_ORDER.filter(function(k){return conts[k];}), 'Todos');
-  var cont = el('f-cont').value, regs = {};
-  base.forEach(function(d){ var g = geo(d); if(!cont || g[0]===cont) regs[g[1]] = 1; });
-  fillSelect(el('f-reg'), Object.keys(regs).sort(function(a,b){return a.localeCompare(b);}), 'Todas');
-  var progs = {};
-  n.forEach(function(x){ progs[lastProg(x.prog)] = 1; });
-  xs.forEach(function(x){ progs[lastProg(x.po)] = 1; progs[lastProg(x.pr)] = 1; });
-  fillSelect(el('f-prog'), Object.keys(progs).sort(function(a,b){return a.localeCompare(b);}), 'Todos');
+function chipHtml(label, key, val, pressed, count){
+  return '<button type="button" class="chip" data-k="'+key+'" data-v="'+esc(val)+'" aria-pressed="'+(pressed?'true':'false')+'">'+esc(label)+(count!=null?'<span class="c">'+count+'</span>':'')+'</button>';
 }
-function activeCount(f){ return (f.cont?1:0)+(f.reg?1:0)+(f.tipo?1:0)+(f.prog?1:0)+(f.max!=null?1:0)+(f.same?1:0); }
 
 function render(){
-  var c0 = cash.filter(function(x){return x.o===cur;});
-  var n0 = nat.filter(function(x){return x.o===cur;});
-  var x0 = cross.filter(function(x){return x.o===cur;});
-  ['VCP','SAO'].forEach(function(k){
-    el('cnt-'+k).textContent = (cash.filter(function(x){return x.o===k;}).length + nat.filter(function(x){return x.o===k;}).length + cross.filter(function(x){return x.o===k;}).length) + ' ofertas';
-  });
+  var base = items.filter(function(x){ return x.g===S.g; });
+  ['VCP','SP'].forEach(function(k){ el('cnt-'+k).textContent = items.filter(function(x){return x.g===k && x.kind!=='nat';}).length; });
+
+  /* listas de opções dependem só da origem */
+  var conts = {}; base.forEach(function(x){ conts[geo(x.d)[0]] = 1; });
+  var contList = CONT_ORDER.filter(function(k){ return conts[k]; });
+  if(S.cont && !conts[S.cont]) S.cont = '';
+  var regs = {}; base.forEach(function(x){ var g = geo(x.d); if(!S.cont || g[0]===S.cont) regs[g[1]] = 1; });
+  S.reg = fillSelect(el('f-reg'), Object.keys(regs).sort(function(a,b){return a.localeCompare(b);}), 'Todas');
+  var progs = {};
+  base.forEach(function(x){ if(x.kind==='nat') progs[lastProg(x.prog)] = 1; if(x.kind==='x'){ progs[lastProg(x.po)] = 1; progs[lastProg(x.pr)] = 1; } });
+  S.prog = fillSelect(el('f-prog'), Object.keys(progs).sort(function(a,b){return a.localeCompare(b);}), 'Todos');
+
+  var pre = base.filter(passBase);
+  var counts = {all:0,cash:0,x:0,nat:0};
+  pre.forEach(function(x){ counts[x.kind]++; if(x.kind!=='nat') counts.all++; });
+  el('chips-tipo').innerHTML = TIPOS.map(function(t){ return chipHtml(t[1],'tipo',t[0],S.tipo===t[0],counts[t[0]]); }).join('');
+  /* chips de continente contam sem o próprio filtro de continente */
+  var keepC = S.cont; S.cont = '';
+  var preC = base.filter(passBase).filter(passTipo); S.cont = keepC;
+  var cc = {}; preC.forEach(function(x){ var c = geo(x.d)[0]; cc[c] = (cc[c]||0)+1; });
+  el('chips-cont').innerHTML = chipHtml('Todos os destinos','cont','',S.cont==='',preC.length) + contList.map(function(c){ return chipHtml(c,'cont',c,S.cont===c,cc[c]||0); }).join('');
+
+  var list = pre.filter(passTipo).sort(sorter());
+  /* menor por destino, considerando o conjunto da origem sem filtros de busca */
   minDest = {};
-  c0.forEach(function(x){ if(minDest[x.d]==null || x.brl<minDest[x.d]) minDest[x.d] = x.brl; });
-  x0.forEach(function(x){ if(x.tot!=null && (minDest[x.d]==null || x.tot<minDest[x.d])) minDest[x.d] = x.tot; });
-  fillFilters(c0,n0,x0);
-  var f = F();
-  var c = c0.filter(function(x){return pass(x,'cash',f);});
-  var n = n0.filter(function(x){return pass(x,'nat',f);});
-  var xs = x0.filter(function(x){return pass(x,'x',f);});
-  var na = activeCount(f);
-  el('f-n').hidden = na===0; el('f-n').textContent = na;
+  base.forEach(function(x){ if(x.kind!=='nat' && x.price!=null && (minDest[x.d]==null || x.price<minDest[x.d])) minDest[x.d] = x.price; });
 
-  el('sec-cash').hidden = f.tipo==='miles';
-  el('sec-x').hidden = f.tipo==='cash';
-  el('sec-nat').hidden = f.tipo==='cash';
-  var total = c0.length + n0.length + x0.length, shown = c.length + n.length + xs.length;
-  el('f-res').textContent = 'Mostrando ' + shown + ' de ' + total + ' ofertas saindo de ' + (ORIGIN[cur]||cur) + (shown<total ? ' (filtros ativos)' : '');
+  /* ativos */
+  var act = [];
+  if(S.q) act.push(['q','Busca: '+S.q]);
+  if(S.cont) act.push(['cont',S.cont]);
+  if(S.reg) act.push(['reg',S.reg]);
+  if(S.prog) act.push(['prog',S.prog]);
+  if(S.max!=null) act.push(['max','até R$ '+nf(S.max)]);
+  if(S.same) act.push(['same','mesmo programa']);
+  el('active').innerHTML = act.map(function(a){ return '<button type="button" class="achip" data-clear="'+a[0]+'">'+esc(a[1])+'</button>'; }).join('');
+  var nfilt = (S.reg?1:0)+(S.prog?1:0)+(S.max!=null?1:0)+(S.same?1:0);
+  el('f-n').hidden = nfilt===0; el('f-n').textContent = nfilt;
 
-  /* quadro de partidas: as mais baratas, um destino por linha */
-  var all = [];
-  c.forEach(function(x){ all.push({b:x.brl,t:'Dinheiro',d:x.d,s:(x.cia||''),m:null,l:links([lk(x.gf,'Ver voo')],'b-links')}); });
-  xs.forEach(function(x){ if(x.tot!=null) all.push({b:x.tot,t:'Milhas, ida + volta separadas',d:x.d,s:(x.same?x.po.replace('/',' · '):x.po.replace('/',' · ')+' + '+x.pr.replace('/',' · ')),m:x.mo+x.mr,l:links([lk(x.gfo,'Voo de ida'),lk(x.gfv,'Voo de volta')],'b-links')}); });
-  all.sort(function(a,b){return a.b-b.b;});
-  var seenD = {};
-  all = all.filter(function(a){ if(seenD[a.d]) return false; seenD[a.d] = 1; return true; });
-  el('board').hidden = all.length===0;
-  el('b-rows').innerHTML = all.slice(0,4).map(function(a){
-    return '<div class="b-row"><div class="b-code">'+a.d+'</div><div><div class="b-city">'+city(a.d)+'</div><div class="b-sub">'+a.t+(a.s?' · '+a.s:'')+'</div></div>'+
-      '<div class="b-val"><div class="b-brl">'+brl(a.b)+'</div><div class="b-mi">'+(a.m!=null?mi(a.m):'dinheiro')+'</div></div>'+a.l+'</div>';
-  }).join('');
-
-  var sem = '<div class="empty">Nenhuma oferta com esses filtros.</div>';
-  el('n-cash').textContent = c.length + ' de ' + c0.length + ' ofertas';
-  el('l-cash').innerHTML = c.length ? c.map(function(x,i){return itemCash(x,i+1);}).join('') : (c0.length ? sem : '<div class="empty">Nenhuma oferta em dinheiro com datas futuras saindo daqui.</div>');
-  el('n-nat').textContent = n.length + ' de ' + n0.length + ' ofertas';
-  el('l-nat').innerHTML = n.length ? n.map(function(x,i){return itemNat(x,i+1);}).join('') : (n0.length ? sem : '<div class="empty">Nenhuma oferta de um trecho saindo daqui agora.</div>');
-  el('n-x').textContent = xs.length + ' de ' + x0.length + ' combinações';
-  el('l-x').innerHTML = xs.length ? xs.map(function(x,i){return itemX(x,i+1);}).join('') : (x0.length ? sem : '<div class="empty">Nenhuma combinação saindo daqui agora.</div>');
+  /* a melhor oferta é sempre a mais barata, não importa a ordenação escolhida */
+  heroHtml(pre.filter(passTipo).sort(function(a,b){ if(a.price==null&&b.price==null) return 0; if(a.price==null) return 1; if(b.price==null) return -1; return a.price-b.price; }));
+  var tn = {all:'Todas as ofertas',cash:'Ida e volta em dinheiro',x:'Milhas, ida e volta',nat:'Milhas, um trecho'};
+  el('r-title').textContent = tn[S.tipo];
+  el('r-cnt').textContent = list.length + (list.length===1?' oferta':' ofertas') + ' saindo de ' + GROUP_NAME[S.g] + (act.length ? ' com os filtros escolhidos' : '');
+  var shown = list.slice(0, S.page*PAGE);
+  el('grid').innerHTML = shown.length ? shown.map(card).join('') :
+    '<div class="empty"><h3>Nenhuma oferta com esses filtros</h3><p>Tente outro continente ou aumente o preço máximo.</p><button type="button" class="btn btn-fill" data-clear="all">Limpar filtros</button></div>';
+  el('more').hidden = list.length <= shown.length;
+  el('more').textContent = 'Mostrar mais ofertas (' + (list.length - shown.length) + ')';
 }
 
-function setOrigin(o,fromHash){
-  cur = o;
-  ['VCP','SAO'].forEach(function(k){ el('tab-'+k).setAttribute('aria-selected', k===o ? 'true' : 'false'); });
-  if(!fromHash){ try{ location.hash = o==='VCP' ? 'campinas' : 'sao-paulo'; }catch(e){} }
+function clearOne(k){
+  if(k==='q'){ S.q=''; el('q').value=''; }
+  if(k==='cont') S.cont='';
+  if(k==='reg') S.reg='';
+  if(k==='prog') S.prog='';
+  if(k==='max'){ S.max=null; el('f-max').value=''; }
+  if(k==='same'){ S.same=false; el('f-same').checked=false; }
+  if(k==='all'){ S.q='';S.cont='';S.reg='';S.prog='';S.max=null;S.same=false;S.tipo='all'; el('q').value='';el('f-max').value='';el('f-same').checked=false; }
+  S.page = 1; render();
+}
+
+function setGroup(g,fromHash){
+  S.g = g; S.page = 1; S.cont=''; S.reg=''; S.prog='';
+  ['VCP','SP'].forEach(function(k){ el('tab-'+k).setAttribute('aria-selected', k===g ? 'true' : 'false'); });
+  if(!fromHash){ try{ location.hash = g==='VCP' ? 'campinas' : 'sao-paulo'; }catch(e){} }
   render();
 }
-function setFiltros(open){ el('frow').hidden = !open; el('f-toggle').setAttribute('aria-expanded', open ? 'true' : 'false'); }
-document.querySelectorAll('.tab').forEach(function(b){ b.addEventListener('click', function(){ setOrigin(b.getAttribute('data-o')); }); });
-document.querySelectorAll('.secnav button').forEach(function(b){ b.addEventListener('click', function(){ var t = el(b.getAttribute('data-s')); if(t) t.scrollIntoView({behavior:'smooth',block:'start'}); }); });
-el('f-toggle').addEventListener('click', function(){ setFiltros(el('frow').hidden); });
-['q','f-max'].forEach(function(id){ el(id).addEventListener('input', render); });
-['f-cont','f-reg','f-tipo','f-prog','f-same'].forEach(function(id){ el(id).addEventListener('change', function(){ if(id==='f-cont') el('f-reg').value=''; render(); }); });
-el('f-clear').addEventListener('click', function(){ el('q').value=''; el('f-cont').value=''; el('f-reg').value=''; el('f-tipo').value=''; el('f-prog').value=''; el('f-max').value=''; el('f-same').checked=false; render(); });
-function fromHash(){ var h = location.hash.replace('#',''); setOrigin(h==='sao-paulo' ? 'SAO' : 'VCP', true); }
+document.querySelectorAll('.seg button').forEach(function(b){ b.addEventListener('click', function(){ setGroup(b.getAttribute('data-o')); }); });
+el('chips-tipo').addEventListener('click', function(e){ var b = e.target.closest('.chip'); if(!b) return; S.tipo = b.getAttribute('data-v'); S.page = 1; render(); });
+el('chips-cont').addEventListener('click', function(e){ var b = e.target.closest('.chip'); if(!b) return; S.cont = b.getAttribute('data-v'); S.reg=''; S.page = 1; render(); });
+el('active').addEventListener('click', function(e){ var b = e.target.closest('[data-clear]'); if(b) clearOne(b.getAttribute('data-clear')); });
+el('grid').addEventListener('click', function(e){ var b = e.target.closest('[data-clear]'); if(b) clearOne(b.getAttribute('data-clear')); });
+el('f-clear').addEventListener('click', function(){ clearOne('all'); });
+el('q').addEventListener('input', function(){ S.q = el('q').value.trim(); S.page = 1; render(); });
+el('f-reg').addEventListener('change', function(){ S.reg = el('f-reg').value; S.page = 1; render(); });
+el('f-prog').addEventListener('change', function(){ S.prog = el('f-prog').value; S.page = 1; render(); });
+el('f-max').addEventListener('input', function(){ var v = el('f-max').value; S.max = v==='' ? null : Number(v); S.page = 1; render(); });
+el('f-same').addEventListener('change', function(){ S.same = el('f-same').checked; S.page = 1; render(); });
+el('sort').addEventListener('change', function(){ S.sort = el('sort').value; S.page = 1; render(); });
+el('more').addEventListener('click', function(){ S.page++; render(); });
+el('f-toggle').addEventListener('click', function(){ var open = el('sheet').hidden; el('sheet').hidden = !open; el('f-toggle').setAttribute('aria-expanded', open ? 'true' : 'false'); });
+function fromHash(){ var h = location.hash.replace('#',''); setGroup(h==='sao-paulo' ? 'SP' : 'VCP', true); }
 window.addEventListener('hashchange', fromHash);
-setFiltros(window.matchMedia && window.matchMedia('(min-width:760px)').matches);
 fromHash();
 </script>
 </body>

@@ -22,15 +22,20 @@ function main() {
   const fmt = p(when.getDate()) + '/' + p(when.getMonth() + 1) + '/' + when.getFullYear() + ' às ' + p(when.getHours()) + ':' + p(when.getMinutes());
   const today = rows.today.split('-').reverse().join('/');
 
+  // nomes de cidade como o site escreve (código IATA → nome), para destinos que o template não conhece
+  const cidades = {};
+  raw.cards.forEach((c) => { if (c.dc && c.dn && !cidades[c.dc]) cidades[c.dc] = c.dn; });
+  const T = cfg.filtro.tetoIdaVoltaReais;
   let html = fs.readFileSync(path.join(__dirname, 'template.html'), 'utf8');
-  html = html.replace('__DATA__', () => lines.join('\n'))
+  html = html.replace('__CITIES__', () => JSON.stringify(cidades).replace(/</g, '\\u003c'))
+    .replace('__DATA__', () => lines.join('\n'))
     .replace('__SCANNED__', () => 'Atualizado em ' + fmt + ' · Secret Flight Deals · classe econômica')
     .replace('__TODAY__', () => today)
-    .replace('__ESCONDIDAS__', () => escondidas + ' ofertas com preço normal ou alto foram escondidas: ficam de fora as que passam de ' + cfg.filtro.tolerancia + ' vezes o menor preço do mesmo destino ou do teto de ida e volta da região (nacional R$ ' + cfg.filtro.tetoIdaVoltaReais.nacional + ', América do Sul R$ ' + cfg.filtro.tetoIdaVoltaReais.americaDoSul + ', América do Norte e Caribe R$ ' + cfg.filtro.tetoIdaVoltaReais.americaNorteCaribe + ', Europa e outros R$ ' + cfg.filtro.tetoIdaVoltaReais.europaOutros + ').');
+    .replace('__ESCONDIDAS__', () => escondidas + ' ofertas com preço normal ou alto foram escondidas: ficam de fora as que passam de ' + cfg.filtro.tolerancia + ' vezes o menor preço do mesmo destino ou do teto de ida e volta da região (nacional R$ ' + T.nacional + ', América do Sul R$ ' + T.americaDoSul + ', América do Norte e Caribe R$ ' + T.americaNorteCaribe + ', Europa R$ ' + T.europaOutros + ', Ásia, África e Oceania R$ ' + T.longaDistancia + ').');
   fs.mkdirSync(path.join(__dirname, 'docs'), { recursive: true });
   fs.writeFileSync(path.join(__dirname, 'docs', 'index.html'), html);
   fs.writeFileSync(path.join(__dirname, 'data', 'rows.json'), JSON.stringify({ rows, top5: top(rows, 5), scannedAt: raw.scannedAt }));
-  const c = (o) => ['nat', 'cash', 'cross'].map((k) => rows[k].filter((x) => x.oc === o).length).join('/');
-  console.log('OK docs/index.html', html.length, 'bytes | VCP nat/cash/cross', c('VCP'), '| SAO', c('SAO'));
+  const c = (f) => ['nat', 'cash', 'cross'].map((k) => rows[k].filter((x) => f(x.oc)).length).join('/');
+  console.log('OK docs/index.html', html.length, 'bytes | Campinas nat/cash/cross', c((o) => o === 'VCP'), '| São Paulo', c((o) => o !== 'VCP'), '| escondidas', escondidas);
 }
 main();

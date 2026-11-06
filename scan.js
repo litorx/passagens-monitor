@@ -35,7 +35,7 @@ async function main() {
       const cash = h.match(/R\$(.*?) · Econômica\s*R\$ ([\d.]+),\d\d/);
       const isMiles = m[4] === 'Milhas';
       return {
-        oc: m[1], dc: m[3], vt: isMiles ? 'miles' : 'cash',
+        oc: m[1], dc: m[3], dn: m[2].trim(), vt: isMiles ? 'miles' : 'cash',
         miles: mi ? +mi[1].replace(/\./g, '') : null,
         prog: pr ? pr[1].trim() : '',
         brl: ca ? +ca[1].replace(/\./g, '') : (!isMiles && cash ? +cash[2].replace(/\./g, '') : null),
@@ -44,13 +44,18 @@ async function main() {
       };
     };
 
-    async function slice(params, kind) {
+    // listas de programas e companhias do próprio filtro do site, para fatiar mais fino quando bate em 100
+    const selOf = (txt) => [...document.querySelectorAll('select')].find((s) => [...s.options].some((o) => o.textContent.trim() === txt));
+    const programs = selOf('Smiles') ? [...selOf('Smiles').options].map((o) => o.value || o.textContent.trim()).filter((v) => v && v !== 'Programa') : [];
+    const airlines = selOf('LATAM') ? [...selOf('LATAM').options].map((o) => o.value || o.textContent.trim()).filter((v) => v && v !== 'Companhia') : [];
+
+    async function slice(params, kind, quiet) {
       const u = '/dashboard?' + new URLSearchParams({ cabin: 'economy', ...params });
       const h = await (await fetch(u, { credentials: 'include' })).text();
       const ids = [...h.matchAll(/article\\*",\\*"([0-9a-f-]{36})/g)].map((x) => x[1]);
       const arts = [...new DOMParser().parseFromString(h, 'text/html').querySelectorAll('article')];
       if (ids.length !== arts.length) warnings.push('ids != cards em ' + u);
-      if (arts.length >= 100) warnings.push('CORTE de 100 em ' + u);
+      if (arts.length >= 100 && !quiet) warnings.push('CORTE de 100 em ' + u);
       arts.forEach((x, i) => {
         const id = ids[i];
         if (!id || cards.has(id)) return;
@@ -61,16 +66,33 @@ async function main() {
       return arts.length;
     }
 
+    // busca; se o site cortar em 100, refaz por programa e, se ainda cortar, por companhia
+    async function sliceDeep(params, kind) {
+      const n = await slice(params, kind, true);
+      if (n < 100) return;
+      let aindaCorta = 0;
+      for (const p of programs) {
+        const n2 = await slice({ ...params, loyalty_program: p }, kind, true);
+        if (n2 >= 100) {
+          for (const a of airlines) {
+            const n3 = await slice({ ...params, loyalty_program: p, operating_airline: a }, kind, true);
+            if (n3 >= 100) aindaCorta++;
+          }
+        }
+      }
+      if (aindaCorta) warnings.push('CORTE persistente (' + aindaCorta + ') em ' + JSON.stringify(params));
+    }
+
     // 1) ida: cada origem x (milhas|dinheiro) x mês
     for (const o of cfg.origins)
       for (const vt of ['miles', 'cash'])
-        for (const m of months) await slice({ value_type: vt, month: m, origin: o }, 'out');
+        for (const m of months) await sliceDeep({ value_type: vt, month: m, origin: o }, 'out');
 
     // 2) volta: para cada destino das idas em milhas, cada aeroporto de retorno
     const outs = [...cards.values()].filter((c) => c.kind === 'out' && c.vt === 'miles');
     const dests = [...new Set(outs.map((c) => c.dc))];
     for (const a of cfg.returnAirports)
-      for (const d of dests) await slice({ value_type: 'miles', origin: d, destination: a }, 'in');
+      for (const d of dests) await sliceDeep({ value_type: 'miles', origin: d, destination: a }, 'in');
 
     // 3) datas (4 em paralelo)
     const all = [...cards.values()];
