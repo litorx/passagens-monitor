@@ -1,0 +1,9 @@
+{
+  "dashboard": "https://app.iurimilhas.com.br/dashboard",
+  "origins": ["VCP", "SAO"],
+  "returnAirports": ["VCP", "SAO", "GRU", "CGH"],
+  "minStay": 3,
+  "maxStay": 30,
+  "siteUrl": "",
+  "whatsappGroup": ""
+}

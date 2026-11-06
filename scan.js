@@ -1,0 +1,101 @@
+// Varredura: coleta TODAS as ofertas (sem o corte de 100) e as datas, e grava data/raw.json.
+// Códigos de saída: 0 ok · 2 sessão expirada (rode login.js de novo) · 1 erro.
+const { chromium } = require('playwright-core');
+const fs = require('fs');
+const path = require('path');
+const cfg = require('./config.json');
+
+async function main() {
+  const ctx = await chromium.launchPersistentContext(path.join(__dirname, 'profile'), {
+    channel: 'chrome', headless: true,
+  });
+  const page = ctx.pages()[0] || (await ctx.newPage());
+  await page.goto(cfg.dashboard, { waitUntil: 'domcontentloaded' });
+  try {
+    await page.waitForSelector('article', { timeout: 30000 });
+  } catch {
+    console.error('SESSAO_EXPIRADA: a lista não apareceu. Rode: node login.js');
+    await ctx.close();
+    process.exit(2);
+  }
+
+  const raw = await page.evaluate(async (cfg) => {
+    const warnings = [];
+    const cards = new Map();
+    const sel = [...document.querySelectorAll('select')].find((s) =>
+      [...s.options].some((o) => /^\w{3}\/\d\d$/.test(o.value)));
+    const months = [...sel.options].map((o) => o.value).filter(Boolean);
+
+    const parse = (h) => {
+      const m = h.match(/([A-Z]{3})→(.*?)([A-Z]{3})(Milhas|R\$)/);
+      if (!m) return null;
+      const mi = h.match(/a partir de ([\d.]+) milhas/);
+      const pr = h.match(/Milhas(.*?) · Econômica/);
+      const ca = h.match(/≈ R\$ ([\d.]+) em dinheiro \(milheiro a R\$ ([\d.,]+)\)/);
+      const cash = h.match(/R\$(.*?) · Econômica\s*R\$ ([\d.]+),\d\d/);
+      const isMiles = m[4] === 'Milhas';
+      return {
+        oc: m[1], dc: m[3], vt: isMiles ? 'miles' : 'cash',
+        miles: mi ? +mi[1].replace(/\./g, '') : null,
+        prog: pr ? pr[1].trim() : '',
+        brl: ca ? +ca[1].replace(/\./g, '') : (!isMiles && cash ? +cash[2].replace(/\./g, '') : null),
+        mil: ca ? ca[2] : null,
+        cia: !isMiles && cash ? cash[1].trim() : '',
+      };
+    };
+
+    async function slice(params, kind) {
+      const u = '/dashboard?' + new URLSearchParams({ cabin: 'economy', ...params });
+      const h = await (await fetch(u, { credentials: 'include' })).text();
+      const ids = [...h.matchAll(/article\\*",\\*"([0-9a-f-]{36})/g)].map((x) => x[1]);
+      const arts = [...new DOMParser().parseFromString(h, 'text/html').querySelectorAll('article')];
+      if (ids.length !== arts.length) warnings.push('ids != cards em ' + u);
+      if (arts.length >= 100) warnings.push('CORTE de 100 em ' + u);
+      arts.forEach((x, i) => {
+        const id = ids[i];
+        if (!id || cards.has(id)) return;
+        const p = parse(x.textContent.replace(/\s+/g, ' ').trim());
+        if (p) cards.set(id, { id, kind, ...p });
+      });
+      return arts.length;
+    }
+
+    // 1) ida: cada origem x (milhas|dinheiro) x mês
+    for (const o of cfg.origins)
+      for (const vt of ['miles', 'cash'])
+        for (const m of months) await slice({ value_type: vt, month: m, origin: o }, 'out');
+
+    // 2) volta: para cada destino das idas em milhas, cada aeroporto de retorno
+    const outs = [...cards.values()].filter((c) => c.kind === 'out' && c.vt === 'miles');
+    const dests = [...new Set(outs.map((c) => c.dc))];
+    for (const a of cfg.returnAirports)
+      for (const d of dests) await slice({ value_type: 'miles', origin: d, destination: a }, 'in');
+
+    // 3) datas (4 em paralelo)
+    const all = [...cards.values()];
+    const need = all.filter((c) => (c.kind === 'out' && cfg.origins.includes(c.oc)) || c.kind === 'in');
+    const dates = {};
+    let i = 0;
+    const worker = async () => {
+      while (i < need.length) {
+        const id = need[i++].id;
+        try {
+          dates[id] = await (await fetch('/api/opportunity/' + id + '/dates', { credentials: 'include' })).json();
+        } catch (e) { warnings.push('datas falhou ' + id); }
+      }
+    };
+    await Promise.all([worker(), worker(), worker(), worker()]);
+    return { months, cards: all, dates, warnings };
+  }, cfg);
+
+  raw.scannedAt = new Date().toISOString();
+  fs.mkdirSync(path.join(__dirname, 'data'), { recursive: true });
+  fs.writeFileSync(path.join(__dirname, 'data', 'raw.json'), JSON.stringify(raw));
+  const by = {};
+  raw.cards.forEach((c) => { const k = c.kind + ':' + c.vt; by[k] = (by[k] || 0) + 1; });
+  console.log('OK cards', raw.cards.length, JSON.stringify(by), 'datas', Object.keys(raw.dates).length);
+  console.log('avisos:', raw.warnings.length ? raw.warnings.join(' | ') : 'nenhum');
+  await ctx.close();
+}
+
+main().catch((e) => { console.error('ERRO', e); process.exit(1); });
