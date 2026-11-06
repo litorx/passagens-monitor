@@ -97,7 +97,7 @@ select{font:inherit;font-size:13.5px;background:var(--surface);color:var(--ink);
 <body>
 <div class="wrap">
 <header class="top">
-  <div class="kicker">Atualizado em 06/11/2026 às 14:06 · Secret Flight Deals · classe econômica</div>
+  <div class="kicker">Atualizado em 06/11/2026 às 14:33 · Secret Flight Deals · classe econômica</div>
   <h1>Passagens baratas saindo de São Paulo e Campinas</h1>
   <p class="lead">Ofertas de ida e volta do mais barato para o mais caro, sempre com o valor em R$ e em milhas. Cada seção está separada pelo tipo de bilhete.</p>
 </header>
@@ -453,6 +453,8 @@ function render(){
   n.forEach(function(x){ if(x.brl!=null) all.push({b:x.brl,t:'Milhas, mesmo card',d:x.d,s:x.prog.replace('/',' · '),m:x.mi}); });
   xs.forEach(function(x){ if(x.tot!=null) all.push({b:x.tot,t:'Milhas, bilhetes separados',d:x.d,s:(x.same?x.po.replace('/',' · '):x.po.replace('/',' · ')+' + '+x.pr.replace('/',' · ')),m:x.mo+x.mr}); });
   all.sort(function(a,b){return a.b-b.b;});
+  var seenD = {};
+  all = all.filter(function(a){ if(seenD[a.d]) return false; seenD[a.d] = 1; return true; });
   el('top3').innerHTML = all.slice(0,4).map(function(a,i){
     return '<div class="t3"><small>Mais barata #'+(i+1)+' · '+a.t+'</small><span class="c">'+city(a.d)+'</span><span class="brl">'+brl(a.b)+'</span><small>'+(a.m!=null?mi(a.m)+' · ':'')+a.s+'</small></div>';
   }).join('');
