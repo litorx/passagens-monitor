@@ -5,5 +5,15 @@
   "minStay": 3,
   "maxStay": 30,
   "siteUrl": "https://litorx.github.io/passagens-monitor/",
-  "whatsappGroup": "Nerds.com"
+  "whatsappGroup": "Nerds.com",
+  "filtro": {
+    "ativo": true,
+    "tolerancia": 1.6,
+    "tetoIdaVoltaReais": {
+      "nacional": 1500,
+      "americaDoSul": 3000,
+      "americaNorteCaribe": 4000,
+      "europaOutros": 4500
+    }
+  }
 }

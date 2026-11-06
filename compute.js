@@ -139,4 +139,40 @@ function top(rows, n = 5) {
   return out;
 }
 
-module.exports = { compute, top, hojeISO, gf, awardLink, linksNat, linksCross };
+// ---- filtro de promoções ----
+// Mantém só ofertas que (1) estão perto do menor preço do mesmo destino e (2) ficam abaixo de um teto
+// de preço "normal" para a região. Os tetos são referência do projeto, editáveis em config.json.
+const NACIONAL = new Set('SDU GIG BEL MCZ SSA REC FOR POA FLN BSB MCP IGU BYO BPS NVT MII LDB JOI CNF CWB NAT SLZ GYN CGB VIX MAO THE AJU JPA CGR PMW SAO GRU CGH VCP'.split(' '));
+const SUL = new Set('EZE AEP SCL MVD ASU FTE LIM BOG UIO GYE'.split(' '));
+const NORTE = new Set('MCO FLL MIA JFK EWR IAD LAX LAS ORD CHO ATL BOS SFO CUN PUJ ADZ PTY MEX SJO'.split(' '));
+function regiao(dc) {
+  if (NACIONAL.has(dc)) return 'nacional';
+  if (SUL.has(dc)) return 'americaDoSul';
+  if (NORTE.has(dc)) return 'americaNorteCaribe';
+  return 'europaOutros';
+}
+
+function filtrar(rows, cfg = cfgDefault) {
+  const f = cfg.filtro || {};
+  if (!f.ativo) return { rows, escondidas: 0 };
+  const teto = f.tetoIdaVoltaReais || {};
+  const tol = f.tolerancia || 1.6;
+  // menor total de ida e volta por destino (dinheiro + soma de dois trechos em milhas)
+  const min = {};
+  const consider = (dc, v) => { if (v != null && (min[dc] == null || v < min[dc])) min[dc] = v; };
+  rows.cash.forEach((x) => consider(x.dc, x.brl));
+  rows.cross.forEach((x) => consider(x.dc, x.tot));
+  const ok = (dc, v) => v != null && v <= (teto[regiao(dc)] ?? Infinity) && v <= (min[dc] ?? v) * tol;
+  const before = rows.cash.length + rows.cross.length + rows.nat.length;
+  const out = {
+    ...rows,
+    cash: rows.cash.filter((x) => ok(x.dc, x.brl)),
+    cross: rows.cross.filter((x) => ok(x.dc, x.tot)),
+    // card de um trecho: o preço de ida e volta seria pelo menos o dobro
+    nat: rows.nat.filter((x) => x.brl != null && x.brl * 2 <= (teto[regiao(x.dc)] ?? Infinity)),
+  };
+  const after = out.cash.length + out.cross.length + out.nat.length;
+  return { rows: out, escondidas: before - after };
+}
+
+module.exports = { compute, top, hojeISO, gf, awardLink, linksNat, linksCross, filtrar, regiao };

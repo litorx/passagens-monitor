@@ -2,11 +2,11 @@
 const fs = require('fs');
 const path = require('path');
 const cfg = require('./config.json');
-const { compute, top, gf, linksNat, linksCross } = require('./compute');
+const { compute, top, gf, linksNat, linksCross, filtrar } = require('./compute');
 
 function main() {
   const raw = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'raw.json'), 'utf8'));
-  const rows = compute(raw, cfg);
+  const { rows, escondidas } = filtrar(compute(raw, cfg), cfg);
   const s = (v) => (v == null ? '' : String(v));
   const md = (d) => d.slice(5);
   const u = (v) => (v || '').replace(/;/g, '%3B').replace(/\s/g, '%20');
@@ -25,7 +25,8 @@ function main() {
   let html = fs.readFileSync(path.join(__dirname, 'template.html'), 'utf8');
   html = html.replace('__DATA__', () => lines.join('\n'))
     .replace('__SCANNED__', () => 'Atualizado em ' + fmt + ' · Secret Flight Deals · classe econômica')
-    .replace('__TODAY__', () => today);
+    .replace('__TODAY__', () => today)
+    .replace('__ESCONDIDAS__', () => escondidas + ' ofertas com preço normal ou alto foram escondidas: ficam de fora as que passam de ' + cfg.filtro.tolerancia + ' vezes o menor preço do mesmo destino ou do teto de ida e volta da região (nacional R$ ' + cfg.filtro.tetoIdaVoltaReais.nacional + ', América do Sul R$ ' + cfg.filtro.tetoIdaVoltaReais.americaDoSul + ', América do Norte e Caribe R$ ' + cfg.filtro.tetoIdaVoltaReais.americaNorteCaribe + ', Europa e outros R$ ' + cfg.filtro.tetoIdaVoltaReais.europaOutros + ').');
   fs.mkdirSync(path.join(__dirname, 'docs'), { recursive: true });
   fs.writeFileSync(path.join(__dirname, 'docs', 'index.html'), html);
   fs.writeFileSync(path.join(__dirname, 'data', 'rows.json'), JSON.stringify({ rows, top5: top(rows, 5), scannedAt: raw.scannedAt }));
