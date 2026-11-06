@@ -81,11 +81,38 @@ function gf(o, d, dep, ret) {
   const q = 'Flights from ' + o + ' to ' + d + ' on ' + dep + (ret ? ' through ' + ret : ' one way');
   return 'https://www.google.com/travel/flights?q=' + encodeURIComponent(q) + '&hl=pt-BR&gl=BR&curr=BRL';
 }
-// links de uma oferta: [{t, u}]
-function linksNat(x, par) { const [a, b] = par.split('>'); return { gf: gf(x.oc, x.dc, a, b), prog: x.link || '' }; }
+// Busca de resgate já preenchida no site do programa (testado: Azul, Smiles; LATAM exige login).
+// Programas sem formato conhecido caem no link da página inicial que o site já traz.
+function awardLink(progStr, home, o, d, dep, ret) {
+  const p = (progStr || '').split('/').pop();
+  const us = (iso) => { const [y, m, dd] = iso.split('-'); return m + '/' + dd + '/' + y; };
+  if (p === 'Azul Fidelidade') {
+    let q = 'c%5B0%5D.ds=' + o + '&c%5B0%5D.std=' + us(dep) + '&c%5B0%5D.as=' + d;
+    if (ret) q += '&c%5B1%5D.ds=' + d + '&c%5B1%5D.std=' + us(ret) + '&c%5B1%5D.as=' + o;
+    return 'https://www.voeazul.com.br/br/pt/home/selecao-voo?' + q + '&p%5B0%5D.t=ADT&p%5B0%5D.c=1&p%5B0%5D.cp=false&f.dl=3&f.dr=3&cc=PTS';
+  }
+  if (p === 'Smiles') {
+    const ep = (iso) => { const [y, m, dd] = iso.split('-').map(Number); return Date.UTC(y, m - 1, dd, 12); };
+    return 'https://www.smiles.com.br/mfe/emissao-passagem/?adults=1&cabin=ECONOMIC&children=0&departureDate=' + ep(dep) +
+      '&infants=0&isElegible=false&isFlexibleDateChecked=false' + (ret ? '&returnDate=' + ep(ret) : '') +
+      '&searchType=g3&segments=1&tripType=' + (ret ? 1 : 2) + '&originAirport=' + o + '&originCity=&originCountry=&originAirportIsAny=false' +
+      '&destinationAirport=' + d + '&destinCity=&destinCountry=&destinAirportIsAny=false&novo-resgate-first-access=true';
+  }
+  if (p === 'LATAM Pass') {
+    const t = (iso) => encodeURIComponent(iso + 'T12:00:00.000Z');
+    return 'https://www.latamairlines.com/br/pt/oferta-voos?origin=' + o + '&outbound=' + t(dep) + '&destination=' + d +
+      (ret ? '&inbound=' + t(ret) : '') + '&adt=1&chd=0&inf=0&trip=' + (ret ? 'RT' : 'OW') + '&cabin=Economy&redemption=true&sort=RECOMMENDED';
+  }
+  return home || '';
+}
+// links de uma oferta
+function linksNat(x, par) { const [a, b] = par.split('>'); return { gf: gf(x.oc, x.dc, a, b), prog: awardLink(x.prog, x.link, x.oc, x.dc, a, b) }; }
 function linksCross(x, par) {
   const [a, b] = par.split('>');
-  return { gfIda: gf(x.oc, x.dc, a), gfVolta: gf(x.dc, x.rc, b), progIda: x.lo || '', progVolta: x.lr || '' };
+  return {
+    gfIda: gf(x.oc, x.dc, a), gfVolta: gf(x.dc, x.rc, b),
+    progIda: awardLink(x.po, x.lo, x.oc, x.dc, a), progVolta: awardLink(x.pr, x.lr, x.dc, x.rc, b),
+  };
 }
 
 // Top N mais baratas, no máximo uma por origem+destino
@@ -118,4 +145,4 @@ function top(rows, n = 5) {
   return out;
 }
 
-module.exports = { compute, top, hojeISO, gf, linksNat, linksCross };
+module.exports = { compute, top, hojeISO, gf, awardLink, linksNat, linksCross };
