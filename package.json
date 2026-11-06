@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "playwright-core": "^1.65.0"
+    "playwright-core": "^1.65.0",
+    "whatsapp-web.js": "github:pedroslopez/whatsapp-web.js"
   }
 }

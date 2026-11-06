@@ -2,17 +2,20 @@
 const fs = require('fs');
 const path = require('path');
 const cfg = require('./config.json');
-const { compute, top } = require('./compute');
+const { compute, top, gf, linksNat, linksCross } = require('./compute');
 
 function main() {
   const raw = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'raw.json'), 'utf8'));
   const rows = compute(raw, cfg);
   const s = (v) => (v == null ? '' : String(v));
   const md = (d) => d.slice(5);
+  const u = (v) => (v || '').replace(/;/g, '%3B').replace(/\s/g, '%20');
+  const sp = (p) => { const [a, b] = p.split('>'); return md(a) + '>' + (b ? md(b) : ''); };
+  const firstPar = (x) => { for (const a of x.ida) { const b = x.volta.find((v) => v > a); if (b) return a + '>' + b; } return x.ida[0] + '>' + x.volta[0]; };
   const lines = [];
-  rows.nat.forEach((x) => lines.push(['N', x.oc, x.dc, x.prog, x.miles, s(x.brl), x.ida.map(md).join(' '), x.volta.map(md).join(' ')].join(';')));
-  rows.cash.forEach((x) => lines.push(['C', x.oc, x.dc, x.brl, x.pairs.join(' '), x.cia].join(';')));
-  rows.cross.forEach((x) => lines.push(['X', x.oc, x.dc, x.rc, x.po, x.pr, x.mo, x.mr, s(x.bo), s(x.br), x.n, x.ex.join(' ')].join(';')));
+  rows.nat.forEach((x) => { const l = linksNat(x, firstPar(x)); lines.push(['N', x.oc, x.dc, x.prog, x.miles, s(x.brl), x.ida.map(md).join(' '), x.volta.map(md).join(' '), u(l.gf), u(l.prog)].join(';')); });
+  rows.cash.forEach((x) => { const [a, b] = x.pairs[0].split('>'); lines.push(['C', x.oc, x.dc, x.brl, x.pairs.map(sp).join(' '), x.cia, u(x.link || gf(x.oc, x.dc, a, b))].join(';')); });
+  rows.cross.forEach((x) => { const l = linksCross(x, x.ex[0]); lines.push(['X', x.oc, x.dc, x.rc, x.po, x.pr, x.mo, x.mr, s(x.bo), s(x.br), x.n, x.ex.map(sp).join(' '), u(l.gfIda), u(l.gfVolta), u(l.progIda), u(l.progVolta)].join(';')); });
 
   const when = new Date(raw.scannedAt);
   const p = (n) => String(n).padStart(2, '0');

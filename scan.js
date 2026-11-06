@@ -55,7 +55,8 @@ async function main() {
         const id = ids[i];
         if (!id || cards.has(id)) return;
         const p = parse(x.textContent.replace(/\s+/g, ' ').trim());
-        if (p) cards.set(id, { id, kind, ...p });
+        const a = x.querySelector('a[href^="http"]');
+        if (p) cards.set(id, { id, kind, ...p, link: a ? a.getAttribute('href') : '' });
       });
       return arts.length;
     }
