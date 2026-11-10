@@ -75,9 +75,31 @@ function compute(raw, cfg = cfgDefault, today = hojeISO()) {
       if (!old || (row.tot != null && (old.tot == null || row.tot < old.tot))) res[key] = row;
     });
   });
+  // mesmo card com datas de ida e de volta (ex.: VCP→MCZ LATAM com as duas direções): vira ida e volta
+  // ESTIMADA como 2 × o preço de um trecho (vs = 'est'); a conferência no programa troca pelo valor real.
+  outs.forEach((c) => {
+    const od = fut(c, 'outbound'), rd = fut(c, 'return');
+    if (!od.length || !rd.length) return;
+    const antec = cfg.antecedenciaMinDias != null ? cfg.antecedenciaMinDias : 14;
+    const combos = [];
+    od.forEach((a) => rd.forEach((b) => { const n = days(a, b); if (n >= cfg.minStay && n <= cfg.maxStay) combos.push([a, b]); }));
+    const idade = c.pub ? days(c.pub, today) : 99;
+    const longe = combos.filter((x) => days(today, x[0]) >= antec);
+    const usar = longe.length ? longe : (idade <= 3 ? combos : []);
+    if (!usar.length) return;
+    const pick = [...new Set([0, Math.floor(usar.length / 2), usar.length - 1])].map((i) => usar[i]);
+    const b1 = brl(c);
+    const row = {
+      oc: c.oc, dc: c.dc, dn: c.dn, rc: c.oc, po: prog(c.prog), pr: prog(c.prog), mo: c.miles, mr: c.miles, bo: b1, br: b1,
+      tot: b1 != null ? b1 * 2 : null, n: usar.length, idade, ex: pick.map((x) => x[0] + '>' + x[1]), lo: c.link || '', lr: c.link || '', est: true,
+    };
+    const key = [row.oc, row.dc, row.rc, row.po, row.pr].join('|');
+    const old = res[key];
+    if (!old || (row.tot != null && (old.tot == null || row.tot < old.tot))) res[key] = row;
+  });
   const cross = Object.values(res);
 
-  const num = (a, b) => (a == null && b == null ? 0 : a == null ? 1 : b == null ? -1 : a - b);
+  const num =(a, b) => (a == null && b == null ? 0 : a == null ? 1 : b == null ? -1 : a - b);
   nat.sort((a, b) => num(a.brl, b.brl));
   cash.sort((a, b) => a.brl - b.brl);
   cross.sort((a, b) => num(a.tot, b.tot));
@@ -219,7 +241,7 @@ function aplicarConferencia(rows, verified, cfg = cfgDefault) {
       y.vat = [best.viv, best.vvv].filter(Boolean).map((v) => v.at).sort().pop();
       conf++;
       cross.push(y);
-    } else cross.push({ ...x, vs: 'nc' });
+    } else cross.push({ ...x, vs: x.est ? 'est' : 'nc' });
   });
   const num = (a, b) => (a == null && b == null ? 0 : a == null ? 1 : b == null ? -1 : a - b);
   cross.sort((a, b) => num(a.tot, b.tot));

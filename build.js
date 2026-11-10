@@ -19,7 +19,7 @@ function main() {
   const lines = [];
   rows.nat.forEach((x) => { const l = linksNat(x, firstPar(x)); lines.push(['N', x.oc, x.dc, x.prog, x.miles, s(x.brl), x.ida.map(md).join(' '), x.volta.map(md).join(' '), u(l.gf), u(l.prog)].join(';')); });
   rows.cash.forEach((x) => { const [a, b] = x.pairs[0].split('>'); lines.push(['C', x.oc, x.dc, x.brl, x.pairs.map(sp).join(' '), x.cia, u(x.link || gf(x.oc, x.dc, a, b))].join(';')); });
-  rows.cross.forEach((x) => { const l = linksCross(x, x.ex[0]); lines.push(['X', x.oc, x.dc, x.rc, x.po, x.pr, x.mo, x.mr, s(x.bo), s(x.br), x.n, x.ex.map(sp).join(' '), u(l.gfIda), u(l.gfVolta), u(l.progIda), u(l.progVolta), s(x.idade), s(x.vs), s(x.vat)].join(';')); });
+  rows.cross.forEach((x) => { const l = linksCross(x, x.ex[0]); lines.push(['X', x.oc, x.dc, x.rc, x.po, x.pr, x.mo, x.mr, s(x.bo), s(x.br), x.n, x.ex.map(sp).join(' '), u(l.gfIda), u(l.gfVolta), u(l.progIda), u(l.progVolta), s(x.idade), s(x.vs || (x.est ? 'est' : '')), s(x.vat)].join(';')); });
 
   const when = new Date(raw.scannedAt);
   const p = (n) => String(n).padStart(2, '0');

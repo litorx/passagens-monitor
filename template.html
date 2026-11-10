@@ -228,7 +228,7 @@ svg.i { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor;
   <section class="in intro">
     <h1>Passagens baratas de São Paulo e Campinas</h1>
     <p class="sum" id="summary"></p>
-    <p class="upd">__SCANNED__, classe econômica, fonte Secret Flight Deals.</p>
+    <p class="upd">__SCANNED__, classe econômica, fonte Secret Flight Deals. <a href="grupos.html">Ver também as ofertas dos grupos de WhatsApp</a>.</p>
   </section>
 
   <section class="explore" aria-label="Explorar por continente">
@@ -366,7 +366,7 @@ DATA.split('\n').forEach(function(l){
 
 /* estado */
 var HAS_VER = items.some(function(x){ return x.kind==='x' && (x.vs==='ok' || x.vs==='parcial'); });
-var S = { g:'VCP', tipo:'all', cont:'', reg:'', prog:'', max:null, same:false, conf:HAS_VER, q:'', sort:'price', page:1 };
+var S = { g:'VCP', tipo:'all', cont:'', reg:'', prog:'', max:null, same:false, conf:false, q:'', sort:'price', page:1 };
 var PAGE = 20;
 function el(id){ return document.getElementById(id); }
 var TIPOS = [['all','Todas'],['cash','Dinheiro'],['x','Milhas'],['nat','Um trecho']];
@@ -415,6 +415,7 @@ function vtag(x){
   if(x.kind!=='x') return '';
   if(x.vs==='ok') return '<span class="tag deal">conferido no programa'+(x.vat?' às '+hm(x.vat):'')+'</span>';
   if(x.vs==='parcial') return '<span class="tag warn">conferido em parte</span>';
+  if(x.vs==='est') return '<span class="tag warn">estimado: 2 × o preço de um trecho, não conferido</span>';
   return '<span class="tag warn">não conferido'+(x.idade!=null && x.idade<99 ? ', alerta de '+x.idade+(x.idade===1?' dia':' dias') : '')+'</span>';
 }
 

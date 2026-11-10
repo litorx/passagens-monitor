@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#1c4a38">
+<title>Ofertas dos grupos de WhatsApp</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231c4a38'/%3E%3Cpath d='M7 19.5l18-7.5-6.5 13-2.8-5.4-5.2 1.9z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --ink: oklch(24% 0.035 165); --ink-2: oklch(40% 0.03 165); --ink-3: oklch(48% 0.027 165);
+  --ground: oklch(98.4% 0.005 165); --surface: oklch(99.7% 0.003 165); --panel: oklch(95.6% 0.014 165);
+  --line: oklch(89.5% 0.013 165); --line-strong: oklch(76% 0.022 165);
+  --shell: oklch(33% 0.085 165); --on-shell: oklch(98.5% 0.01 160); --on-shell-2: oklch(88% 0.045 160);
+  --deal: oklch(46% 0.14 152); --deal-bg: oklch(94.5% 0.06 150);
+  --warn: oklch(42% 0.09 70); --warn-bg: oklch(95.5% 0.05 85);
+  --focus: oklch(52% 0.16 152);
+  --font: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px; --s-6: 32px;
+  --r-sm: 8px; --r-md: 12px;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: var(--ground); color: var(--ink); font: 400 0.9375rem/1.5 var(--font); font-variant-numeric: tabular-nums lining-nums; -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: inherit; text-underline-offset: 0.18em; }
+button, input, select { font: inherit; color: inherit; }
+h1, h2, p { margin: 0; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.in { width: 100%; max-width: 1180px; margin-inline: auto; padding-inline: max(16px, 24px); }
+.shell { background: var(--shell); color: var(--on-shell); }
+.shell .in { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-3) var(--s-5); padding-block: var(--s-4); }
+.shell h1 { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.01em; }
+.shell p { color: var(--on-shell-2); font-size: 0.875rem; }
+.shell a.back { color: var(--on-shell); font-weight: 600; font-size: 0.9375rem; }
+.bar { display: flex; flex-wrap: wrap; gap: var(--s-3); padding-block: var(--s-4); align-items: center; }
+.bar input[type=search] { flex: 1 1 16rem; min-width: 0; height: 40px; padding: 0 var(--s-4); border: 1px solid var(--line-strong); border-radius: var(--r-md); background: var(--surface); }
+.bar select { height: 40px; padding: 0 var(--s-3); border: 1px solid var(--line-strong); border-radius: var(--r-md); background: var(--surface); max-width: 100%; }
+.aviso { padding: var(--s-3) var(--s-4); border-radius: var(--r-md); background: var(--warn-bg); color: var(--warn); font-size: 0.875rem; margin-bottom: var(--s-4); }
+.list { display: grid; gap: var(--s-3); padding-bottom: var(--s-6); }
+.card { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--s-2) var(--s-5); padding: var(--s-4); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); }
+.card h2 { font-size: 1.125rem; font-weight: 700; }
+.card .meta { color: var(--ink-2); font-size: 0.875rem; }
+.card .price { text-align: right; }
+.card .price b { display: block; font-size: 1.35rem; font-weight: 800; color: var(--deal); }
+.card .price span { display: block; color: var(--ink-3); font-size: 0.8125rem; }
+.tags { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-top: var(--s-2); }
+.tag { padding: 2px 10px; border-radius: 999px; background: var(--panel); color: var(--ink-2); font-size: 0.8125rem; font-weight: 600; }
+.tag.warn { background: var(--warn-bg); color: var(--warn); }
+.tag.deal { background: var(--deal-bg); color: var(--deal); }
+.actions { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: var(--s-2); align-items: center; }
+.btn { display: inline-flex; align-items: center; min-height: 36px; padding: 0 var(--s-4); border-radius: var(--r-sm); background: var(--shell); color: var(--on-shell); font-weight: 600; text-decoration: none; }
+.vazio { padding: var(--s-6); text-align: center; color: var(--ink-2); }
+@media (max-width: 560px) { .card { grid-template-columns: minmax(0, 1fr); } .card .price { text-align: left; } }
+</style>
+</head>
+<body>
+<header class="shell"><div class="in">
+  <div><h1>Ofertas dos grupos de WhatsApp</h1><p>__LIDO__ · só saídas de São Paulo e Campinas, classe econômica</p></div>
+  <a class="back" href="__SITE__">← Voltar às ofertas do monitor</a>
+</div></header>
+<main class="in">
+  <div class="bar">
+    <input type="search" id="q" placeholder="Buscar destino, companhia ou programa" aria-label="Buscar">
+    <select id="org" aria-label="Saindo de"><option value="">Campinas e São Paulo</option><option value="VCP">Campinas</option><option value="SP">São Paulo</option></select>
+    <select id="grp" aria-label="Grupo"><option value="">Todos os grupos</option></select>
+    <select id="srt" aria-label="Ordenar"><option value="p">Menor preço</option><option value="t">Mais recentes</option></select>
+  </div>
+  <p class="aviso">Estas ofertas vêm de mensagens de grupos e não foram conferidas nos programas. Preço e datas são os que o grupo publicou; confirme antes de contar com o valor. Ofertas "só a ida" mostram o preço de um trecho.</p>
+  <div class="list" id="list"></div>
+</main>
+<script>
+var ITEMS = __ITEMS__;
+var MES = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+function nf(n){ return Math.round(n).toLocaleString('pt-BR'); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function dm(d){ var p = d.split('-'); return p[2]+'/'+MES[+p[1]-1]; }
+function ago(t){ var h = (Date.now()/1000 - t)/3600; if(h<1) return 'há menos de 1 hora'; if(h<24) return 'há '+Math.floor(h)+' h'; var d = Math.floor(h/24); return 'há '+d+(d===1?' dia':' dias'); }
+function datas(x){
+  var a = x.ida.slice(0,3).map(dm).join(', ') + (x.ida.length>3 ? ' (+'+(x.ida.length-3)+')' : '');
+  var v = x.volta.length ? ' · volta ' + x.volta.slice(0,3).map(dm).join(', ') + (x.volta.length>3 ? ' (+'+(x.volta.length-3)+')' : '') : '';
+  return x.ida.length ? 'ida ' + a + v : 'datas na mensagem do grupo';
+}
+var S = { q:'', org:'', grp:'', srt:'p' };
+var groups = {}; ITEMS.forEach(function(x){ groups[x.g] = 1; });
+var gsel = document.getElementById('grp');
+Object.keys(groups).sort().forEach(function(g){ var o = document.createElement('option'); o.value = g; o.textContent = g; gsel.appendChild(o); });
+function norm(s){ return String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase(); }
+function render(){
+  var q = norm(S.q);
+  var rows = ITEMS.filter(function(x){
+    if(S.org==='VCP' && x.oc!=='VCP') return false;
+    if(S.org==='SP' && x.oc==='VCP') return false;
+    if(S.grp && x.g!==S.grp) return false;
+    if(q && norm([x.dn,x.dc,x.cia,x.prog,x.g].join(' ')).indexOf(q)<0) return false;
+    return true;
+  }).sort(function(a,b){ return S.srt==='t' ? b.t-a.t : (a.trecho===b.trecho ? a.brl-b.brl : (a.trecho==='ida e volta' ? -1 : 1)); });
+  var el = document.getElementById('list');
+  if(!rows.length){ el.innerHTML = '<p class="vazio">Nenhuma oferta com esses filtros.</p>'; return; }
+  el.innerHTML = rows.map(function(x){
+    var sai = x.oc==='VCP' ? 'Campinas' : 'São Paulo';
+    var dest = x.dn + (x.dc ? ' ('+x.dc+')' : '');
+    var tags = '<span class="tag '+(x.trecho==='ida e volta'?'deal':'warn')+'">'+esc(x.trecho)+'</span>'
+      + (x.prog?'<span class="tag">'+esc(x.prog)+'</span>':'') + (x.cia?'<span class="tag">'+esc(x.cia)+'</span>':'')
+      + '<span class="tag">'+esc(x.g)+'</span><span class="tag">'+ago(x.t)+'</span>';
+    var mil = x.mi ? nf(x.mi)+' milhas' : '';
+    var sub = [x.como, mil, x.normal ? 'normal R$ '+nf(x.normal) : ''].filter(Boolean).join(' · ');
+    return '<article class="card"><div><h2>'+esc(dest)+'</h2><p class="meta">Saindo de '+sai+' · '+esc(datas(x))+'</p><div class="tags">'+tags+'</div></div>'
+      + '<div class="price"><b>R$ '+nf(x.brl)+'</b><span>'+esc(sub)+'</span></div>'
+      + '<div class="actions">'+(x.link?'<a class="btn" href="'+esc(x.link)+'" target="_blank" rel="noopener noreferrer">Abrir link do grupo</a>':'')+(x.obs?'<span class="tag warn">'+esc(x.obs)+'</span>':'')+'</div></article>';
+  }).join('');
+}
+document.getElementById('q').addEventListener('input', function(e){ S.q = e.target.value; render(); });
+document.getElementById('org').addEventListener('change', function(e){ S.org = e.target.value; render(); });
+document.getElementById('grp').addEventListener('change', function(e){ S.grp = e.target.value; render(); });
+document.getElementById('srt').addEventListener('change', function(e){ S.srt = e.target.value; render(); });
+render();
+</script>
+</body>
+</html>

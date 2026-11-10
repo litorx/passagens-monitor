@@ -29,8 +29,18 @@ function avisar(texto) {
   log('build exit=' + build.status + ' ' + (build.stdout || build.stderr || '').trim());
   if (build.status !== 0) { avisar('⚠️ Monitor de passagens: falha ao gerar o site.'); process.exit(1); }
 
+  // ofertas dos grupos de WhatsApp (somente leitura). Se falhar, o resto segue.
+  if (cfg.whatsappMonitor && (cfg.whatsappMonitor.grupos || []).length) {
+    const lr = node('wa-ler.js');
+    log('wa-ler exit=' + lr.status + ' ' + (lr.stdout || lr.stderr || '').trim().split('\n').slice(-3).join(' | '));
+    if (lr.status === 0) {
+      const pr = node('wa-parse.js'); log('wa-parse exit=' + pr.status + ' ' + (pr.stdout || pr.stderr || '').trim());
+      const wb = node('wa-build.js'); log('wa-build exit=' + wb.status + ' ' + (wb.stdout || wb.stderr || '').trim());
+    }
+  }
+
   // publica: só commita se o site mudou
-  sh('git', ['add', 'docs/index.html']);
+  sh('git', ['add', 'docs/index.html', 'docs/grupos.html']);
   const diff = sh('git', ['diff', '--cached', '--quiet']);
   if (diff.status !== 0) {
     const c = sh('git', ['commit', '-m', 'Atualização diária ' + new Date().toLocaleDateString('pt-BR')]);
