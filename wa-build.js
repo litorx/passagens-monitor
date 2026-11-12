@@ -1,4 +1,4 @@
-// Gera docs/grupos.html a partir de data/wa-offers.json (ofertas lidas dos grupos de WhatsApp).
+﻿// Gera docs/grupos.html a partir de data/wa-offers.json (ofertas lidas dos grupos de WhatsApp).
 const fs = require('fs');
 const path = require('path');
 const cfg = require('./config.json');
@@ -31,6 +31,10 @@ function main() {
   const tpl = fs.readFileSync(path.join(__dirname, 'grupos-template.html'), 'utf8');
   const html = tpl.replace('__ITEMS__', () => JSON.stringify(items).replace(/</g, '\\u003c')).replace('__LIDO__', () => 'Lido em ' + quando).replace('__SITE__', () => cfg.siteUrl || './');
   fs.writeFileSync(path.join(__dirname, 'docs', 'grupos.html'), html);
+  fs.writeFileSync(path.join(__dirname, 'docs', 'index.html'), html); // sem o agregador, a pagina principal e a dos grupos
+  const top5 = items.slice().sort((a, b) => a.brl - b.brl).slice(0, 5);
+  fs.writeFileSync(path.join(__dirname, 'data', 'grupos-top.json'), JSON.stringify({ lidoEm: src.lidoEm, top5 }));
   console.log('OK docs/grupos.html', items.length, 'ofertas de grupos');
 }
 main();
+

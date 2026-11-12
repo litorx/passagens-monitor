@@ -1,4 +1,4 @@
-// Rotina diária: varre → gera o site → publica no GitHub Pages → avisa no WhatsApp.
+﻿// Rotina diária: varre → gera o site → publica no GitHub Pages → avisa no WhatsApp.
 // Falhas viram aviso (WhatsApp, se configurado) e ficam em logs/. Não usa o Claude.
 const { spawnSync } = require('child_process');
 const fs = require('fs');
@@ -19,25 +19,17 @@ function avisar(texto) {
 }
 
 (function main() {
+  // roda no logon do Windows: se hoje já deu certo, não repete (FORCE=1 ignora)
+  const okFile = path.join(dir, 'logs', 'ok-' + new Date().toISOString().slice(0, 10));
+  if (fs.existsSync(okFile) && !process.env.FORCE) { log('já rodou hoje com sucesso, nada a fazer'); process.exit(0); }
   log('--- início');
-  const scan = node('scan.js');
-  log('scan exit=' + scan.status + ' ' + (scan.stdout || '').trim().replace(/\n/g, ' | ') + (scan.stderr ? ' ERR ' + scan.stderr.trim() : ''));
-  if (scan.status === 2) { avisar('⚠️ Monitor de passagens: a sessão do site expirou. Rode "node login.js" no PC para entrar de novo.'); process.exit(2); }
-  if (scan.status !== 0) { avisar('⚠️ Monitor de passagens: a varredura falhou hoje. Veja logs/ no PC.'); process.exit(1); }
-
-  const build = node('build.js');
-  log('build exit=' + build.status + ' ' + (build.stdout || build.stderr || '').trim());
-  if (build.status !== 0) { avisar('⚠️ Monitor de passagens: falha ao gerar o site.'); process.exit(1); }
-
-  // ofertas dos grupos de WhatsApp (somente leitura). Se falhar, o resto segue.
-  if (cfg.whatsappMonitor && (cfg.whatsappMonitor.grupos || []).length) {
-    const lr = node('wa-ler.js');
-    log('wa-ler exit=' + lr.status + ' ' + (lr.stdout || lr.stderr || '').trim().split('\n').slice(-3).join(' | '));
-    if (lr.status === 0) {
-      const pr = node('wa-parse.js'); log('wa-parse exit=' + pr.status + ' ' + (pr.stdout || pr.stderr || '').trim());
-      const wb = node('wa-build.js'); log('wa-build exit=' + wb.status + ' ' + (wb.stdout || wb.stderr || '').trim());
-    }
-  }
+  // fonte única: grupos de WhatsApp (somente leitura). O agregador Secret Flight Deals foi removido do processo.
+  const lr = node('wa-ler.js');
+  log('wa-ler exit=' + lr.status + ' ' + (lr.stdout || lr.stderr || '').trim().split('\n').slice(-4).join(' | '));
+  if (lr.status !== 0) { avisar('⚠️ Monitor de passagens: não consegui ler os grupos do WhatsApp hoje. Veja logs/ no PC.'); process.exit(1); }
+  const pr = node('wa-parse.js'); log('wa-parse exit=' + pr.status + ' ' + (pr.stdout || pr.stderr || '').trim());
+  const wb = node('wa-build.js'); log('wa-build exit=' + wb.status + ' ' + (wb.stdout || wb.stderr || '').trim());
+  if (pr.status !== 0 || wb.status !== 0) { avisar('⚠️ Monitor de passagens: falha ao gerar o site.'); process.exit(1); }
 
   // publica: só commita se o site mudou
   sh('git', ['add', 'docs/index.html', 'docs/grupos.html']);
@@ -55,5 +47,6 @@ function avisar(texto) {
     log('notify exit=' + n.status + ' ' + (n.stdout || n.stderr || '').trim());
     if (n.status !== 0) process.exit(1);
   } else log('whatsappGroup vazio: alerta não enviado');
+  fs.writeFileSync(okFile, new Date().toISOString());
   log('--- fim ok');
 })();

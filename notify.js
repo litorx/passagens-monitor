@@ -1,4 +1,4 @@
-// Alerta no WhatsApp com o top 5.
+﻿// Alerta no WhatsApp com o top 5.
 //   node notify.js --dry      mostra a mensagem, não envia
 //   node notify.js --setup    abre o WhatsApp Web para você escanear o QR e lista seus grupos
 //   node notify.js            envia o top 5 para o grupo de config.json (whatsappGroup)
@@ -52,11 +52,29 @@ function buildMessage(rows, scannedAt, siteUrl) {
   return linhas.join('\n');
 }
 
-function loadMessage() {
-  const r = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'rows.json'), 'utf8'));
-  return buildMessage(r.top5, r.scannedAt, cfg.siteUrl);
+function buildMessageGrupos(top5, lidoEm, siteUrl) {
+  const d = new Date(lidoEm), p = (n) => String(n).padStart(2, '0');
+  const L = ['✈️ *Top 5 ofertas dos grupos de passagens*', 'Lido em ' + p(d.getDate()) + '/' + p(d.getMonth() + 1) + ' às ' + p(d.getHours()) + ':' + p(d.getMinutes()), ''];
+  top5.forEach((t, i) => {
+    const dest = CITY[t.dc] || t.dn || t.dc;
+    L.push(NUM[i] + ' *' + dest + '* saindo de ' + (ORIGEM[t.oc] || t.oc));
+    L.push('💰 R$ ' + nf(t.brl) + (t.mi ? ' · ' + nf(t.mi) + ' milhas' : '') + ' (' + t.como + ')');
+    const datas = (t.ida || []).slice(0, 3).map((x) => dm(x)).join(', ');
+    if (datas) L.push('📅 Ida: ' + datas + (t.volta && t.volta.length ? ' · Volta: ' + t.volta.slice(0, 3).map((x) => dm(x)).join(', ') : ''));
+    L.push('👥 Grupo: ' + t.g + (/mestre/i.test(t.g) ? ' (oferta PRIME)' : ''));
+    if (t.link) L.push('🔗 ' + t.link);
+    L.push('');
+  });
+  L.push('⚠️ Ofertas lidas dos grupos, ainda não conferidas nos programas. Confirme antes de contar com o valor.');
+  L.push('');
+  L.push('🔗 Todas as ofertas: ' + (siteUrl || ''));
+  return L.join('\n');
 }
 
+function loadMessage() {
+  const r = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'grupos-top.json'), 'utf8'));
+  return buildMessageGrupos(r.top5, r.lidoEm, cfg.siteUrl);
+}
 async function client(headless) {
   const { Client, LocalAuth } = require('whatsapp-web.js');
   const c = new Client({
@@ -119,3 +137,4 @@ async function main() {
 
 module.exports = { buildMessage };
 if (require.main === module) main().catch((e) => { console.error('ERRO', (e && (e.stack || e.message)) || String(e)); process.exit(1); });
+
