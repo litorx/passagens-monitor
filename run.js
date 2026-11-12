@@ -29,6 +29,7 @@ function avisar(texto) {
   if (lr.status !== 0) { avisar('⚠️ Monitor de passagens: não consegui ler os grupos do WhatsApp hoje. Veja logs/ no PC.'); process.exit(1); }
   const pr = node('wa-parse.js'); log('wa-parse exit=' + pr.status + ' ' + (pr.stdout || pr.stderr || '').trim());
   const md = node('md-ler.js'); log('md-ler exit=' + md.status + ' ' + (md.stdout || md.stderr || '').trim().split('\n')[0]); // fonte gratuita extra, falha nao derruba o resto
+  const cx = node('wa-cross.js'); log('wa-cross exit=' + cx.status + ' ' + (cx.stdout || cx.stderr || '').trim());
   const wb = node('wa-build.js'); log('wa-build exit=' + wb.status + ' ' + (wb.stdout || wb.stderr || '').trim());
   if (pr.status !== 0 || wb.status !== 0) { avisar('⚠️ Monitor de passagens: falha ao gerar o site.'); process.exit(1); }
 
@@ -46,9 +47,11 @@ function avisar(texto) {
   else if (cfg.whatsappGroup) {
     const n = node('notify.js');
     log('notify exit=' + n.status + ' ' + (n.stdout || n.stderr || '').trim());
+    if (n.status === 6) { log('alerta NAO enviado: aguardando a conferencia nos programas (peça /conferir ao Claude e depois rode node notify.js)'); process.exit(0); }
     if (n.status !== 0) process.exit(1);
   } else log('whatsappGroup vazio: alerta não enviado');
   fs.writeFileSync(okFile, new Date().toISOString());
   log('--- fim ok');
 })();
+
 

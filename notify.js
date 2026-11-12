@@ -52,34 +52,41 @@ function buildMessage(rows, scannedAt, siteUrl) {
   return linhas.join('\n');
 }
 
-function buildMessageGrupos(r, siteUrl) {
-  const d = new Date(r.lidoEm), p = (n) => String(n).padStart(2, '0');
-  const L = ['✈️ *Ofertas dos grupos de passagens*', 'Lido em ' + p(d.getDate()) + '/' + p(d.getMonth() + 1) + ' às ' + p(d.getHours()) + ':' + p(d.getMinutes()), ''];
+function buildMessageRanking(r, siteUrl) {
+  const { estruturar } = require('./fmt-rank');
+  const d = new Date(r.geradoEm), p = (n) => String(n).padStart(2, '0');
+  const L = ['✈️ *Melhores passagens de IDA E VOLTA saindo de São Paulo e Campinas*', 'Atualizado em ' + p(d.getDate()) + '/' + p(d.getMonth() + 1) + ' às ' + p(d.getHours()) + ':' + p(d.getMinutes()), ''];
   const bloco = (titulo, lista) => {
     if (!lista || !lista.length) return;
-    L.push(titulo);
-    lista.forEach((t, i) => {
-      const dest = CITY[t.dc] || t.dn || t.dc;
-      L.push(NUM[i] + ' *' + dest + '* saindo de ' + (ORIGEM[t.oc] || t.oc));
-      L.push('💰 R$ ' + nf(t.brl) + (t.mi ? ' · ' + nf(t.mi) + ' milhas' : '') + ' (' + t.como + ')');
-      const datas = (t.ida || []).slice(0, 3).map((x) => dm(x)).join(', ');
-      if (datas) L.push('📅 Ida: ' + datas + (t.volta && t.volta.length ? ' · Volta: ' + t.volta.slice(0, 3).map((x) => dm(x)).join(', ') : ''));
-      L.push('👥 ' + t.g + (/mestre/i.test(t.g) ? ' (oferta PRIME)' : ''));
-      if (t.link) L.push('🔗 ' + t.link);
+    L.push(titulo, '');
+    lista.forEach((c, i) => {
+      const e = estruturar(c);
+      L.push(NUM[i] + ' *' + e.cab + '*');
+      L.push('💰 *' + e.preco + '* no total · ' + e.selo);
+      L.push('📅 ' + e.datas);
+      e.itens.forEach((x) => L.push(x));
+      e.links.forEach(([rot, u]) => L.push('🔗 ' + rot + ': ' + u));
+      if (e.grupos.length) L.push('👥 ' + e.grupos.join(' + '));
+      if (e.nota) L.push('⚠️ ' + e.nota);
       L.push('');
     });
   };
-  bloco('🇧🇷 *Top 5 nacionais*', r.nacionais);
-  bloco('🌎 *Top 5 internacionais*', r.internacionais);
-  L.push('⚠️ Ofertas lidas dos grupos, ainda não conferidas nos programas. Confirme antes de contar com o valor.');
+  bloco('🇧🇷 *NACIONAIS*', r.nacionais);
+  bloco('🌎 *INTERNACIONAIS*', r.internacionais);
+  L.push('ℹ️ Preços de ida e volta somados. Onde está "estimado", o valor usa milhas a preço médio de mercado. Tudo marcado ✅ foi conferido hoje no site do programa.');
   L.push('');
   L.push('🔗 Todas as ofertas: ' + (siteUrl || ''));
   return L.join('\n');
 }
 
 function loadMessage() {
-  const r = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'grupos-top.json'), 'utf8'));
-  return buildMessageGrupos(r, cfg.siteUrl);
+  const r = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'ranking.json'), 'utf8'));
+  return buildMessageRanking(r, cfg.siteUrl);
+}
+
+// o alerta so sai depois da conferencia: sem trechos pendentes na fila (ou --forcar)
+function conferenciaPendente() {
+  try { const f = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'fila-conferencia.json'), 'utf8')); return (f.tarefas || []).length; } catch { return 0; }
 }
 async function client(headless) {
   const { Client, LocalAuth } = require('whatsapp-web.js');
@@ -113,7 +120,7 @@ async function chatsComRetry(c) {
 
 async function main() {
   const arg = process.argv[2];
-  if (arg === '--dry') { console.log(loadMessage()); return; }
+  if (arg === '--dry') { const pend = conferenciaPendente(); console.log(loadMessage()); if (pend) console.log('\n[AVISO: ' + pend + ' trechos pendentes de conferencia; o envio real fica bloqueado]'); return; }
   if (arg === '--setup') {
     const c = await client(false);
     const chats = await chatsComRetry(c);
@@ -125,6 +132,7 @@ async function main() {
     await c.destroy();
     return;
   }
+  if (arg !== '--text' && !process.argv.includes('--forcar')) { const pend = conferenciaPendente(); if (pend) { console.error('CONFERENCIA_PENDENTE: ' + pend + ' trechos do ranking ainda nao foram conferidos nos programas. Faca a conferencia (/conferir) e rode de novo, ou use --forcar.'); process.exit(6); } }
   const texto = arg === '--text' ? process.argv[3] : loadMessage();
   if (!cfg.whatsappGroup) { console.error('whatsappGroup vazio em config.json'); process.exit(4); }
   const c = await client(true);
@@ -143,6 +151,7 @@ async function main() {
 
 module.exports = { buildMessage };
 if (require.main === module) main().catch((e) => { console.error('ERRO', (e && (e.stack || e.message)) || String(e)); process.exit(1); });
+
 
 
 

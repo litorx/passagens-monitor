@@ -50,7 +50,10 @@ function parseEmissao(b, g, t) {
   const o = b.match(/Origem\s*:\*?\s*([^\n]*?)\s*(?:✈️)?\s*\*?Destino\s*:\*?\s*([^\n]+)/);
   if (!o) return [];
   const oc = codeOf(o[1]), dc = codeOf(o[2]);
-  if (!ehSP(o[1], oc)) return [];
+  let dirE = 'out';
+  if (!ehSP(o[1], oc)) {
+    if (ehSP(o[2], dc) && /somente ida/i.test((b.match(/Tipo de viagem\s*:\*?\s*([^\n]+)/) || [])[1] || '')) dirE = 'in'; else return [];
+  }
   const cia = (b.match(/Companhia A[ée]rea\s*:\*?\s*([^\n]+)/) || [])[1] || '';
   const prog = (b.match(/Tipo de milhas\s*:\*?\s*([^\n]+)/) || [])[1] || '';
   const viagem = (b.match(/Tipo de viagem\s*:\*?\s*([^\n]+)/) || [])[1] || '';
@@ -63,7 +66,7 @@ function parseEmissao(b, g, t) {
   const volta = listaDatas(parts[1] || '');
   const ehIV = /ida e volta/i.test(viagem);
   return [{
-    grupo: g, t, fonte: 'emissao', tipo: 'milhas', oc: oc || 'SAO', od: limpaNome(o[1]), dc, dn: limpaNome(o[2]), cia: limpaNome(cia), prog: limpaNome(prog),
+    grupo: g, t, fonte: 'emissao', dir: dirE, tipo: 'milhas', oc: dirE === 'in' ? (dc || 'SAO') : (oc || 'SAO'), od: limpaNome(dirE === 'in' ? o[2] : o[1]), dc: dirE === 'in' ? oc : dc, dn: limpaNome(dirE === 'in' ? o[1] : o[2]), cia: limpaNome(cia), prog: limpaNome(prog),
     milhasIda: mIda, milhasVolta: ehIV ? mVolta : 0, ivRS: tot ? num(tot[1]) : null, ivMilhas: mIda + (ehIV ? mVolta : 0), ehIV, ida, volta, link: (b.match(/https?:\/\/\S+/) || [''])[0],
   }];
 }
@@ -76,10 +79,13 @@ function parseAlertas(b, g, t) {
   for (const bl of blocos) {
     const h = bl.match(/\*([^*\n]*?)\(([A-Z]{3})\)\s*(→|⇄)\s*([^*\n]*?)\(([A-Z]{3})\)\s*\*/u);
     if (!h) continue;
-    const oc = h[2], dc = h[5];
-    if (!SP_CODES.has(oc)) continue;
+    let oc = h[2], dc = h[5], dn = limpaNome(h[4]), od = limpaNome(h[1]), dir = 'out';
+    if (!SP_CODES.has(oc)) {
+      // trecho de volta: origem fora de SP e destino em SP (so sentido unico serve para cruzar)
+      if (SP_CODES.has(dc) && h[3] === '→') { dir = 'in'; const tc = oc; oc = dc; dc = tc; const tn = dn; dn = od; od = tn; } else continue;
+    }
     const link = (bl.match(/https?:\/\/\S+/) || [''])[0];
-    const base = { grupo: g, t, fonte: 'alerta', oc, od: limpaNome(h[1]), dc, dn: limpaNome(h[4]), link };
+    const base = { grupo: g, t, fonte: 'alerta', dir, oc, od, dc, dn, link };
     if (h[3] === '⇄') {
       const pr = bl.match(/\*R\$\s*([\d.]+)\s*ida e volta\*(?:\s*·\s*_([^_\n]+)_)?/);
       if (!pr) continue;
@@ -157,10 +163,11 @@ function parseSecreta(b, g, t, lk) {
   const ida = sec('Ida'), volta = sec('Volta');
   if (!ida) return [];
   const link = ((lk || []).find((x) => /milhas/i.test(x.n)) || {}).u || '';
+  const linkDin = ((lk || []).find((x) => /dinheiro/i.test(x.n)) || {}).u || '';
   return [{
     grupo: g, t, fonte: 'secreta', tipo: 'milhas', oc: 'SAO', od: limpaNome(o), dc: '', dn: limpaNome(h[2]), cia: limpaNome(cia), prog: limpaNome(prog),
     milhasIda: ida.milhas, milhasVolta: volta ? volta.milhas : 0, ivRS: ida.rs != null ? Math.round((ida.rs + (volta && volta.rs ? volta.rs : 0)) * 100) / 100 : null,
-    ehIV: !!volta, ida: ida.ds, volta: volta ? volta.ds : [], link,
+    ehIV: !!volta, ida: ida.ds, volta: volta ? volta.ds : [], link, linkDin,
   }];
 }
 
@@ -181,5 +188,7 @@ function main() {
 }
 module.exports = { listaDatas, dataCurta, parseEmissao, parseAlertas, parseMestre, parseSecreta };
 if (require.main === module) main();
+
+
 
 
