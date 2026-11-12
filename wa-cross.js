@@ -133,10 +133,14 @@ const fila = new Map();
   const key = [l.plat, l.from, l.to, l.date].join('|');
   if (!fila.has(key)) fila.set(key, { key, platform: l.plat, from: l.from, to: l.to, date: l.date, adv: l.miles, url: awardLink(PROGSTR[l.plat], '', l.from, l.to, l.date) });
 }));
+const MES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+const snippet = (pl, key, date) => { const [y, m, d] = date.split('-'); return fs.readFileSync(path.join(__dirname, 'verify-snippets', pl + '.js'), 'utf8').replace(/__KEY__/g, key).replace(/__ALVO__/g, d + ' ' + MES[+m - 1]); };
+fila.forEach((t) => { t.js = snippet(t.platform, t.key, t.date); });
 const ordem = { azul: 0, smiles: 1, latam: 2 };
 const lista = [...fila.values()].sort((a, b) => ordem[a.platform] - ordem[b.platform]);
 fs.writeFileSync(path.join(__dirname, 'data', 'fila-conferencia.json'), JSON.stringify({ geradoEm: new Date().toISOString(), tarefas: lista }, null, 1));
 const por = {}; lista.forEach((t) => { por[t.platform] = (por[t.platform] || 0) + 1; });
 console.log('candidatas:', cands.length, '| destinos no ranking:', rank.length, '| conferidas (top):', [...nacionais, ...internacionais].filter((c) => c.conf === 'ok').length + '/' + (nacionais.length + internacionais.length), '| a conferir:', lista.length, JSON.stringify(por));
+
 
 
