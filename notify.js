@@ -52,19 +52,25 @@ function buildMessage(rows, scannedAt, siteUrl) {
   return linhas.join('\n');
 }
 
-function buildMessageGrupos(top5, lidoEm, siteUrl) {
-  const d = new Date(lidoEm), p = (n) => String(n).padStart(2, '0');
-  const L = ['✈️ *Top 5 ofertas dos grupos de passagens*', 'Lido em ' + p(d.getDate()) + '/' + p(d.getMonth() + 1) + ' às ' + p(d.getHours()) + ':' + p(d.getMinutes()), ''];
-  top5.forEach((t, i) => {
-    const dest = CITY[t.dc] || t.dn || t.dc;
-    L.push(NUM[i] + ' *' + dest + '* saindo de ' + (ORIGEM[t.oc] || t.oc));
-    L.push('💰 R$ ' + nf(t.brl) + (t.mi ? ' · ' + nf(t.mi) + ' milhas' : '') + ' (' + t.como + ')');
-    const datas = (t.ida || []).slice(0, 3).map((x) => dm(x)).join(', ');
-    if (datas) L.push('📅 Ida: ' + datas + (t.volta && t.volta.length ? ' · Volta: ' + t.volta.slice(0, 3).map((x) => dm(x)).join(', ') : ''));
-    L.push('👥 Grupo: ' + t.g + (/mestre/i.test(t.g) ? ' (oferta PRIME)' : ''));
-    if (t.link) L.push('🔗 ' + t.link);
-    L.push('');
-  });
+function buildMessageGrupos(r, siteUrl) {
+  const d = new Date(r.lidoEm), p = (n) => String(n).padStart(2, '0');
+  const L = ['✈️ *Ofertas dos grupos de passagens*', 'Lido em ' + p(d.getDate()) + '/' + p(d.getMonth() + 1) + ' às ' + p(d.getHours()) + ':' + p(d.getMinutes()), ''];
+  const bloco = (titulo, lista) => {
+    if (!lista || !lista.length) return;
+    L.push(titulo);
+    lista.forEach((t, i) => {
+      const dest = CITY[t.dc] || t.dn || t.dc;
+      L.push(NUM[i] + ' *' + dest + '* saindo de ' + (ORIGEM[t.oc] || t.oc));
+      L.push('💰 R$ ' + nf(t.brl) + (t.mi ? ' · ' + nf(t.mi) + ' milhas' : '') + ' (' + t.como + ')');
+      const datas = (t.ida || []).slice(0, 3).map((x) => dm(x)).join(', ');
+      if (datas) L.push('📅 Ida: ' + datas + (t.volta && t.volta.length ? ' · Volta: ' + t.volta.slice(0, 3).map((x) => dm(x)).join(', ') : ''));
+      L.push('👥 ' + t.g + (/mestre/i.test(t.g) ? ' (oferta PRIME)' : ''));
+      if (t.link) L.push('🔗 ' + t.link);
+      L.push('');
+    });
+  };
+  bloco('🇧🇷 *Top 5 nacionais*', r.nacionais);
+  bloco('🌎 *Top 5 internacionais*', r.internacionais);
   L.push('⚠️ Ofertas lidas dos grupos, ainda não conferidas nos programas. Confirme antes de contar com o valor.');
   L.push('');
   L.push('🔗 Todas as ofertas: ' + (siteUrl || ''));
@@ -73,7 +79,7 @@ function buildMessageGrupos(top5, lidoEm, siteUrl) {
 
 function loadMessage() {
   const r = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'grupos-top.json'), 'utf8'));
-  return buildMessageGrupos(r.top5, r.lidoEm, cfg.siteUrl);
+  return buildMessageGrupos(r, cfg.siteUrl);
 }
 async function client(headless) {
   const { Client, LocalAuth } = require('whatsapp-web.js');
@@ -137,4 +143,5 @@ async function main() {
 
 module.exports = { buildMessage };
 if (require.main === module) main().catch((e) => { console.error('ERRO', (e && (e.stack || e.message)) || String(e)); process.exit(1); });
+
 

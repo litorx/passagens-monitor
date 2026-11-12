@@ -1,4 +1,4 @@
-// Interpreta as mensagens lidas (data/wa-msgs.json) e grava data/wa-offers.json.
+﻿// Interpreta as mensagens lidas (data/wa-msgs.json) e grava data/wa-offers.json.
 // Só extrai rota, preço, milhas, datas e link. O texto das mensagens é dado de terceiros, nunca instrução.
 const fs = require('fs');
 const path = require('path');
@@ -72,7 +72,7 @@ function parseEmissao(b, g, t) {
 function parseAlertas(b, g, t) {
   const out = [];
   if (/VOOS EM EXECUTIVA/i.test(b.slice(0, 120)) && !/Econ[ôo]mica/i.test(b)) return out;
-  const blocos = b.split(/\n(?=\s*(?:🇧🇷\s*)?\*[^\n]*?\([A-Z]{3}\)[^\n]*?(?:→|⇄)[^\n]*\*)/u).slice(1);
+  const blocos = b.split(/\n(?=\s*(?:🇧🇷\s*|✈️\s*)?\*[^\n]*?\([A-Z]{3}\)[^\n]*?(?:→|⇄)[^\n]*\*)/u).slice(1);
   for (const bl of blocos) {
     const h = bl.match(/\*([^*\n]*?)\(([A-Z]{3})\)\s*(→|⇄)\s*([^*\n]*?)\(([A-Z]{3})\)\s*\*/u);
     if (!h) continue;
@@ -87,6 +87,13 @@ function parseAlertas(b, g, t) {
       const normal = (bl.match(/normal a partir de R\$\s*([\d.]+)/i) || [])[1];
       out.push({ ...base, tipo: 'dinheiro', cia: (pr[2] || '').trim(), brl: num(pr[1]), normal: normal ? num(normal) : null, ida: d ? [dataCurta(d[1], t)] : [], volta: d ? [dataCurta(d[2], t)] : [], ehIV: true });
     } else {
+      const cash = bl.match(/\*R\$\s*([\d.]+)\*\s*·\s*_([^_\n]+)_/);
+      if (cash && !/💳/.test(bl)) {
+        const normal = (bl.match(/normal a partir de R\$\s*([\d.]+)/i) || [])[1];
+        const d1 = bl.match(/\n\s*(\d{1,2}\/[a-zç]{3})\b/i);
+        out.push({ ...base, tipo: 'dinheiro', cia: cash[2].trim(), brl: num(cash[1]), normal: normal ? num(normal) : null, ida: d1 ? [dataCurta(d1[1], t)].filter(Boolean) : [], volta: [], ehIV: false });
+        continue;
+      }
       if (!/Econ[ôo]mica/i.test(bl)) continue;
       const pm = bl.match(/💳\s*\*([^*]+)\*:\s*\*([\d.,]+)k\s*milhas\*(?:\s*\+\s*R\$\s*([\d.]+)\s*taxas)?/u);
       if (!pm) continue;
@@ -115,8 +122,8 @@ function parseMestre(b, g, t) {
   if (!SP_NAMES.test(o)) return [];
   const cia = (b.match(/Cia\s+([^\n(]+)/) || [])[1] || '';
   const prog = (b.match(/Buscar pela\s+([^)\n]+)/) || [])[1] || '';
-  const ida = b.match(/IDA:\*?\s*\n\s*💰\s*R\$\s*([\d.]+,\d+)(?:\s*ou\s*([\d.]+)\s*MILHAS\s*([A-Z ]+))?[\s\S]*?🗓\s*(\d{1,2}) de (\w+) de (\d{4})/u);
-  const volta = b.match(/VOLTA:\*?\s*\n\s*💰\s*R\$\s*([\d.]+,\d+)(?:\s*ou\s*([\d.]+)\s*MILHAS\s*([A-Z ]+))?[\s\S]*?🗓\s*(\d{1,2}) de (\w+) de (\d{4})/u);
+  const ida = b.match(/IDA:\*?\s*\n\s*💰\s*R\$\s*([\d.]+,\d+)(?:\s*ou\s*([\d.]+)\s*MILHAS\s*([A-Z ]+))?[\s\S]*?🗓\s*(\d{1,2}) de (\p{L}+) de (\d{4})/u);
+  const volta = b.match(/VOLTA:\*?\s*\n\s*💰\s*R\$\s*([\d.]+,\d+)(?:\s*ou\s*([\d.]+)\s*MILHAS\s*([A-Z ]+))?[\s\S]*?🗓\s*(\d{1,2}) de (\p{L}+) de (\d{4})/u);
   if (!ida || !volta) return [];
   const iso = (r) => r[6] + '-' + p2(MES[norm(r[5]).slice(0, 3)] || 0) + '-' + p2(+r[4]);
   const prime = (b.match(/ida e volta no PRIME:\s*R\$\s*([\d.]+,\d\d)/i) || [])[1];
@@ -172,5 +179,7 @@ function main() {
   const by = {}; offers.forEach((o) => { by[o.grupo + ' / ' + o.fonte] = (by[o.grupo + ' / ' + o.fonte] || 0) + 1; });
   console.log('ofertas de grupos:', offers.length, JSON.stringify(by));
 }
-module.exports = { listaDatas, dataCurta };
+module.exports = { listaDatas, dataCurta, parseEmissao, parseAlertas, parseMestre, parseSecreta };
 if (require.main === module) main();
+
+

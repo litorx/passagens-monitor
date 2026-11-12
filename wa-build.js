@@ -32,9 +32,14 @@ function main() {
   const html = tpl.replace('__ITEMS__', () => JSON.stringify(items).replace(/</g, '\\u003c')).replace('__LIDO__', () => 'Lido em ' + quando).replace('__SITE__', () => cfg.siteUrl || './');
   fs.writeFileSync(path.join(__dirname, 'docs', 'grupos.html'), html);
   fs.writeFileSync(path.join(__dirname, 'docs', 'index.html'), html); // sem o agregador, a pagina principal e a dos grupos
-  const top5 = items.slice().sort((a, b) => a.brl - b.brl).slice(0, 5);
-  fs.writeFileSync(path.join(__dirname, 'data', 'grupos-top.json'), JSON.stringify({ lidoEm: src.lidoEm, top5 }));
+  const BR = new Set('GRU CGH VCP SAO GIG SDU BSB CNF PLU SSA REC FOR NAT MCZ AJU JPA SLZ BEL MAO CWB POA FLN NVT JOI IGU UDI GYN CGB CGR VIX BPS IOS THE PMW SJP LDB MGF PFB BYO CAC AAX RAO LEC FEN STM PVH RBR MCP BVB MII MOC IMP CFB PHB IZA GVR VDC CXJ CPV JDF XAP PNZ BAU OPS CKS ATM MVF'.split(' '));
+  const BRN = /florian|salvador|recife|fortaleza|natal|macei|aracaju|jo[aã]o pessoa|s[aã]o lu[ií]s|bel[eé]m|manaus|curitiba|porto alegre|navegantes|joinville|foz|uberl|goi[aâ]nia|cuiab|campo grande|vit[oó]ria|porto seguro|ilh[eé]us|teresina|londrina|maring|bras[ií]lia|belo horizonte|rio de janeiro|bonito|noronha|jericoacoara|petrolina|ribeir|chapec|caldas|maca[pé]|boa vista|santar|palmas|imperatriz|montes claros|juiz de fora|caxias|campina grande|chapec|petrolina/i;
+  const nac = (x) => (x.dc ? BR.has(x.dc) : BRN.test(x.dn || ''));
+  const ord = items.slice().sort((a, b) => a.brl - b.brl);
+  fs.writeFileSync(path.join(__dirname, 'data', 'grupos-top.json'), JSON.stringify({ lidoEm: src.lidoEm, nacionais: ord.filter(nac).slice(0, 5), internacionais: ord.filter((x) => !nac(x)).slice(0, 5) }));
   console.log('OK docs/grupos.html', items.length, 'ofertas de grupos');
 }
 main();
+
+
 
