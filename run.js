@@ -28,6 +28,7 @@ function avisar(texto) {
   log('wa-ler exit=' + lr.status + ' ' + (lr.stdout || lr.stderr || '').trim().split('\n').slice(-4).join(' | '));
   if (lr.status !== 0) { avisar('⚠️ Monitor de passagens: não consegui ler os grupos do WhatsApp hoje. Veja logs/ no PC.'); process.exit(1); }
   const pr = node('wa-parse.js'); log('wa-parse exit=' + pr.status + ' ' + (pr.stdout || pr.stderr || '').trim());
+  const md = node('md-ler.js'); log('md-ler exit=' + md.status + ' ' + (md.stdout || md.stderr || '').trim().split('\n')[0]); // fonte gratuita extra, falha nao derruba o resto
   const wb = node('wa-build.js'); log('wa-build exit=' + wb.status + ' ' + (wb.stdout || wb.stderr || '').trim());
   if (pr.status !== 0 || wb.status !== 0) { avisar('⚠️ Monitor de passagens: falha ao gerar o site.'); process.exit(1); }
 
@@ -50,3 +51,4 @@ function avisar(texto) {
   fs.writeFileSync(okFile, new Date().toISOString());
   log('--- fim ok');
 })();
+

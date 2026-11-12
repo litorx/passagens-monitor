@@ -21,8 +21,10 @@ function paraItem(o) {
 
 function main() {
   const src = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'wa-offers.json'), 'utf8'));
+  let extra = [];
+  try { extra = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'md-offers.json'), 'utf8')).offers || []; } catch {}
   const hoje = new Date().toISOString().slice(0, 10);
-  const items = src.offers.map(paraItem).filter((x) => x.brl != null && x.brl > 0)
+  const items = src.offers.concat(extra).map(paraItem).filter((x) => x.brl != null && x.brl > 0)
     // some oferta cujas datas já passaram todas
     .filter((x) => !(x.ida.length && x.ida.every((d) => d < hoje)));
   const lido = new Date(src.lidoEm);
@@ -40,6 +42,7 @@ function main() {
   console.log('OK docs/grupos.html', items.length, 'ofertas de grupos');
 }
 main();
+
 
 
 
