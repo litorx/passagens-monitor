@@ -85,7 +85,7 @@ async function client(headless) {
   const { Client, LocalAuth } = require('whatsapp-web.js');
   const c = new Client({
     authStrategy: new LocalAuth({ dataPath: path.join(__dirname, '.wwebjs_auth') }),
-    puppeteer: { executablePath: CHROME, headless, args: ['--no-sandbox'] },
+    puppeteer: { executablePath: CHROME, headless, args: ['--no-sandbox'], protocolTimeout: 300000 },
     // fixa uma versão do WhatsApp Web que a biblioteca consegue injetar (cópias mantidas pelo wppconnect)
     webVersion: WA_VERSION,
     webVersionCache: { type: 'remote', remotePath: 'https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/{version}.html' },
@@ -143,5 +143,6 @@ async function main() {
 
 module.exports = { buildMessage };
 if (require.main === module) main().catch((e) => { console.error('ERRO', (e && (e.stack || e.message)) || String(e)); process.exit(1); });
+
 
 
