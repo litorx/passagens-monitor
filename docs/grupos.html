@@ -90,7 +90,7 @@ var CONTS = ["Brasil","América do Sul","América do Norte e Central","Europa","
 var cts = {}; ITEMS.forEach(function(x){ cts[x.ct] = (cts[x.ct]||0)+1; });
 var csel = document.getElementById('ct');
 CONTS.forEach(function(c){ if(cts[c]){ var o = document.createElement('option'); o.value = c; o.textContent = c+' ('+cts[c]+')'; csel.appendChild(o); } });
-function filtraRanking(){ document.querySelectorAll('.rk').forEach(function(a){ a.style.display = (!S.ct || a.getAttribute('data-ct')===S.ct) ? '' : 'none'; }); document.querySelectorAll('.rkwrap h2').forEach(function(h){ var n = h.nextElementSibling, ok = false; if(h.parentNode.firstElementChild===h) return; while(n && n.tagName!=='H2'){ if(n.classList && n.classList.contains('rk') && n.style.display!=='none') ok = true; n = n.nextElementSibling; } h.style.display = ok ? '' : 'none'; }); }
+function filtraRanking(){ document.querySelectorAll('.rk').forEach(function(a){ a.style.display = ((!S.ct || a.getAttribute('data-ct')===S.ct) && (!S.q || norm(a.textContent).indexOf(norm(S.q))>=0)) ? '' : 'none'; }); document.querySelectorAll('.rkwrap h2').forEach(function(h){ var n = h.nextElementSibling, ok = false; if(h.parentNode.firstElementChild===h) return; while(n && n.tagName!=='H2'){ if(n.classList && n.classList.contains('rk') && n.style.display!=='none') ok = true; n = n.nextElementSibling; } h.style.display = ok ? '' : 'none'; }); }
 var groups = {}; ITEMS.forEach(function(x){ groups[x.g] = 1; });
 var gsel = document.getElementById('grp');
 Object.keys(groups).sort().forEach(function(g){ var o = document.createElement('option'); o.value = g; o.textContent = g; gsel.appendChild(o); });
