@@ -66,6 +66,7 @@ h1, h2, p { margin: 0; }
   <div class="bar">
     <input type="search" id="q" placeholder="Buscar destino, companhia ou programa" aria-label="Buscar">
     <select id="org" aria-label="Saindo de"><option value="">Campinas e São Paulo</option><option value="VCP">Campinas</option><option value="SP">São Paulo</option></select>
+    <select id="ct" aria-label="Continente"><option value="">Todos os continentes</option></select>
     <select id="grp" aria-label="Grupo"><option value="">Todos os grupos</option></select>
     <select id="srt" aria-label="Ordenar"><option value="p">Menor preço</option><option value="t">Mais recentes</option></select>
   </div>
@@ -84,16 +85,23 @@ function datas(x){
   var v = x.volta.length ? ' · volta ' + x.volta.slice(0,3).map(dm).join(', ') + (x.volta.length>3 ? ' (+'+(x.volta.length-3)+')' : '') : '';
   return x.ida.length ? 'ida ' + a + v : 'datas na mensagem do grupo';
 }
-var S = { q:'', org:'', grp:'', srt:'p' };
+var S = { q:'', org:'', grp:'', ct:'', srt:'p' };
+var CONTS = __CONTS__;
+var cts = {}; ITEMS.forEach(function(x){ cts[x.ct] = (cts[x.ct]||0)+1; });
+var csel = document.getElementById('ct');
+CONTS.forEach(function(c){ if(cts[c]){ var o = document.createElement('option'); o.value = c; o.textContent = c+' ('+cts[c]+')'; csel.appendChild(o); } });
+function filtraRanking(){ document.querySelectorAll('.rk').forEach(function(a){ a.style.display = (!S.ct || a.getAttribute('data-ct')===S.ct) ? '' : 'none'; }); document.querySelectorAll('.rkwrap h2').forEach(function(h){ var n = h.nextElementSibling, ok = false; if(h.parentNode.firstElementChild===h) return; while(n && n.tagName!=='H2'){ if(n.classList && n.classList.contains('rk') && n.style.display!=='none') ok = true; n = n.nextElementSibling; } h.style.display = ok ? '' : 'none'; }); }
 var groups = {}; ITEMS.forEach(function(x){ groups[x.g] = 1; });
 var gsel = document.getElementById('grp');
 Object.keys(groups).sort().forEach(function(g){ var o = document.createElement('option'); o.value = g; o.textContent = g; gsel.appendChild(o); });
 function norm(s){ return String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase(); }
 function render(){
+  filtraRanking();
   var q = norm(S.q);
   var rows = ITEMS.filter(function(x){
     if(S.org==='VCP' && x.oc!=='VCP') return false;
     if(S.org==='SP' && x.oc==='VCP') return false;
+    if(S.ct && x.ct!==S.ct) return false;
     if(S.grp && x.g!==S.grp) return false;
     if(q && norm([x.dn,x.dc,x.cia,x.prog,x.g].join(' ')).indexOf(q)<0) return false;
     return true;
@@ -115,6 +123,7 @@ function render(){
 }
 document.getElementById('q').addEventListener('input', function(e){ S.q = e.target.value; render(); });
 document.getElementById('org').addEventListener('change', function(e){ S.org = e.target.value; render(); });
+document.getElementById('ct').addEventListener('change', function(e){ S.ct = e.target.value; render(); });
 document.getElementById('grp').addEventListener('change', function(e){ S.grp = e.target.value; render(); });
 document.getElementById('srt').addEventListener('change', function(e){ S.srt = e.target.value; render(); });
 render();

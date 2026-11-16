@@ -2,6 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const cfg = require('./config.json');
+const { continente, LISTA } = require('./continente');
 
 // R$ por 1.000 milhas, só para estimar quando o grupo não informa o preço em reais
 const MILHEIRO = { smiles: 15, azul: 14, tudoazul: 14, latam: 23, aeroplan: 70, aadvantage: 90, iberia: 40, flying: 45, virgin: 35 };
@@ -16,7 +17,7 @@ function paraItem(o) {
   else if (o.brlViaMilhas != null) { brl = o.brlViaMilhas + (o.taxas || 0) * 0; como = 'em milhas, só a ida'; }
   else { brl = Math.round((mi / 1000) * milheiro(o.prog) + (o.taxas || 0) + (o.ehIV ? (o.taxasVolta || 0) : 0)); como = o.ehIV ? 'em milhas, ida e volta (estimado)' : 'em milhas, só a ida (estimado)'; }
   const datas = { ida: (o.ida || []).filter(Boolean), volta: (o.volta || []).filter(Boolean) };
-  return { g: o.grupo.replace(/[\u{1F000}-\u{1FFFF}☀-➿️⚠⚡]/gu, '').replace(/\s+/g, ' ').trim(), t: o.t, oc: o.oc, od: o.od, dc: o.dc, dn: o.dn, cia: o.cia || '', prog: o.prog || '', mi, brl, como, trecho, ida: datas.ida, volta: datas.volta, normal: o.normal || null, link: o.link || '', obs: o.obs || '', econ: true };
+  return { ct: continente(o.dc, o.dn), g: o.grupo.replace(/[\u{1F000}-\u{1FFFF}☀-➿️⚠⚡]/gu, '').replace(/\s+/g, ' ').trim(), t: o.t, oc: o.oc, od: o.od, dc: o.dc, dn: o.dn, cia: o.cia || '', prog: o.prog || '', mi, brl, como, trecho, ida: datas.ida, volta: datas.volta, normal: o.normal || null, link: o.link || '', obs: o.obs || '', econ: true };
 }
 
 function rankingHtml() {
@@ -26,7 +27,7 @@ function rankingHtml() {
   const card = (c, i) => {
     const e = estruturar(c);
     const ok = c.conf === 'ok';
-    return '<article class="rk"><div class="rk-top"><span class="rk-n">' + (i + 1) + '</span><div><h3>' + esc(e.cab) + '</h3><p class="rk-d">' + esc(e.datas) + ' · ida e volta</p></div><div class="rk-p">' + esc(e.preco) + '<span class="' + (ok ? 'rk-ok' : 'rk-w') + '">' + esc(e.selo) + '</span></div></div>'
+    return '<article class="rk" data-ct="' + esc(continente(c.dc, c.dest)) + '"><div class="rk-top"><span class="rk-n">' + (i + 1) + '</span><div><h3>' + esc(e.cab) + '</h3><p class="rk-d">' + esc(e.datas) + ' · ida e volta</p></div><div class="rk-p">' + esc(e.preco) + '<span class="' + (ok ? 'rk-ok' : 'rk-w') + '">' + esc(e.selo) + '</span></div></div>'
       + '<ul>' + e.itens.map((x) => '<li>' + esc(x) + '</li>').join('') + '</ul>'
       + '<div class="rk-a">' + e.links.map(([r2, u]) => '<a class="btn" href="' + esc(u) + '" target="_blank" rel="noopener noreferrer">' + esc(r2) + '</a>').join('') + '</div>'
       + '<p class="rk-g">' + esc(e.grupos.join(' + ')) + (e.nota ? ' · ' + esc(e.nota) : '') + '</p></article>';
@@ -47,7 +48,7 @@ function main() {
   const p = (n) => String(n).padStart(2, '0');
   const quando = p(lido.getDate()) + '/' + p(lido.getMonth() + 1) + ' às ' + p(lido.getHours()) + ':' + p(lido.getMinutes());
   const tpl = fs.readFileSync(path.join(__dirname, 'grupos-template.html'), 'utf8');
-  const html = tpl.replace('__ITEMS__', () => JSON.stringify(items).replace(/</g, '\\u003c')).replace('__RANKING__', () => rankingHtml()).replace('__LIDO__', () => 'Lido em ' + quando).replace('__SITE__', () => cfg.siteUrl || './');
+  const html = tpl.replace('__ITEMS__', () => JSON.stringify(items).replace(/</g, '\\u003c')).replace('__CONTS__', () => JSON.stringify(LISTA)).replace('__RANKING__', () => rankingHtml()).replace('__LIDO__', () => 'Lido em ' + quando).replace('__SITE__', () => cfg.siteUrl || './');
   fs.writeFileSync(path.join(__dirname, 'docs', 'grupos.html'), html);
   fs.writeFileSync(path.join(__dirname, 'docs', 'index.html'), html); // sem o agregador, a pagina principal e a dos grupos
   const BR = new Set('GRU CGH VCP SAO GIG SDU BSB CNF PLU SSA REC FOR NAT MCZ AJU JPA SLZ BEL MAO CWB POA FLN NVT JOI IGU UDI GYN CGB CGR VIX BPS IOS THE PMW SJP LDB MGF PFB BYO CAC AAX RAO LEC FEN STM PVH RBR MCP BVB MII MOC IMP CFB PHB IZA GVR VDC CXJ CPV JDF XAP PNZ BAU OPS CKS ATM MVF'.split(' '));
